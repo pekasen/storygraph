@@ -58,4 +58,67 @@ export class StoryGraph implements IReducer {
         return null;
     }
 
+    /**
+     * 
+     */
+    makeStoryObject() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    makeConentObject() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    getNode() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    getEdge() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    setEdgeType() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    getEdgeType() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    setContentType() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    getEdgeConditions() :  void {
+        // TODO implement here
+    }
+
+    /**
+     * 
+     */
+    setEdgeConditions() :  void {
+        // TODO implement here
+    }
+
 }

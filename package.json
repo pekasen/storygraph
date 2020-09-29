@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/pekasen/storygraph/issues"
   },
-  "homepage": "https://github.com/pekasen/storygraph#readme"
+  "homepage": "https://github.com/pekasen/storygraph#readme",
+  "devDependencies": {
+    "mocha": "^8.1.3"
+  }
 }

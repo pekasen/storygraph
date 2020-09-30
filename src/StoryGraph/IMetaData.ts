@@ -16,24 +16,4 @@ export interface IMetaData {
      * 
      */
     tags: string[];
-    /**
-     * @return
-     */
-    getName() :  string;
-
-    /**
-     * @param value
-     */
-    setName(value: string) :  void;
-
-    /**
-     * @return
-     */
-    getCreatedAt() :  Date;
-
-    /**
-     * @param value
-     */
-    setCreatedAt(value: Date) :  void;
-
 }

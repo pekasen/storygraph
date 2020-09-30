@@ -13,8 +13,7 @@ export class StoryGraph implements IReducer {
     /**
      * 
      */
-    public constructor(graph?: IGraph) {
-        this.graph = graph || this.makeGraph([], []);
+    public constructor() {
     }
 
     /**

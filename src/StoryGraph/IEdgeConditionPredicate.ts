@@ -4,4 +4,12 @@
  */
 export interface IEdgeConditionPredicate {
 
+    /**
+     * 
+     */
+    key?: string;
+    /**
+     * 
+     */
+    value?: number;
 }

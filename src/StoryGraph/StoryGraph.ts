@@ -28,6 +28,16 @@ export class StoryGraph implements IReducer {
     }
 
     /**
+     * @param edge 
+     * @param graph 
+     * @return
+     */
+    disconnect(edge: IEdge[], graph: IGraph) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
      * 
      */
     makeContentObject() :  void {
@@ -63,6 +73,16 @@ export class StoryGraph implements IReducer {
     }
 
     /**
+     * @param node 
+     * @param graph 
+     * @return
+     */
+    removeNode(node: IStoryObject, graph: IGraph) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
      * @param graph 
      * @return
      */
@@ -72,8 +92,9 @@ export class StoryGraph implements IReducer {
     }
 
     /**
-     * @param predicate 
-     * @return
+     * Traverses the given graph and its subgraph and returns all nodes which match the query.
+     * @param predicate Object with parameters to match the graph's nodes against.
+     * @return Array of nodes.
      */
     getNode(predicate: INodePredicate) :  IStoryObject[] {
         // TODO implement here
@@ -81,6 +102,7 @@ export class StoryGraph implements IReducer {
     }
 
     /**
+     * Traverses the given graph and its subgraphs and returns all matching edges.
      * @param predicate 
      * @return
      */
@@ -151,21 +173,11 @@ export class StoryGraph implements IReducer {
     }
 
     /**
-     * @param edge 
-     * @param graph 
-     * @return
-     */
-    disconnect(edge: IEdge[], graph: IGraph) :  IGraph {
-        // TODO implement here
-        return null;
-    }
-
-    /**
      * @param node 
      * @param graph 
      * @return
      */
-    removeNode(node: IStoryObject, graph: IGraph) :  IGraph {
+    addNode(node: IStoryObject, graph: IGraph) :  IGraph {
         // TODO implement here
         return null;
     }

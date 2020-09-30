@@ -3,6 +3,8 @@ import { IGraph } from "./IGraph"
 import { IReducer } from "./IReducer"
 import { IEdge } from "./IEdge"
 import { IStoryObject } from "./IStoryObject"
+import { INodePredicate } from "./INodePredicate"
+import { IEdgePredicate } from "./IEdgePredicate"
 /**
  * @author Philipp Kessling
  */
@@ -30,11 +32,26 @@ export class StoryGraph implements IReducer {
     }
 
     /**
+     * 
+     */
+    makeContentObject() :  void {
+        // TODO implement here
+    }
+
+    /**
      * @param nodes 
      * @param edges 
      * @return
      */
     makeGraph(nodes: IStoryObject[], edges: IEdge[]) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @return
+     */
+    makeStoryObject() :  IStoryObject {
         // TODO implement here
         return null;
     }
@@ -59,38 +76,21 @@ export class StoryGraph implements IReducer {
     }
 
     /**
-     * 
+     * @param predicate 
+     * @return
      */
-    makeStoryObject() :  void {
+    getNode(predicate: INodePredicate) :  IStoryObject[] {
         // TODO implement here
+        return null;
     }
 
     /**
-     * 
+     * @param predicate 
+     * @return
      */
-    makeConentObject() :  void {
+    getEdge(predicate: IEdgePredicate) :  IEdge[] {
         // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    getNode() :  void {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    getEdge() :  void {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    setEdgeType() :  void {
-        // TODO implement here
+        return null;
     }
 
     /**
@@ -103,22 +103,75 @@ export class StoryGraph implements IReducer {
     /**
      * 
      */
-    setContentType() :  void {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
     getEdgeConditions() :  void {
         // TODO implement here
     }
 
     /**
-     * 
+     * @param edge 
+     * @param parameters 
+     * @return
      */
-    setEdgeConditions() :  void {
+    setEdgeParamters(edge: IEdge, parameters: any) :  IGraph {
         // TODO implement here
+        return null;
+    }
+
+    /**
+     * @param edge 
+     * @return
+     */
+    setEdgeType(edge: IEdge) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @param node 
+     * @param paramters 
+     * @return
+     */
+    setNodeParameters(node: IStoryObject, paramters: any) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @param graph 
+     * @return
+     */
+    toJSON(graph: IGraph) :  string {
+        // TODO implement here
+        return "";
+    }
+
+    /**
+     * @param graph 
+     * @return
+     */
+    fromJSON(graph: IGraph) :  string {
+        // TODO implement here
+        return "";
+    }
+
+    /**
+     * @param edge 
+     * @param graph 
+     * @return
+     */
+    disconnect(edge: IEdge[], graph: IGraph) :  IGraph {
+        // TODO implement here
+        return null;
+    }
+
+    /**
+     * @param node 
+     * @param graph 
+     * @return
+     */
+    removeNode(node: IStoryObject, graph: IGraph) :  IGraph {
+        // TODO implement here
+        return null;
     }
 
 }

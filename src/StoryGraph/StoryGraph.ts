@@ -1,7 +1,7 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { IGraph } from "./IGraph"
 import { IReducer } from "./IReducer"
 import { IEdge } from "./IEdge"
+import { IGraph } from "./IGraph"
 import { IStoryObject } from "./IStoryObject"
 import { INodePredicate } from "./INodePredicate"
 import { IEdgePredicate } from "./IEdgePredicate"
@@ -17,10 +17,6 @@ export class StoryGraph implements IReducer {
         this.graph = graph || this.makeGraph([], []);
     }
 
-    /**
-     * 
-     */
-    graph: IGraph;
     /**
      * @param connections 
      * @param graph 

@@ -2,6 +2,7 @@
 import { IContent } from "./IContent"
 import { IMetaData } from "./IMetaData"
 import { IEdge } from "./IEdge"
+import { StoryGraph } from "./StoryGraph"
 import { IGraph } from "./IGraph"
 import { IRenderingProperties } from "./IRenderingProperties"
 /**
@@ -16,7 +17,11 @@ export interface IStoryObject {
     /**
      * 
      */
-    content: IContent;
+    isContentNode: boolean;
+    /**
+     * 
+     */
+    content?: IContent;
     /**
      * 
      */
@@ -32,11 +37,11 @@ export interface IStoryObject {
     /**
      * 
      */
-    parent: IGraph;
+    parent: StoryGraph;
     /**
      * 
      */
-    network: IGraph;
+    network?: IGraph;
     /**
      * 
      */

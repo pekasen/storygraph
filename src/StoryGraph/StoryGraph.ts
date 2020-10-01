@@ -1,45 +1,63 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { IReducer } from "./IReducer"
+import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
 import { IGraph } from "./IGraph"
-import { IStoryObject } from "./IStoryObject"
 import { INodePredicate } from "./INodePredicate"
 import { IEdgePredicate } from "./IEdgePredicate"
+import { IContent } from "./IContent"
+import { IMetaData } from "./IMetaData"
 /**
  * @author Philipp Kessling
  */
-export class StoryGraph implements IReducer {
+export class StoryGraph implements IGraph {
 
     /**
      * 
      */
-    public constructor() {
+    public constructor(nodes?: IStoryObject[], edges?: IEdge[]) {
+        this.nodes = nodes || [];
+        this.edges = edges || [];
+    }
+
+    /**
+     * 
+     */
+    nodes: IStoryObject[];
+    /**
+     * 
+     */
+    edges: IEdge[];
+    /**
+     * @param node 
+     * @return
+     */
+    public addNode(node: IStoryObject) :  StoryGraph {
+        // TODO implement here
+        return this;
     }
 
     /**
      * @param connections 
-     * @param graph 
      * @return
      */
-    connect(connections: IEdge[], graph: IGraph) :  IGraph {
+    public connect(connections: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
      * @param edge 
-     * @param graph 
      * @return
      */
-    disconnect(edge: IEdge[], graph: IGraph) :  IGraph {
+    public disconnect(edge: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
      * 
      */
-    makeContentObject() :  void {
+    public static makeContentObject() :  void {
         // TODO implement here
     }
 
@@ -48,46 +66,65 @@ export class StoryGraph implements IReducer {
      * @param edges 
      * @return
      */
-    makeGraph(nodes: IStoryObject[], edges: IEdge[]) :  IGraph {
+    public static makeGraph(nodes: IStoryObject[], edges: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return null;
+        return new this(nodes, edges);
     }
 
     /**
      * @return
      */
-    makeStoryObject() :  IStoryObject {
-        // TODO implement here
-        return null;
+    public static makeStoryObject(content?: IContent, network?: IGraph) :  IStoryObject {
+        var __storyObj = this._templateStoryObject();
+ 
+        return __storyObj;
+    }
+    
+    private static _templateStoryObject(content?: IContent, network?: IGraph, metaData?: IMetaData) : IStoryObject {
+    return {
+            content: content || undefined,
+            userDefinedProperties: {},
+            metaData: metaData || undefined,
+            outgoing: [],
+            incoming: [],
+            parent: undefined,
+            network: network || {
+                nodes: [],
+                edges: []
+            },
+            renderingProperties: {
+                width: .33,
+                order: 0,
+                collapsable: true
+            },
+            isContentNode: (content ? true : false)
+        }
     }
 
     /**
-     * @param graphx 
-     * @param graphy 
+     * @param graph 
      * @return
      */
-    merge(graphx: IGraph, graphy: IGraph) :  IGraph {
+    public merge(graph: IGraph) :  StoryGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
      * @param node 
-     * @param graph 
      * @return
      */
-    removeNode(node: IStoryObject, graph: IGraph) :  IGraph {
+    public removeNode(node: IStoryObject) :  StoryGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
-     * @param graph 
      * @return
      */
-    flatten(graph: IGraph) :  IGraph {
+    public flatten() :  StoryGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
@@ -95,9 +132,9 @@ export class StoryGraph implements IReducer {
      * @param predicate Object with parameters to match the graph's nodes against.
      * @return Array of nodes.
      */
-    getNode(predicate: INodePredicate) :  IStoryObject[] {
+    public getNode(predicate: INodePredicate) :  IStoryObject[] {
         // TODO implement here
-        return null;
+        return [];
     }
 
     /**
@@ -105,22 +142,22 @@ export class StoryGraph implements IReducer {
      * @param predicate 
      * @return
      */
-    getEdge(predicate: IEdgePredicate) :  IEdge[] {
+    public getEdge(predicate: IEdgePredicate) :  IEdge[] {
         // TODO implement here
-        return null;
+        return [];
     }
 
     /**
      * 
      */
-    getEdgeType() :  void {
+    public getEdgeType() :  void {
         // TODO implement here
     }
 
     /**
      * 
      */
-    getEdgeConditions() :  void {
+    public getEdgeConditions() :  void {
         // TODO implement here
     }
 
@@ -129,18 +166,18 @@ export class StoryGraph implements IReducer {
      * @param parameters 
      * @return
      */
-    setEdgeParamters(edge: IEdge, parameters: any) :  IGraph {
+    public setEdgeParamters(edge: IEdge, parameters: any) :  IGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
      * @param edge 
      * @return
      */
-    setEdgeType(edge: IEdge) :  IGraph {
+    public setEdgeType(edge: IEdge) :  IGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
@@ -148,16 +185,15 @@ export class StoryGraph implements IReducer {
      * @param paramters 
      * @return
      */
-    setNodeParameters(node: IStoryObject, paramters: any) :  IGraph {
+    public setNodeParameters(node: IStoryObject, paramters: any) :  IGraph {
         // TODO implement here
-        return null;
+        return this;
     }
 
     /**
-     * @param graph 
      * @return
      */
-    toJSON(graph: IGraph) :  string {
+    public toJSON() :  string {
         // TODO implement here
         return "";
     }
@@ -166,19 +202,9 @@ export class StoryGraph implements IReducer {
      * @param graph 
      * @return
      */
-    fromJSON(graph: IGraph) :  string {
+    public fromJSON(graph: IGraph) :  string {
         // TODO implement here
         return "";
-    }
-
-    /**
-     * @param node 
-     * @param graph 
-     * @return
-     */
-    addNode(node: IStoryObject, graph: IGraph) :  IGraph {
-        // TODO implement here
-        return null;
     }
 
 }

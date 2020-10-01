@@ -2,7 +2,7 @@
 import { EdgeType } from "./EdgeType"
 import { IEdgeCondition } from "./IEdgeCondition"
 import { IStoryObject } from "./IStoryObject"
-import { IGraph } from "./IGraph"
+import { StoryGraph } from "./StoryGraph"
 /**
  * 
  */
@@ -27,5 +27,5 @@ export interface IEdge {
     /**
      * 
      */
-    parent: IGraph;
+    parent: StoryGraph;
 }

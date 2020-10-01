@@ -1,7 +1,7 @@
 /**P. Kessling *Hamburg, September 2020*/
 import { IEdgeCondition } from "./IEdgeCondition"
-import { IEdgeConditionPredicate } from "./IEdgeConditionPredicate"
 import { IEdgeTypePredicate } from "./IEdgeTypePredicate"
+import { IEdgeConditionPredicate } from "./IEdgeConditionPredicate"
 /**
  * 
  */
@@ -14,9 +14,9 @@ export interface IEdgePredicate {
     /**
      * 
      */
-    condition?: IEdgeConditionPredicate[];
+    type?: IEdgeTypePredicate;
     /**
      * 
      */
-    type?: IEdgeTypePredicate;
+    condition?: IEdgeConditionPredicate[];
 }

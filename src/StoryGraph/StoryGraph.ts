@@ -4,8 +4,6 @@ import { IEdge } from "./IEdge"
 import { IGraph } from "./IGraph"
 import { INodePredicate } from "./INodePredicate"
 import { IEdgePredicate } from "./IEdgePredicate"
-import { IContent } from "./IContent"
-import { IMetaData } from "./IMetaData"
 /**
  * @author Philipp Kessling
  */
@@ -80,27 +78,6 @@ export class StoryGraph implements IGraph {
         return __storyObj;
     }
     
-    private static _templateStoryObject(content?: IContent, network?: IGraph, metaData?: IMetaData) : IStoryObject {
-    return {
-            content: content || undefined,
-            userDefinedProperties: {},
-            metaData: metaData || undefined,
-            outgoing: [],
-            incoming: [],
-            parent: undefined,
-            network: network || {
-                nodes: [],
-                edges: []
-            },
-            renderingProperties: {
-                width: .33,
-                order: 0,
-                collapsable: true
-            },
-            isContentNode: (content ? true : false)
-        }
-    }
-
     /**
      * @param graph 
      * @return
@@ -206,5 +183,29 @@ export class StoryGraph implements IGraph {
         // TODO implement here
         return "";
     }
+
+    /**
+     * 
+     */
+    private static _templateStoryObject(content?: IContent, network?: IGraph, metaData?: IMetaData) : IStoryObject {
+        return {
+                content: content || undefined,
+                userDefinedProperties: {},
+                metaData: metaData || undefined,
+                outgoing: [],
+                incoming: [],
+                parent: undefined,
+                network: network || {
+                    nodes: [],
+                    edges: []
+                },
+                renderingProperties: {
+                    width: .33,
+                    order: 0,
+                    collapsable: true
+                },
+                isContentNode: (content ? true : false)
+            }
+        }
 
 }

@@ -37,7 +37,7 @@ export interface IStoryObject {
     /**
      * 
      */
-    parent: StoryGraph;
+    parent?: StoryGraph;
     /**
      * 
      */

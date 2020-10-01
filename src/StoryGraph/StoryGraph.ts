@@ -4,6 +4,8 @@ import { IEdge } from "./IEdge"
 import { IGraph } from "./IGraph"
 import { INodePredicate } from "./INodePredicate"
 import { IEdgePredicate } from "./IEdgePredicate"
+import { IContent } from "./IContent"
+import { IMetaData } from "./IMetaData"
 /**
  * @author Philipp Kessling
  */
@@ -185,7 +187,10 @@ export class StoryGraph implements IGraph {
     }
 
     /**
-     * 
+     * @param content? 
+     * @param network? 
+     * @param metaData? 
+     * @return
      */
     private static _templateStoryObject(content?: IContent, network?: IGraph, metaData?: IMetaData) : IStoryObject {
         return {

@@ -1,18 +1,27 @@
 import { assert } from "chai";
 import StoryGraph from "../../src/index";
+import { beforeEach } from "mocha";
 
 describe('StoryGraph', () => {
     describe('constructor', () => {
+        beforeEach(() => {
+            
+        });
         it('should instantiate', () => {
             let story = new StoryGraph();
-            
+
             assert.exists(story, 'instantiated');
         });
         it('should accept a template graph');
     });
     
     describe('.connect', () => {
-        it('should connect two nodes in a graph');
+        it('should connect two nodes in a graph'), () => {
+            let nodes = StoryGraph.makeStoryObject();
+            let story = new StoryGraph([nodes],[]);
+
+            story.connect([]);
+        };
     });
     
     describe('.makeGraph', () => {
@@ -25,5 +34,9 @@ describe('StoryGraph', () => {
     
     describe('.flatten', () => {
         it('should flatten nested graphs');
+    });
+    describe('.getNodes', () => {
+        it('should traverse all subgraphs');
+        it('should ')
     });
 });

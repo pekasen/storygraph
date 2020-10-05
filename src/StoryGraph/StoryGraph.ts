@@ -31,7 +31,8 @@ export class StoryGraph implements IGraph {
      * @param node 
      * @return
      */
-    public addNode(node: IStoryObject) :  StoryGraph {
+    
+     public addNode(node: IStoryObject) :  StoryGraph {
         // TODO implement here
         return this;
     }
@@ -145,7 +146,7 @@ export class StoryGraph implements IGraph {
      * @param parameters 
      * @return
      */
-    public setEdgeParamters(edge: IEdge, parameters: any) :  IGraph {
+    public setEdgeParameters(edge: IEdge, parameters: any) :  IGraph {
         // TODO implement here
         return this;
     }
@@ -196,7 +197,11 @@ export class StoryGraph implements IGraph {
         return {
                 content: content || undefined,
                 userDefinedProperties: {},
-                metaData: metaData || undefined,
+                metaData: metaData || {
+                    name: "",
+                    createdAt: new Date(),
+                    tags: []
+                },
                 outgoing: [],
                 incoming: [],
                 parent: undefined,

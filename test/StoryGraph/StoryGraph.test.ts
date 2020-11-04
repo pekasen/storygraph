@@ -1,6 +1,6 @@
 import { assert } from "chai";
-import StoryGraph from "../../src/index";
 import { beforeEach } from "mocha";
+import StoryGraph from "../../src/index";
 
 describe('StoryGraph', () => {
     describe('constructor', () => {

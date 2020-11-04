@@ -6,6 +6,7 @@ import { INodePredicate } from "./INodePredicate"
 import { IEdgePredicate } from "./IEdgePredicate"
 import { IContent } from "./IContent"
 import { IMetaData } from "./IMetaData"
+
 /**
  * @author Philipp Kessling
  */
@@ -31,10 +32,9 @@ export class StoryGraph implements IGraph {
      * @param node 
      * @return
      */
-    
      public addNode(node: IStoryObject) :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -43,7 +43,7 @@ export class StoryGraph implements IGraph {
      */
     public connect(connections: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -52,7 +52,7 @@ export class StoryGraph implements IGraph {
      */
     public disconnect(edge: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -69,16 +69,15 @@ export class StoryGraph implements IGraph {
      */
     public static makeGraph(nodes: IStoryObject[], edges: IEdge[]) :  StoryGraph {
         // TODO implement here
-        return new this(nodes, edges);
+        return new StoryGraph();
     }
 
     /**
      * @return
      */
-    public static makeStoryObject(content?: IContent, network?: IGraph) :  IStoryObject {
-        var __storyObj = this._templateStoryObject();
- 
-        return __storyObj;
+    public static makeStoryObject() :  IStoryObject {
+        // TODO implement here
+        return this.makeStoryObject();
     }
     
     /**
@@ -87,7 +86,7 @@ export class StoryGraph implements IGraph {
      */
     public merge(graph: IGraph) :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -96,7 +95,7 @@ export class StoryGraph implements IGraph {
      */
     public removeNode(node: IStoryObject) :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -104,7 +103,7 @@ export class StoryGraph implements IGraph {
      */
     public flatten() :  StoryGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -112,7 +111,7 @@ export class StoryGraph implements IGraph {
      * @param predicate Object with parameters to match the graph's nodes against.
      * @return Array of nodes.
      */
-    public getNode(predicate: INodePredicate) :  IStoryObject[] {
+    public getNodes(predicate: INodePredicate) :  IStoryObject[] {
         // TODO implement here
         return [];
     }
@@ -122,7 +121,7 @@ export class StoryGraph implements IGraph {
      * @param predicate 
      * @return
      */
-    public getEdge(predicate: IEdgePredicate) :  IEdge[] {
+    public getEdges(predicate: IEdgePredicate) :  IEdge[] {
         // TODO implement here
         return [];
     }
@@ -148,7 +147,7 @@ export class StoryGraph implements IGraph {
      */
     public setEdgeParameters(edge: IEdge, parameters: any) :  IGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -157,17 +156,17 @@ export class StoryGraph implements IGraph {
      */
     public setEdgeType(edge: IEdge) :  IGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
      * @param node 
-     * @param paramters 
+     * @param parameters 
      * @return
      */
-    public setNodeParameters(node: IStoryObject, paramters: any) :  IGraph {
+    public setNodeParameters(node: IStoryObject, parameters: any) :  IGraph {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     }
 
     /**
@@ -214,7 +213,8 @@ export class StoryGraph implements IGraph {
                     order: 0,
                     collapsable: true
                 },
-                isContentNode: (content ? true : false)
+                isContentNode: (content ? true : false),
+                modifiers: []
             }
         }
 

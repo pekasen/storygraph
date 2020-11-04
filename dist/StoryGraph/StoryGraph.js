@@ -18,7 +18,7 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.addNode = function (node) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @param connections
@@ -26,7 +26,7 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.connect = function (connections) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @param edge
@@ -34,7 +34,7 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.disconnect = function (edge) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      *
@@ -49,14 +49,14 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.makeGraph = function (nodes, edges) {
         // TODO implement here
-        return new this(nodes, edges);
+        return new StoryGraph();
     };
     /**
      * @return
      */
     StoryGraph.makeStoryObject = function () {
         // TODO implement here
-        return new this();
+        return this.makeStoryObject();
     };
     /**
      * @param graph
@@ -64,7 +64,7 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.merge = function (graph) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @param node
@@ -72,21 +72,21 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.removeNode = function (node) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @return
      */
     StoryGraph.prototype.flatten = function () {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * Traverses the given graph and its subgraph and returns all nodes which match the query.
      * @param predicate Object with parameters to match the graph's nodes against.
      * @return Array of nodes.
      */
-    StoryGraph.prototype.getNode = function (predicate) {
+    StoryGraph.prototype.getNodes = function (predicate) {
         // TODO implement here
         return [];
     };
@@ -95,7 +95,7 @@ var StoryGraph = /** @class */ (function () {
      * @param predicate
      * @return
      */
-    StoryGraph.prototype.getEdge = function (predicate) {
+    StoryGraph.prototype.getEdges = function (predicate) {
         // TODO implement here
         return [];
     };
@@ -116,9 +116,9 @@ var StoryGraph = /** @class */ (function () {
      * @param parameters
      * @return
      */
-    StoryGraph.prototype.setEdgeParamters = function (edge, parameters) {
+    StoryGraph.prototype.setEdgeParameters = function (edge, parameters) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @param edge
@@ -126,16 +126,16 @@ var StoryGraph = /** @class */ (function () {
      */
     StoryGraph.prototype.setEdgeType = function (edge) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @param node
-     * @param paramters
+     * @param parameters
      * @return
      */
-    StoryGraph.prototype.setNodeParameters = function (node, paramters) {
+    StoryGraph.prototype.setNodeParameters = function (node, parameters) {
         // TODO implement here
-        return this;
+        return new StoryGraph();
     };
     /**
      * @return
@@ -151,6 +151,37 @@ var StoryGraph = /** @class */ (function () {
     StoryGraph.prototype.fromJSON = function (graph) {
         // TODO implement here
         return "";
+    };
+    /**
+     * @param content?
+     * @param network?
+     * @param metaData?
+     * @return
+     */
+    StoryGraph._templateStoryObject = function (content, network, metaData) {
+        return {
+            content: content || undefined,
+            userDefinedProperties: {},
+            metaData: metaData || {
+                name: "",
+                createdAt: new Date(),
+                tags: []
+            },
+            outgoing: [],
+            incoming: [],
+            parent: undefined,
+            network: network || {
+                nodes: [],
+                edges: []
+            },
+            renderingProperties: {
+                width: .33,
+                order: 0,
+                collapsable: true
+            },
+            isContentNode: (content ? true : false),
+            modifiers: []
+        };
     };
     return StoryGraph;
 }());

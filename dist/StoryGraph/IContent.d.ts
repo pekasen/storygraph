@@ -1,5 +1,4 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { ContentType } from "./ContentType";
 /**
  *
  */
@@ -15,5 +14,5 @@ export interface IContent {
     /**
      *
      */
-    type: ContentType;
+    contentType: string;
 }

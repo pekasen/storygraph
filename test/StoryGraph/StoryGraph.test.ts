@@ -1,42 +1,95 @@
 import { assert } from "chai";
-import { beforeEach } from "mocha";
 import StoryGraph from "../../src/index";
+import { IRegistry } from "../../src/StoryGraph/IRegistry";
+import { IStoryObject } from "../../src/StoryGraph/IStoryObject";
 
 describe('StoryGraph', () => {
-    describe('constructor', () => {
-        beforeEach(() => {
-            
-        });
-        it('should instantiate', () => {
-            let story = new StoryGraph();
+    const makeStoryObject = (id: string, name: string, isContentNode: boolean): IStoryObject => ({
+        id: id,
+        name: name,
+        incoming: [],
+        outgoing: [],
+        isContentNode: (isContentNode) ?  isContentNode : true,
+        userDefinedProperties: [],
+        modifiers: [],
+        metaData: {
+            name: "Bert",
+            createdAt: new Date(Date.now()),
+            tags: []
+        },
+        childNetwork: undefined,
+        renderingProperties: undefined
+    })
 
-            assert.exists(story, 'instantiated');
+    class Registry implements IRegistry {
+        registry = new Map<string, IStoryObject>();
+
+        register(value: IStoryObject) {
+            this.registry.set(value.id, value);
+
+            return true
+        }
+
+        deregister(value: string) {
+            this.registry.delete(value);
+
+            return true
+        }
+
+        getValue(forId: string) {
+            return this.registry.get(forId)
+        }
+
+        overwrite = this.register
+    }
+
+    const reg = new Registry();
+
+    const story: IStoryObject =  makeStoryObject("parent", "Bert", false);
+    describe('constructor', () => {
+       
+        it('should instantiate', () => {
+            story.childNetwork = new StoryGraph(story);
+
+            assert(story.id === story.childNetwork.parent.id);
         });
         it('should accept a template graph');
     });
     
-    describe('.connect', () => {
-        it('should connect two nodes in a graph'), () => {
-            let nodes = StoryGraph.makeStoryObject();
-            let story = new StoryGraph([nodes],[]);
+    const ernie = makeStoryObject("child1", "Ernie", true);
+    const bert  = makeStoryObject("child2", "Bert", true);
 
-            story.connect([]);
-        };
+    describe('.addNode', () => {
+        it('accept a IStoryObject as new node', () => {
+            story.childNetwork?.addNode(
+                reg, ernie
+            );
+            story.childNetwork?.addNode(
+                reg, bert
+            );
+            assert(story.childNetwork?.nodes.length === 2);
+        });
     });
-    
-    describe('.makeGraph', () => {
-        it('should construct a new graph');
+
+    describe('.connect', () => {
+        it('should connect two nodes in a graph', () => {
+            story.childNetwork?.connect(
+                reg,
+                [{
+                    from: ernie.id,
+                    to: bert.id,
+                    parent: story.childNetwork
+                }]
+            )
+
+            assert(story.childNetwork?.edges === [
+                {
+                    from: ernie.id,
+                    to: bert.id,
+                    parent: story.childNetwork
+                }
+            ])
+        });
     });
-    
-    describe('.merge', () => {
-        it('should merge two graphs');
-    });
-    
-    describe('.flatten', () => {
-        it('should flatten nested graphs');
-    });
-    describe('.getNodes', () => {
-        it('should traverse all subgraphs');
-        it('should ')
-    });
+ 
 });

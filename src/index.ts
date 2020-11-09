@@ -1,3 +1,4 @@
 import { StoryGraph } from "./StoryGraph/StoryGraph";
+import { IStoryObject } from "./StoryGraph/IStoryObject";
 
-export default StoryGraph;
+export { StoryGraph, IStoryObject }

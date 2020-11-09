@@ -3,7 +3,6 @@ import { IContent } from "./IContent"
 import { IMetaData } from "./IMetaData"
 import { IEdge } from "./IEdge"
 import { StoryGraph } from "./StoryGraph"
-import { IGraph } from "./IGraph"
 import { IRenderingProperties } from "./IRenderingProperties"
 import { IStoryModifier } from "./IStoryModifier"
 import { IReactiveOutput } from "./IReactiveOutput"
@@ -16,11 +15,23 @@ export interface IStoryObject {
     /**
      * 
      */
+    id: string;
+        /**
+     * 
+     */
+    name: string;
+    /**
+     * 
+     */
     userDefinedProperties: any;
     /**
      * 
      */
     isContentNode: boolean;
+    /**
+     * 
+     */
+    childNetwork?: StoryGraph;
     /**
      * 
      */
@@ -40,15 +51,11 @@ export interface IStoryObject {
     /**
      * 
      */
-    parent?: StoryGraph;
+    parent?: string;
     /**
      * 
      */
-    network?: IGraph;
-    /**
-     * 
-     */
-    renderingProperties: IRenderingProperties;
+    renderingProperties?: IRenderingProperties;
     /**
      * 
      */

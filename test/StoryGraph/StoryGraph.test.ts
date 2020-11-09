@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import StoryGraph from "../../src/index";
+import { StoryGraph } from "../../src/index";
 import { IRegistry } from "../../src/StoryGraph/IRegistry";
 import { IStoryObject } from "../../src/StoryGraph/IStoryObject";
 

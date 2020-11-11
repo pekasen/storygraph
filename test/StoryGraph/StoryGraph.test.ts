@@ -78,7 +78,7 @@ describe('StoryGraph', () => {
                 [{
                     from: ernie.id,
                     to: bert.id,
-                    parent: story.childNetwork
+                    parent: story.childNetwork // TODO: update API here, property is superflousesesfsdfdsa
                 }]
             )
 

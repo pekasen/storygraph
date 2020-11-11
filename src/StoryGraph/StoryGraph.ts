@@ -41,6 +41,7 @@ export class StoryGraph {
      public addNode(registry: IRegistry, node: IStoryObject) :  void {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node);
+            node.parent = this.parent.id;
             registry.register(node);
         } else throw("node exists already")
     }

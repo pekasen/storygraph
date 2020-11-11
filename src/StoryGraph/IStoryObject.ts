@@ -16,7 +16,11 @@ export interface IStoryObject {
      * 
      */
     id: string;
-        /**
+    /**
+     * 
+     */
+    role: string;
+    /**
      * 
      */
     name: string;

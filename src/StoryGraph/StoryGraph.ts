@@ -1,11 +1,14 @@
 /**P. Kessling *Hamburg, September 2020*/
 import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
-// import { INodePredicate } from "./INodePredicate"
-// import { IEdgePredicate } from "./IEdgePredicate"
-// import { IContent } from "./IContent"
-// import { IMetaData } from "./IMetaData"
 import { IRegistry } from "./IRegistry"
+
+interface IConnector {
+    role: "in" | "out"
+    id: string
+    incoming?: IEdge
+    outgoing?: IEdge
+}
 
 /**
  * @author Philipp Kessling
@@ -17,23 +20,35 @@ export class StoryGraph {
      */
     public constructor(parent: IStoryObject, nodes?: IStoryObject[], edges?: IEdge[]) {
         this.parent = parent;
-        this.nodes = nodes || [];
+        this.nodes = nodes || [
+            {
+                role: "in",
+                id: parent.id + ".start"
+            },
+            {
+                role: "out",
+                id: parent.id + ".end"
+            }
+        ];
         this.edges = edges || [];
     }
+    
+    /**
+     * 
+     */
+    nodes: (IStoryObject | IConnector)[];
 
     /**
      * 
      */
-    nodes: IStoryObject[];
-    /**
-     * 
-     */
     edges: IEdge[];
+
     /**
      * 
      * 
      */
     parent: IStoryObject;
+
     /**
      * @param node 
      * @return
@@ -175,8 +190,9 @@ export class StoryGraph {
     private get _nodeIDs () {
         return this.nodes.map(node => node.id)
     }
+}
 
-    
+
     // /**
     //  * @param graph 
     //  * @return
@@ -305,5 +321,3 @@ export class StoryGraph {
     //             modifiers: []
     //         }
     // }
-
-}

@@ -79,6 +79,14 @@ class StoryGraph {
             registry.deregister(node.id);
         }
     }
+    /**
+     * This method is called before deleting and must be used to clean up lost children
+     *
+     * @param {IRegistry} registry object to deregister from
+     */
+    willDeregister(registry) {
+        this._nodeIDs.forEach(id => registry.deregister(id));
+    }
     _areEdgesValid(edges) {
         return edges.filter((edge) => {
             // validate wether both ends of the edge exists in this graph

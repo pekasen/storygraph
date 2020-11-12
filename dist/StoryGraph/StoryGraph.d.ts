@@ -49,6 +49,12 @@ export declare class StoryGraph {
      * @return
      */
     removeNode(registry: IRegistry, node: IStoryObject): void;
+    /**
+     * This method is called before deleting and must be used to clean up lost children
+     *
+     * @param {IRegistry} registry object to deregister from
+     */
+    willDeregister(registry: IRegistry): void;
     private _areEdgesValid;
     private _updateReference;
     private _nodeExists;

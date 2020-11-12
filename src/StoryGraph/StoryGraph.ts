@@ -101,7 +101,6 @@ export class StoryGraph {
      */
     public removeNode(registry: IRegistry, node: IStoryObject) :  void {
         if (this._nodeExists(node.id)) {
-            
 
             const edges = this.edges.filter(edge => (edge.to === node.id || edge.from === node.id))
             if (edges.length >= 1) {
@@ -110,6 +109,8 @@ export class StoryGraph {
 
             const index = this.nodes.indexOf(node);
             this.nodes.splice(index, 1)
+
+            registry.deregister(node.id);
         }
     }
 

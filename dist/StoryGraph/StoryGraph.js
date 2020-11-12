@@ -76,6 +76,7 @@ class StoryGraph {
             }
             const index = this.nodes.indexOf(node);
             this.nodes.splice(index, 1);
+            registry.deregister(node.id);
         }
     }
     _areEdgesValid(edges) {

@@ -17,11 +17,12 @@ export interface IStoryObject {
      */
     id: string;
     /**
-     * 
+     * string indicating which class this object belongs to
+     * when rehydrated from persistance
      */
     role: string;
     /**
-     * 
+     * user-settable name
      */
     name: string;
     /**

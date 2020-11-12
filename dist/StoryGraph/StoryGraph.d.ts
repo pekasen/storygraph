@@ -55,6 +55,7 @@ export declare class StoryGraph {
      * @param {IRegistry} registry object to deregister from
      */
     willDeregister(registry: IRegistry): void;
+    traverse(registry: IRegistry, fromNode: string): IStoryObject[];
     private _areEdgesValid;
     private _updateReference;
     private _nodeExists;

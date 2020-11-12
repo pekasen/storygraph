@@ -123,6 +123,31 @@ export class StoryGraph {
         this._nodeIDs.forEach(id => registry.deregister(id));
     }
 
+    public traverse(registry: IRegistry, fromNode: string): IStoryObject[] {
+        const recurse = (node: IStoryObject): IStoryObject[] => {
+            const _res = [node];
+            
+            const out = node
+            .outgoing
+            .map(e => registry.getValue(e.to))
+            .filter(e => e !== undefined) as IStoryObject[];
+
+            _res.push(
+                ...out
+                .map(n => recurse(n))
+                .reduce((n, m) => {
+                    n.push(...m);
+                    return n
+                })
+            );
+
+            return _res
+        }
+        const _node = registry.getValue(fromNode);
+        if (_node) return recurse(_node)
+        else return []
+    }
+
     private _areEdgesValid(edges: IEdge[]) {
         return edges.filter((edge) => {
             // validate wether both ends of the edge exists in this graph

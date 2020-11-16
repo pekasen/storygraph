@@ -3,13 +3,6 @@ import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
 import { IRegistry } from "./IRegistry"
 
-interface IConnector {
-    role: "in" | "out"
-    id: string
-    incoming?: IEdge
-    outgoing?: IEdge
-}
-
 /**
  * @author Philipp Kessling
  */
@@ -20,23 +13,14 @@ export class StoryGraph {
      */
     public constructor(parent: IStoryObject, nodes?: IStoryObject[], edges?: IEdge[]) {
         this.parent = parent;
-        this.nodes = nodes || [
-            {
-                role: "in",
-                id: parent.id + ".start"
-            },
-            {
-                role: "out",
-                id: parent.id + ".end"
-            }
-        ];
+        this.nodes = nodes || [];
         this.edges = edges || [];
     }
     
     /**
      * 
      */
-    nodes: (IStoryObject | IConnector)[];
+    nodes: (IStoryObject)[];
 
     /**
      * 

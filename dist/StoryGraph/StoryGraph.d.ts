@@ -60,8 +60,7 @@ export declare class StoryGraph {
     traverse(registry: IRegistry, fromNode: string): IStoryObject[];
     private _areEdgesValid;
     private _hasConnectorPort;
-    parseNodeId(id: string): string[];
-    private _parseNodeId;
+    static parseNodeId(id: string): string[];
     private _updateReference;
     private _nodeExists;
     private get _nodeIDs();

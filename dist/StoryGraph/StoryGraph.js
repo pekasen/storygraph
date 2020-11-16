@@ -118,22 +118,19 @@ class StoryGraph {
         });
     }
     _hasConnectorPort(registry, id) {
-        const [_id, _port] = this.parseNodeId(id);
+        const [_id, _port] = StoryGraph.parseNodeId(id);
         const item = registry.getValue(_id);
         if (item)
             return (item === null || item === void 0 ? void 0 : item.connectors.findIndex(con => (con.name === _port))) !== -1;
         else
             return false;
     }
-    parseNodeId(id) {
-        return this._parseNodeId(id);
-    }
-    _parseNodeId(id) {
+    static parseNodeId(id) {
         return id.split(".");
     }
     _updateReference(registry, parent, edge) {
-        const [fromId] = this._parseNodeId(edge.from);
-        const [toId] = this._parseNodeId(edge.to);
+        const [fromId] = StoryGraph.parseNodeId(edge.from);
+        const [toId] = StoryGraph.parseNodeId(edge.to);
         const _end1 = registry.getValue(fromId);
         const _end2 = registry.getValue(toId);
         if (_end1 && _end2) {
@@ -144,7 +141,7 @@ class StoryGraph {
         }
     }
     _nodeExists(id) {
-        const [_id] = this.parseNodeId(id);
+        const [_id] = StoryGraph.parseNodeId(id);
         const ids = this._nodeIDs;
         return ids.indexOf(_id) !== -1;
     }

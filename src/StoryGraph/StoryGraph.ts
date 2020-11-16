@@ -160,7 +160,7 @@ export class StoryGraph {
     }
 
     private _hasConnectorPort(registry: IRegistry, id: string): boolean {
-        const [_id, _port] = this.parseNodeId(id);
+        const [_id, _port] = StoryGraph.parseNodeId(id);
         const item = registry.getValue(_id);
         if (item) return item?.connectors.findIndex(con => (
             con.name === _port
@@ -168,21 +168,17 @@ export class StoryGraph {
         else return false
     }
 
-    public parseNodeId(id: string): string[] {
-        return this._parseNodeId(id)
-    }
-
-    private _parseNodeId(id: string): string[] {
+    public static parseNodeId(id: string): string[] {
         return id.split(".")
     }
 
     private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {
-        const [fromId] = this._parseNodeId(edge.from);
-        const [toId] = this._parseNodeId(edge.to);
+        const [fromId] = StoryGraph.parseNodeId(edge.from);
+        const [toId] = StoryGraph.parseNodeId(edge.to);
         
         const _end1 = registry.getValue(fromId);
         const _end2 = registry.getValue(toId);
-        
+
         if (_end1 && _end2) {
             _end1.parent = parent;
             _end2.parent = parent;
@@ -193,7 +189,7 @@ export class StoryGraph {
     }
 
     private _nodeExists(id: string): boolean {
-        const [_id] = this.parseNodeId(id);
+        const [_id] = StoryGraph.parseNodeId(id);
         const ids = this._nodeIDs;
         return ids.indexOf(_id) !== -1
     }

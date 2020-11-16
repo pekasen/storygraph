@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoryGraph = void 0;
 /**
+ * A graph to connect story content
+ *
  * @author Philipp Kessling
  */
 class StoryGraph {

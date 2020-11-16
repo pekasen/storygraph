@@ -149,14 +149,7 @@ export class StoryGraph {
     private _areEdgesValid(registry: IRegistry, edges: IEdge[]) {
   
         return edges.filter((edge) => {
-            
-            const [toId, toPort] = this.parseNodeId(edge.to);
-
-            
-            const toItem = registry.getValue(toId);
-
-            
-            // validate wether both ends of the edge exists in this graph
+            // validate wether both ends of the edge exists in this graph and they have the specified port
             return (
                 this._nodeExists(edge.from) &&
                 this._nodeExists(edge.to) &&
@@ -176,7 +169,7 @@ export class StoryGraph {
     }
 
     public parseNodeId(id: string): string[] {
-        return id.split("-")
+        return id.split(".")
     }
 
     private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {

@@ -110,9 +110,7 @@ class StoryGraph {
     }
     _areEdgesValid(registry, edges) {
         return edges.filter((edge) => {
-            const [toId, toPort] = this.parseNodeId(edge.to);
-            const toItem = registry.getValue(toId);
-            // validate wether both ends of the edge exists in this graph
+            // validate wether both ends of the edge exists in this graph and they have the specified port
             return (this._nodeExists(edge.from) &&
                 this._nodeExists(edge.to) &&
                 this._hasConnectorPort(registry, edge.from) &&
@@ -128,7 +126,7 @@ class StoryGraph {
             return false;
     }
     parseNodeId(id) {
-        return id.split("-");
+        return id.split(".");
     }
     _updateReference(registry, parent, edge) {
         const _end1 = registry.getValue(edge.from);

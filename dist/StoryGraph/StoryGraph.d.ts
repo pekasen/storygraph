@@ -61,6 +61,7 @@ export declare class StoryGraph {
     private _areEdgesValid;
     private _hasConnectorPort;
     parseNodeId(id: string): string[];
+    private _parseNodeId;
     private _updateReference;
     private _nodeExists;
     private get _nodeIDs();

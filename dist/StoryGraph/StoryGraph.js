@@ -126,11 +126,16 @@ class StoryGraph {
             return false;
     }
     parseNodeId(id) {
+        return this._parseNodeId(id);
+    }
+    _parseNodeId(id) {
         return id.split(".");
     }
     _updateReference(registry, parent, edge) {
-        const _end1 = registry.getValue(edge.from);
-        const _end2 = registry.getValue(edge.to);
+        const [fromId] = this._parseNodeId(edge.from);
+        const [toId] = this._parseNodeId(edge.to);
+        const _end1 = registry.getValue(fromId);
+        const _end2 = registry.getValue(toId);
         if (_end1 && _end2) {
             _end1.parent = parent;
             _end2.parent = parent;

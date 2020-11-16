@@ -169,12 +169,20 @@ export class StoryGraph {
     }
 
     public parseNodeId(id: string): string[] {
+        return this._parseNodeId(id)
+    }
+
+    private _parseNodeId(id: string): string[] {
         return id.split(".")
     }
 
     private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {
-        const _end1 = registry.getValue(edge.from);
-        const _end2 = registry.getValue(edge.to);
+        const [fromId] = this._parseNodeId(edge.from);
+        const [toId] = this._parseNodeId(edge.to);
+        
+        const _end1 = registry.getValue(fromId);
+        const _end2 = registry.getValue(toId);
+        
         if (_end1 && _end2) {
             _end1.parent = parent;
             _end2.parent = parent;

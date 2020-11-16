@@ -185,8 +185,9 @@ export class StoryGraph {
     }
 
     private _nodeExists(id: string): boolean {
+        const [_id] = this.parseNodeId(id);
         const ids = this._nodeIDs;
-        return ids.indexOf(id) !== -1
+        return ids.indexOf(_id) !== -1
     }
 
     private get _nodeIDs () {

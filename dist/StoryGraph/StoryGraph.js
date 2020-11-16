@@ -139,8 +139,9 @@ class StoryGraph {
         }
     }
     _nodeExists(id) {
+        const [_id] = this.parseNodeId(id);
         const ids = this._nodeIDs;
-        return ids.indexOf(id) !== -1;
+        return ids.indexOf(_id) !== -1;
     }
     get _nodeIDs() {
         return this.nodes.map(node => node.id);

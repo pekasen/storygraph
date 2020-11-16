@@ -59,6 +59,8 @@ export declare class StoryGraph {
     willDeregister(registry: IRegistry): void;
     traverse(registry: IRegistry, fromNode: string): IStoryObject[];
     private _areEdgesValid;
+    private _hasConnectorPort;
+    parseNodeId(id: string): string[];
     private _updateReference;
     private _nodeExists;
     private get _nodeIDs();

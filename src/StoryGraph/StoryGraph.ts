@@ -61,7 +61,7 @@ export class StoryGraph {
      * @return
      */
     public connect(registry: IRegistry, connections: IEdge[]) :  void {
-        const validEdges = this._areEdgesValid(connections);
+        const validEdges = this._areEdgesValid(registry, connections);
         
         // push to our local edges;
         this.edges.push(...validEdges);
@@ -79,19 +79,15 @@ export class StoryGraph {
      * @return
      */
     public disconnect(registry: IRegistry, edges: IEdge[]) :  void {
-        const validEdges = this._areEdgesValid(edges);
+        const validEdges = this._areEdgesValid(registry, edges);
 
         validEdges.forEach(edge => {
             this.edges.splice(
                 this.edges.indexOf(edge), 1
             );
-            const ins = registry.getValue(edge.to)?.incoming
-            if ( ins ) ins.splice(
-                ins.indexOf(edge), 1
-            )
-            const outs = registry.getValue(edge.from)?.outgoing
-            if (outs) outs.splice(
-                outs.indexOf(edge), 1
+            const cons = registry.getValue(edge.to)?.connections
+            if ( cons ) cons.splice(
+                cons.indexOf(edge), 1
             )
         });
     }
@@ -129,7 +125,8 @@ export class StoryGraph {
             const _res = [node];
             
             const out = node
-            .outgoing
+            .connections
+            .filter(e => e.from === this.parent.id)
             .map(e => registry.getValue(e.to))
             .filter(e => e !== undefined) as IStoryObject[];
 
@@ -149,11 +146,37 @@ export class StoryGraph {
         else return []
     }
 
-    private _areEdgesValid(edges: IEdge[]) {
+    private _areEdgesValid(registry: IRegistry, edges: IEdge[]) {
+  
         return edges.filter((edge) => {
+            
+            const [toId, toPort] = this.parseNodeId(edge.to);
+
+            
+            const toItem = registry.getValue(toId);
+
+            
             // validate wether both ends of the edge exists in this graph
-            return (this._nodeExists(edge.from) && this._nodeExists(edge.from))
+            return (
+                this._nodeExists(edge.from) &&
+                this._nodeExists(edge.to) &&
+                this._hasConnectorPort(registry, edge.from) &&
+                this._hasConnectorPort(registry, edge.to)
+            )
         })
+    }
+
+    private _hasConnectorPort(registry: IRegistry, id: string): boolean {
+        const [_id, _port] = this.parseNodeId(id);
+        const item = registry.getValue(_id);
+        if (item) return item?.connectors.findIndex(con => (
+            con.name === _port
+        )) !== -1
+        else return false
+    }
+
+    public parseNodeId(id: string): string[] {
+        return id.split("-")
     }
 
     private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {
@@ -163,8 +186,8 @@ export class StoryGraph {
             _end1.parent = parent;
             _end2.parent = parent;
     
-            _end1.outgoing.push(edge);
-            _end2.incoming.push(edge);
+            _end1.connections.push(edge);
+            _end2.connections.push(edge);
         }
     }
 

@@ -50,11 +50,7 @@ export interface IStoryObject {
     /**
      *
      */
-    outgoing: IEdge[];
-    /**
-     *
-     */
-    incoming: IEdge[];
+    connections: IEdge[];
     /**
      *
      */

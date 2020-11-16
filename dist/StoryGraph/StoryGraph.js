@@ -41,7 +41,7 @@ class StoryGraph {
      * @return
      */
     connect(registry, connections) {
-        const validEdges = this._areEdgesValid(connections);
+        const validEdges = this._areEdgesValid(registry, connections);
         // push to our local edges;
         this.edges.push(...validEdges);
         // update refs on the referenced edges
@@ -54,16 +54,13 @@ class StoryGraph {
      * @return
      */
     disconnect(registry, edges) {
-        const validEdges = this._areEdgesValid(edges);
+        const validEdges = this._areEdgesValid(registry, edges);
         validEdges.forEach(edge => {
-            var _a, _b;
+            var _a;
             this.edges.splice(this.edges.indexOf(edge), 1);
-            const ins = (_a = registry.getValue(edge.to)) === null || _a === void 0 ? void 0 : _a.incoming;
-            if (ins)
-                ins.splice(ins.indexOf(edge), 1);
-            const outs = (_b = registry.getValue(edge.from)) === null || _b === void 0 ? void 0 : _b.outgoing;
-            if (outs)
-                outs.splice(outs.indexOf(edge), 1);
+            const cons = (_a = registry.getValue(edge.to)) === null || _a === void 0 ? void 0 : _a.connections;
+            if (cons)
+                cons.splice(cons.indexOf(edge), 1);
         });
     }
     /**
@@ -93,7 +90,8 @@ class StoryGraph {
         const recurse = (node) => {
             const _res = [node];
             const out = node
-                .outgoing
+                .connections
+                .filter(e => e.from === this.parent.id)
                 .map(e => registry.getValue(e.to))
                 .filter(e => e !== undefined);
             _res.push(...out
@@ -110,11 +108,27 @@ class StoryGraph {
         else
             return [];
     }
-    _areEdgesValid(edges) {
+    _areEdgesValid(registry, edges) {
         return edges.filter((edge) => {
+            const [toId, toPort] = this.parseNodeId(edge.to);
+            const toItem = registry.getValue(toId);
             // validate wether both ends of the edge exists in this graph
-            return (this._nodeExists(edge.from) && this._nodeExists(edge.from));
+            return (this._nodeExists(edge.from) &&
+                this._nodeExists(edge.to) &&
+                this._hasConnectorPort(registry, edge.from) &&
+                this._hasConnectorPort(registry, edge.to));
         });
+    }
+    _hasConnectorPort(registry, id) {
+        const [_id, _port] = this.parseNodeId(id);
+        const item = registry.getValue(_id);
+        if (item)
+            return (item === null || item === void 0 ? void 0 : item.connectors.findIndex(con => (con.name === _port))) !== -1;
+        else
+            return false;
+    }
+    parseNodeId(id) {
+        return id.split("-");
     }
     _updateReference(registry, parent, edge) {
         const _end1 = registry.getValue(edge.from);
@@ -122,8 +136,8 @@ class StoryGraph {
         if (_end1 && _end2) {
             _end1.parent = parent;
             _end2.parent = parent;
-            _end1.outgoing.push(edge);
-            _end2.incoming.push(edge);
+            _end1.connections.push(edge);
+            _end2.connections.push(edge);
         }
     }
     _nodeExists(id) {

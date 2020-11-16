@@ -13,7 +13,7 @@ export declare class StoryGraph {
     /**
      *
      */
-    nodes: IStoryObject[];
+    nodes: (IStoryObject)[];
     /**
      *
      */

@@ -5,8 +5,7 @@ import { IEdge } from "./IEdge"
 import { StoryGraph } from "./StoryGraph"
 import { IRenderingProperties } from "./IRenderingProperties"
 import { IStoryModifier } from "./IStoryModifier"
-import { IReactiveOutput } from "./IReactiveOutput"
-import { IReactiveInput } from "./IReactiveInput"
+import { IConnectorPort } from './IConnectorPort'
 /**
  * 
  */
@@ -44,6 +43,10 @@ export interface IStoryObject {
     /**
      * 
      */
+    connectors: IConnectorPort[]
+    /**
+     * 
+     */
     metaData: IMetaData;
     /**
      * 
@@ -65,12 +68,4 @@ export interface IStoryObject {
      * 
      */
     modifiers: IStoryModifier[];
-    /**
-     * 
-     */
-    outputs?: IReactiveOutput;
-    /**
-     * 
-     */
-    inputs?: IReactiveInput[];
 }

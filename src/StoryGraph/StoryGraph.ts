@@ -4,6 +4,8 @@ import { IEdge } from "./IEdge"
 import { IRegistry } from "./IRegistry"
 
 /**
+ * A graph to connect story content
+ * 
  * @author Philipp Kessling
  */
 export class StoryGraph {

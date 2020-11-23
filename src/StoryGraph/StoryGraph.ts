@@ -48,6 +48,15 @@ export class StoryGraph {
     }
 
     /**
+     * 
+     * @param {string} id Node ID to parse
+     * @returns {string[]} [nodeId, port-name]
+     */
+    public static parseNodeId(id: string): string[] {
+        return id.split(".")
+    }
+
+    /**
      * @param nodes 
      * @param edges 
      * @return
@@ -167,10 +176,6 @@ export class StoryGraph {
             con.name === _port
         )) !== -1
         else return false
-    }
-
-    public static parseNodeId(id: string): string[] {
-        return id.split(".")
     }
 
     private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {

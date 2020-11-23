@@ -29,6 +29,14 @@ class StoryGraph {
             throw ("node exists already");
     }
     /**
+     *
+     * @param {string} id Node ID to parse
+     * @returns {string[]} [nodeId, port-name]
+     */
+    static parseNodeId(id) {
+        return id.split(".");
+    }
+    /**
      * @param nodes
      * @param edges
      * @return
@@ -125,9 +133,6 @@ class StoryGraph {
             return (item === null || item === void 0 ? void 0 : item.connectors.findIndex(con => (con.name === _port))) !== -1;
         else
             return false;
-    }
-    static parseNodeId(id) {
-        return id.split(".");
     }
     _updateReference(registry, parent, edge) {
         const [fromId] = StoryGraph.parseNodeId(edge.from);

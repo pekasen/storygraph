@@ -31,6 +31,12 @@ export declare class StoryGraph {
      */
     addNode(registry: IRegistry, node: IStoryObject): void;
     /**
+     *
+     * @param {string} id Node ID to parse
+     * @returns {string[]} [nodeId, port-name]
+     */
+    static parseNodeId(id: string): string[];
+    /**
      * @param nodes
      * @param edges
      * @return
@@ -60,7 +66,6 @@ export declare class StoryGraph {
     traverse(registry: IRegistry, fromNode: string): IStoryObject[];
     private _areEdgesValid;
     private _hasConnectorPort;
-    static parseNodeId(id: string): string[];
     private _updateReference;
     private _isDAG;
     private _nodeExists;

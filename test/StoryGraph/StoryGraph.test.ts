@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { StoryGraph } from "../../src/index";
+import { IEdge, StoryGraph } from "../../src/index";
 import { IRegistry } from "../../src/StoryGraph/IRegistry";
 import { IStoryObject } from "../../src/StoryGraph/IStoryObject";
 
@@ -7,8 +7,20 @@ describe('StoryGraph', () => {
     const makeStoryObject = (id: string, name: string, isContentNode: boolean): IStoryObject => ({
         id: id,
         name: name,
-        incoming: [],
-        outgoing: [],
+        role: "none",
+        connectors: [
+            {
+                name: "flow-in",
+                type: "flow",
+                direction: "in"
+            },
+            {
+                name: "flow-out",
+                type: "flow",
+                direction: "out"
+            }
+        ],
+        connections: [],
         isContentNode: (isContentNode) ?  isContentNode : true,
         userDefinedProperties: [],
         modifiers: [],
@@ -72,24 +84,29 @@ describe('StoryGraph', () => {
     });
 
     describe('.connect', () => {
-        it('should connect two nodes in a graph', () => {
-            story.childNetwork?.connect(
-                reg,
-                [{
-                    from: ernie.id,
-                    to: bert.id,
-                    parent: story.childNetwork // TODO: update API here, property is superflousesesfsdfdsa
-                }]
-            )
+        const reg2 = new Registry()
+        const ids = Array.from(Array(5))
+        .map(() => String(Math.ceil(Math.random() * 5000)));
 
-            assert(story.childNetwork?.edges === [
-                {
-                    from: ernie.id,
-                    to: bert.id,
-                    parent: story.childNetwork
+        console.log(ids);
+
+        ids.map(e => makeStoryObject(e, e, true))
+        .forEach(e => reg2.register(e));
+
+        const story2: IStoryObject =  makeStoryObject("parent", "Bert", false);
+        story2.childNetwork = new StoryGraph(story2);
+        reg2.register(story2);
+        it('should connect two nodes in a graph', () => {
+            const edges: IEdge[] = ids.map(e => {
+                return {
+                    from: e + ".flow-out",
+                    to: ids[Math.floor(Math.random() * ids.length)] + ".flow-in",
+                    parent: story2.childNetwork,
+                    id: "something"
                 }
-            ])
+            });
+
+            story2.childNetwork?.connect(reg2, edges);
         });
     });
- 
 });

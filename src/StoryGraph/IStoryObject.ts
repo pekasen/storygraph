@@ -14,6 +14,10 @@ export interface IStoryObject {
     /**
      * 
      */
+    icon: string;
+    /**
+     * 
+     */
     id: string;
     /**
      * string indicating which class this object belongs to
@@ -47,11 +51,11 @@ export interface IStoryObject {
     /**
      * 
      */
-    metaData: IMetaData;
+    connections: IEdge[];
     /**
      * 
      */
-    connections: IEdge[];
+    metaData: IMetaData;
     /**
      * 
      */

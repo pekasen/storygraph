@@ -154,7 +154,8 @@ export class StoryGraph {
                 this._nodeExists(edge.from) &&
                 this._nodeExists(edge.to) &&
                 this._hasConnectorPort(registry, edge.from) &&
-                this._hasConnectorPort(registry, edge.to)
+                this._hasConnectorPort(registry, edge.to) &&
+                this._isDAG(registry, edges)
             )
         })
     }
@@ -188,14 +189,98 @@ export class StoryGraph {
         }
     }
 
+    private _isDAG(registry: IRegistry, newEdges: IEdge[]): boolean {
+        this._adjacencyMatrix(registry, newEdges, "flow");
+
+        return true
+    }
+
     private _nodeExists(id: string): boolean {
         const [_id] = StoryGraph.parseNodeId(id);
         const ids = this._nodeIDs;
         return ids.indexOf(_id) !== -1
     }
 
+    private _adjacencyMatrix(registry: IRegistry, newEdges: IEdge[], type: "flow" | "reaction" | "data"): number[][] {
+        // get edges
+        const _edges = [...this.edges, ...newEdges]
+        // split'em by type
+        .filter(e => {
+            const [_fromId, _fromPort ] = StoryGraph.parseNodeId(e.from);
+            const [_toId, _toPort ] = StoryGraph.parseNodeId(e.to);
+            const _from = registry.getValue(_fromId);
+            const _to   = registry.getValue(_toId);
+
+            const _fromType = _from?.connectors.find(e => e.name === _fromPort)?.type
+            const _toType = _to?.connectors.find(e => e.name === _toPort)?.type
+
+            return type === _fromType && type === _toType
+        });
+        
+        // get all nodes involved
+        const _nodes = _edges.map(edge => ([edge.to, edge.from]))
+        .reduce((p, c) => [...p, ...c], [])
+        .reduce<string[]>((p, c, i, a) => {
+            const isDouble = a.filter(e => e === c).length >= 1;
+            const isInOut = p.filter(e => e === c).length >= 1;
+
+            if (!isDouble) {
+                return [...p, c]
+            } else if (isInOut) {
+                return p
+            } else return [...p, c]
+        }, []);
+        // .filter((v, i, a) => {
+        //     return a.filter(_v => _v === v).length === 1
+        // });
+        
+        const _adj: number[][] = Array.from(Array(_nodes.length)).map(
+            () => Array.from(Array(_nodes.length)).map(_ => 0)
+        );
+        _edges.forEach(e => {
+            const fn = _nodes.findIndex(v => v === e.from);
+            const tn = _nodes.findIndex(v => v === e.to);
+
+            if (fn !== -1 && tn !== -1) _adj[fn][tn] = 1;
+        })
+        console.log(_adj)
+        return _adj
+    }
+
     private get _nodeIDs () {
         return this.nodes.map(node => node.id)
+    }
+
+}
+
+interface Column {
+    [index: string]: number[]
+}
+
+class Matrix {
+    
+    columns: Map<string, number[]>
+
+    constructor() {
+        this.columns = new Map();
+    }
+
+    get dim(): number[] {
+        return [
+            this.columns.size,
+            this.columns.values. length
+        ]
+    }
+
+    private _checkDims(): boolean {
+        return Array
+        .from(this.columns.values())
+        .map(e => {
+            e.length
+        })
+        .reduce<boolean>((prevValue, currValue, currIndex, array) => (
+            prevValue && (currIndex >= 1) ? (currValue === array[currIndex - 1]) : true
+           ) , true)
     }
 }
 

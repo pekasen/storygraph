@@ -62,6 +62,8 @@ export declare class StoryGraph {
     private _hasConnectorPort;
     static parseNodeId(id: string): string[];
     private _updateReference;
+    private _isDAG;
     private _nodeExists;
+    private _adjacencyMatrix;
     private get _nodeIDs();
 }

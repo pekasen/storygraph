@@ -116,6 +116,12 @@ class StoryGraph {
         else
             return [];
     }
+    filterNodes(callback) {
+        return this.nodes.filter(callback);
+    }
+    filterEdges(callback) {
+        return this.edges.filter(callback);
+    }
     _areEdgesValid(registry, edges) {
         return edges.filter((edge) => {
             // validate wether both ends of the edge exists in this graph and they have the specified port

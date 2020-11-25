@@ -64,6 +64,8 @@ export declare class StoryGraph {
      */
     willDeregister(registry: IRegistry): void;
     traverse(registry: IRegistry, fromNode: string): IStoryObject[];
+    filterNodes(callback: (node: IStoryObject, index: number, array: IStoryObject[]) => boolean): IStoryObject[];
+    filterEdges(callback: (edge: IEdge, index: number, array: IEdge[]) => boolean): IEdge[];
     private _areEdgesValid;
     private _hasConnectorPort;
     private _updateReference;

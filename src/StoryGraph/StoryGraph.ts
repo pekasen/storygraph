@@ -155,6 +155,14 @@ export class StoryGraph {
         else return []
     }
 
+    public filterNodes(callback: (node: IStoryObject, index: number, array: IStoryObject[]) => boolean): IStoryObject[] {
+        return this.nodes.filter(callback);
+    }
+
+    public filterEdges(callback: (edge: IEdge, index: number, array: IEdge[]) => boolean): IEdge[] {
+        return this.edges.filter(callback);
+    }
+
     private _areEdgesValid(registry: IRegistry, edges: IEdge[]) {
   
         return edges.filter((edge) => {

@@ -47,7 +47,7 @@ export interface IStoryObject {
     /**
      * 
      */
-    connectors: IConnectorPort[]
+    connectors: Map<string, IConnectorPort>
     /**
      * 
      */

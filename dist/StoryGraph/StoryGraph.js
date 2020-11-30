@@ -136,7 +136,7 @@ class StoryGraph {
         const [_id, _port] = StoryGraph.parseNodeId(id);
         const item = registry.getValue(_id);
         if (item)
-            return (item === null || item === void 0 ? void 0 : item.connectors.findIndex(con => (con.name === _port))) !== -1;
+            return item === null || item === void 0 ? void 0 : item.connectors.has(_port);
         else
             return false;
     }
@@ -171,8 +171,8 @@ class StoryGraph {
             const [_toId, _toPort] = StoryGraph.parseNodeId(e.to);
             const _from = registry.getValue(_fromId);
             const _to = registry.getValue(_toId);
-            const _fromType = (_a = _from === null || _from === void 0 ? void 0 : _from.connectors.find(e => e.name === _fromPort)) === null || _a === void 0 ? void 0 : _a.type;
-            const _toType = (_b = _to === null || _to === void 0 ? void 0 : _to.connectors.find(e => e.name === _toPort)) === null || _b === void 0 ? void 0 : _b.type;
+            const _fromType = (_a = _from === null || _from === void 0 ? void 0 : _from.connectors.get(_fromPort)) === null || _a === void 0 ? void 0 : _a.type;
+            const _toType = (_b = _to === null || _to === void 0 ? void 0 : _to.connectors.get(_toPort)) === null || _b === void 0 ? void 0 : _b.type;
             return type === _fromType && type === _toType;
         });
         // get all nodes involved
@@ -198,7 +198,7 @@ class StoryGraph {
             const fn = _nodes.findIndex(v => v === e.from);
             const tn = _nodes.findIndex(v => v === e.to);
             if (fn !== -1 && tn !== -1)
-                _adj[fn][tn] = 1;
+                _adj[fn][tn] += 1;
         });
         console.log(_adj);
         return _adj;

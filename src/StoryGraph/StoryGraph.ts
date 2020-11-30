@@ -180,9 +180,7 @@ export class StoryGraph {
     private _hasConnectorPort(registry: IRegistry, id: string): boolean {
         const [_id, _port] = StoryGraph.parseNodeId(id);
         const item = registry.getValue(_id);
-        if (item) return item?.connectors.findIndex(con => (
-            con.name === _port
-        )) !== -1
+        if (item) return item?.connectors.has(_port);
         else return false
     }
 
@@ -224,8 +222,8 @@ export class StoryGraph {
             const _from = registry.getValue(_fromId);
             const _to   = registry.getValue(_toId);
 
-            const _fromType = _from?.connectors.find(e => e.name === _fromPort)?.type
-            const _toType = _to?.connectors.find(e => e.name === _toPort)?.type
+            const _fromType = _from?.connectors.get(_fromPort)?.type
+            const _toType = _to?.connectors.get(_toPort)?.type
 
             return type === _fromType && type === _toType
         });
@@ -254,7 +252,7 @@ export class StoryGraph {
             const fn = _nodes.findIndex(v => v === e.from);
             const tn = _nodes.findIndex(v => v === e.to);
 
-            if (fn !== -1 && tn !== -1) _adj[fn][tn] = 1;
+            if (fn !== -1 && tn !== -1) _adj[fn][tn] += 1;
         })
         console.log(_adj)
         return _adj

@@ -5,6 +5,7 @@ import { IConnectorPort } from './StoryGraph/IConnectorPort';
 import { IMetaData } from './StoryGraph/IMetaData';
 import { IRenderingProperties } from './StoryGraph/IRenderingProperties';
 import { IStoryModifier } from './StoryGraph/IStoryModifier';
+import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
 
 export { 
     StoryGraph,
@@ -13,7 +14,10 @@ export {
     IStoryModifier,
     IMetaData,
     IRenderingProperties,
-    IConnectorPort
+    IConnectorPort,
+    ConnectorPort,
+    DataConnectorInPort,
+    DataConnectorOutPort
 }
 
 // import { IContent } from 'storygraph/dist/StoryGraph/IContent';

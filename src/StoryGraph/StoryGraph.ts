@@ -177,9 +177,11 @@ export class StoryGraph {
 
             if (fromPort && fromPort.type) {
                 const rules = this.ruleSet.get(fromPort.type);
-                return rules?.map(e => this.rules.get(e)).reduce((p, e) => {
-                    if (!e) throw("Validator not defined!");
-                    return e(from, fromPort, to, toPort) && p;
+                return rules?.map(e => ({name: e, validator: this.rules.get(e)})).reduce((p, e) => {
+                    if (!e.validator) throw("Validator not defined!");
+                    const res = e.validator(from, fromPort, to, toPort) && p;
+                    console.log(e.name, (res) ? "passed" : "failed", "@", edge);
+                    return res;
                 }, true);
             } else return false;
         }));

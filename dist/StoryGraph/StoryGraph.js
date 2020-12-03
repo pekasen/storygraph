@@ -177,10 +177,12 @@ class StoryGraph {
             // const initial: boolean = true;
             if (fromPort && fromPort.type) {
                 const rules = this.ruleSet.get(fromPort.type);
-                return rules === null || rules === void 0 ? void 0 : rules.map(e => this.rules.get(e)).reduce((p, e) => {
-                    if (!e)
+                return rules === null || rules === void 0 ? void 0 : rules.map(e => ({ name: e, validator: this.rules.get(e) })).reduce((p, e) => {
+                    if (!e.validator)
                         throw ("Validator not defined!");
-                    return e(from, fromPort, to, toPort) && p;
+                    const res = e.validator(from, fromPort, to, toPort) && p;
+                    console.log(e.name, (res) ? "passed" : "failed", "@", edge);
+                    return res;
                 }, true);
             }
             else

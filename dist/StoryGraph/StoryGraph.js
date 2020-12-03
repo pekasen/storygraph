@@ -127,10 +127,20 @@ class StoryGraph {
             // validate wether both ends of the edge exists in this graph and they have the specified port
             return (this._nodeExists(edge.from) &&
                 this._nodeExists(edge.to) &&
+                this._isCompatible(registry, edge.from, edge.to) &&
                 this._hasConnectorPort(registry, edge.from) &&
                 this._hasConnectorPort(registry, edge.to) &&
                 this._isDAG(registry, edges));
         });
+    }
+    _isCompatible(registry, from, to) {
+        const [fromId, fromPort] = StoryGraph.parseNodeId(from);
+        const [toId, toPort] = StoryGraph.parseNodeId(to);
+        const fromObj = registry.getValue(fromId);
+        const fromCon = fromObj === null || fromObj === void 0 ? void 0 : fromObj.connectors.get(fromPort);
+        const toObj = registry.getValue(toId);
+        const toCon = toObj === null || toObj === void 0 ? void 0 : toObj.connectors.get(toPort);
+        return (fromCon === null || fromCon === void 0 ? void 0 : fromCon.type) === (toCon === null || toCon === void 0 ? void 0 : toCon.type);
     }
     _hasConnectorPort(registry, id) {
         const [_id, _port] = StoryGraph.parseNodeId(id);

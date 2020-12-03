@@ -170,11 +170,23 @@ export class StoryGraph {
             return (
                 this._nodeExists(edge.from) &&
                 this._nodeExists(edge.to) &&
+                this._isCompatible(registry, edge.from, edge.to) &&
                 this._hasConnectorPort(registry, edge.from) &&
                 this._hasConnectorPort(registry, edge.to) &&
                 this._isDAG(registry, edges)
             )
         })
+    }
+
+    private _isCompatible(registry: IRegistry, from: string, to: string) : boolean {
+        const [fromId, fromPort] = StoryGraph.parseNodeId(from);
+        const [toId ,toPort] = StoryGraph.parseNodeId(to);
+        const fromObj = registry.getValue(fromId);
+        const fromCon = fromObj?.connectors.get(fromPort);
+        const toObj = registry.getValue(toId);
+        const toCon = toObj?.connectors.get(toPort);
+
+        return fromCon?.type === toCon?.type
     }
 
     private _hasConnectorPort(registry: IRegistry, id: string): boolean {

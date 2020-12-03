@@ -11,6 +11,50 @@ class StoryGraph {
      *
      */
     constructor(parent, nodes, edges) {
+        this.ruleSet = new Map([
+            ["flow", [
+                    "nodes-must-exist", "ports-must-exist", "port-type-matches", "many-to-one", "no-loops", "no-self-loops"
+                ]],
+            ["reaction", [
+                    "nodes-must-exist", "ports-must-exist", "port-type-matches", "one-to-many", "no-loops", "no-self-loops"
+                ]],
+            ["data", [
+                    "nodes-must-exist", "ports-must-exist", "port-type-matches", "one-to-many", "no-loops", "no-self-loops"
+                ]]
+        ]);
+        this.rules = new Map([
+            ["many-to-one", (from, fromPort, to, toPort) => {
+                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
+                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    // out degree of the from node maybe larger than one, in degree of the connected node may not
+                    return (fromDegree >= 0 && toDegree <= 1);
+                }],
+            ["many-to-many", (from, fromPort, to, toPort) => {
+                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
+                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    return (fromDegree >= 0 && toDegree >= 0);
+                }],
+            ["one-to-many", (from, fromPort, to, toPort) => {
+                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
+                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    return (fromDegree <= 1 && toDegree >= 0);
+                }],
+            ["port-type-matches", (form, fromPort, to, toPort) => {
+                    return fromPort.type === toPort.type && fromPort.direction !== toPort.direction;
+                }],
+            ["nodes-must-exist", (from, fromPort, to, toPort) => {
+                    return (from !== undefined && to !== undefined);
+                }],
+            ["ports-must-exist", (from, fromPort, to, toPort) => {
+                    return true;
+                }],
+            ["no-loops", (from, fromPort, to, toPort) => {
+                    return true;
+                }],
+            ["no-self-loops", (from, fromPort, to, toPort) => {
+                    return true;
+                }]
+        ]);
         this.parent = parent;
         this.nodes = nodes || [];
         this.edges = edges || [];
@@ -123,15 +167,36 @@ class StoryGraph {
         return this.edges.filter(callback);
     }
     _areEdgesValid(registry, edges) {
-        return edges.filter((edge) => {
-            // validate wether both ends of the edge exists in this graph and they have the specified port
-            return (this._nodeExists(edge.from) &&
-                this._nodeExists(edge.to) &&
-                this._isCompatible(registry, edge.from, edge.to) &&
-                this._hasConnectorPort(registry, edge.from) &&
-                this._hasConnectorPort(registry, edge.to) &&
-                this._isDAG(registry, edges));
-        });
+        return edges.filter((edge => {
+            const [fromId, fromPortId] = StoryGraph.parseNodeId(edge.from);
+            const [toId, toPortId] = StoryGraph.parseNodeId(edge.to);
+            const from = registry.getValue(fromId);
+            const to = registry.getValue(toId);
+            const fromPort = from === null || from === void 0 ? void 0 : from.connectors.get(fromPortId);
+            const toPort = to === null || to === void 0 ? void 0 : to.connectors.get(toPortId);
+            // const initial: boolean = true;
+            if (fromPort && fromPort.type) {
+                const rules = this.ruleSet.get(fromPort.type);
+                return rules === null || rules === void 0 ? void 0 : rules.map(e => this.rules.get(e)).reduce((p, e) => {
+                    if (!e)
+                        throw ("Validator not defined!");
+                    return e(from, fromPort, to, toPort) && p;
+                }, true);
+            }
+            else
+                return false;
+        }));
+        // (edge) => {
+        //     // validate wether both ends of the edge exists in this graph and they have the specified port
+        //     return (
+        //         this._nodeExists(edge.from) &&
+        //         this._nodeExists(edge.to) &&
+        //         this._isCompatible(registry, edge.from, edge.to) &&
+        //         this._hasConnectorPort(registry, edge.from) &&
+        //         this._hasConnectorPort(registry, edge.to) &&
+        //         this._isDAG(registry, edges)
+        //     )
+        // }
     }
     _isCompatible(registry, from, to) {
         const [fromId, fromPort] = StoryGraph.parseNodeId(from);

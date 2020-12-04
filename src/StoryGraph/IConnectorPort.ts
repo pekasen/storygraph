@@ -5,6 +5,7 @@ export interface IConnectorPort {
     name: string
     direction: ConnectorDirection
     type: ConnectorType
+    associated?: IConnectorPort
 }
 
 export interface IDataInPort<T> extends IConnectorPort {

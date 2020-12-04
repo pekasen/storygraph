@@ -48,8 +48,45 @@ class StoryGraph {
             ["ports-must-exist", (from, fromPort, to, toPort) => {
                     return (fromPort !== undefined && toPort !== undefined);
                 }],
-            ["no-loops", (from, fromPort, to, toPort) => {
-                    return true;
+            ["no-loops", (from, fromPort, to, toPort, registry) => {
+                    /**
+                     * DO FTUSS!
+                     *
+                     * @param node starting node
+                     * @param port starting port
+                     * @param depth current recursion depth
+                     */
+                    const walk = (node, port, depth = 0) => {
+                        const maxRecursion = 10;
+                        const _res = [];
+                        if (port.associated) {
+                            const aPort = port.associated;
+                            const nextNodes = node.connections.
+                                filter(e => (e.from === `${node.id}.${aPort.name}`)).
+                                map(e => {
+                                const [_id, _portId] = StoryGraph.parseNodeId(e.to);
+                                const _node = registry === null || registry === void 0 ? void 0 : registry.getValue(_id);
+                                const _port = _node === null || _node === void 0 ? void 0 : _node.connectors.get(_portId);
+                                return {
+                                    _node: _node,
+                                    _port: _port
+                                };
+                            });
+                            if (depth > maxRecursion) {
+                                nextNodes.forEach(({ _node, _port }) => {
+                                    if (_node && _port)
+                                        _res.push(...walk(_node, _port, depth + 1));
+                                });
+                                return _res;
+                            }
+                            else {
+                                throw ("Max recursion limit reached!");
+                            }
+                        }
+                        else
+                            return _res;
+                    };
+                    return walk(to, toPort).filter(_node => _node.id == to.id).length === 0;
                 }],
             ["no-self-loops", (from, fromPort, to, toPort) => {
                     return from.id !== to.id;
@@ -138,6 +175,15 @@ class StoryGraph {
     willDeregister(registry) {
         this._nodeIDs.forEach(id => registry.deregister(id));
     }
+    /**
+     * Traverses the StoryGraph
+     * TODO: this method does not adhere to port connectivity; this needs to be fixed!
+     *
+     * @deprecated
+     * @param registry
+     * @param fromNode
+     */
+    // TODO: fix this method! YO!
     traverse(registry, fromNode) {
         const recurse = (node) => {
             const _res = [node];
@@ -180,7 +226,7 @@ class StoryGraph {
                 return rules === null || rules === void 0 ? void 0 : rules.map(e => ({ name: e, validator: this.rules.get(e) })).reduce((p, e) => {
                     if (!e.validator)
                         throw ("Validator not defined!");
-                    const res = e.validator(from, fromPort, to, toPort);
+                    const res = e.validator(from, fromPort, to, toPort, registry);
                     console.log(e.name, (res) ? "passed" : "failed", "@", edge);
                     return res && p;
                 }, true);

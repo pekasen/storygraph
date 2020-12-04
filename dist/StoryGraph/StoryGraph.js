@@ -27,7 +27,7 @@ class StoryGraph {
                     const fromOutDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
                     const toInDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
                     // out degree of the from node maybe larger than one, in degree of the connected node may not
-                    return (fromOutDegree >= 0 && toInDegree == 1);
+                    return (fromOutDegree >= 0 && toInDegree == 0);
                 }],
             ["many-to-many", (from, fromPort, to, toPort) => {
                     const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
@@ -37,7 +37,7 @@ class StoryGraph {
             ["one-to-many", (from, fromPort, to, toPort) => {
                     const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
                     const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
-                    return (fromDegree == 1 && toDegree >= 0);
+                    return (fromDegree == 0 && toDegree >= 0);
                 }],
             ["port-type-matches", (form, fromPort, to, toPort) => {
                     return fromPort.type === toPort.type && fromPort.direction !== toPort.direction;

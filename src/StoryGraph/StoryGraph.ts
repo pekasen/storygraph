@@ -276,7 +276,7 @@ export class StoryGraph {
                         };
                     });
 
-                    if (depth > maxRecursion) {
+                    if (depth < maxRecursion) {
                         nextNodes.forEach(({_node, _port}) => {
                             if (_node && _port) _res.push(...walk(_node, _port, depth + 1))
                         });

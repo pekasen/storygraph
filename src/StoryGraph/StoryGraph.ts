@@ -189,7 +189,7 @@ export class StoryGraph {
                 return rules?.map(e => ({name: e, validator: this.rules.get(e)})).reduce((p: boolean, e) => {
                     if (!e.validator) throw("Validator not defined!");
                     const res = e.validator(from, fromPort, to, toPort, registry);
-                    console.log(e.name, (res) ? "passed" : "failed", "@", edge);
+                    // console.log(e.name, (res) ? "passed" : "failed", "@", edge);
                     return res  && p;
                 }, true);
             } else return false;
@@ -276,7 +276,7 @@ export class StoryGraph {
                         };
                     });
                     if (nextNodes.length === 0) {
-                        console.log("leg 3", _res);
+                        // console.log("leg 3", _res);
                         return _res;
                     }
                     if (depth < maxRecursion) {
@@ -286,13 +286,13 @@ export class StoryGraph {
                                 _res.push(..._a, _node);
                             }
                         });
-                        console.log("leg 1", _res);
+                        // console.log("leg 1", _res);
                         return _res;
                     } else {
                         throw("Max recursion limit reached!")
                     }
                 } else {
-                    console.log("leg 2", _res);
+                    // console.log("leg 2", _res);
                     return _res;
                 }
             };

@@ -278,14 +278,20 @@ export class StoryGraph {
                     if (nextNodes.length === 0) return _res;
                     if (depth < maxRecursion) {
                         nextNodes.forEach(({_node, _port}) => {
-                            if (_node && _port) _res.push(...walk(_node, _port, depth + 1))
+                            if (_node && _port) {
+                                const _a = walk(_node, _port, depth + 1);
+                                _res.push(..._a);
+                            }
                         });
-
+                        console.log("leg 1", _res);
                         return _res;
                     } else {
                         throw("Max recursion limit reached!")
                     }
-                } else return _res;
+                } else {
+                    console.log("leg 2", _res);
+                    return _res;
+                }
             };
 
             return walk(to!, toPort!).filter(_node => _node.id == to!.id).length === 0

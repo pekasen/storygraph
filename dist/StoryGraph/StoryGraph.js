@@ -76,17 +76,22 @@ class StoryGraph {
                                 return _res;
                             if (depth < maxRecursion) {
                                 nextNodes.forEach(({ _node, _port }) => {
-                                    if (_node && _port)
-                                        _res.push(...walk(_node, _port, depth + 1));
+                                    if (_node && _port) {
+                                        const _a = walk(_node, _port, depth + 1);
+                                        _res.push(..._a);
+                                    }
                                 });
+                                console.log("leg 1", _res);
                                 return _res;
                             }
                             else {
                                 throw ("Max recursion limit reached!");
                             }
                         }
-                        else
+                        else {
+                            console.log("leg 2", _res);
                             return _res;
+                        }
                     };
                     return walk(to, toPort).filter(_node => _node.id == to.id).length === 0;
                 }],
@@ -147,9 +152,9 @@ class StoryGraph {
     disconnect(registry, edges) {
         const validEdges = this._areEdgesValid(registry, edges);
         validEdges.forEach(edge => {
-            var _a;
+            var _b;
             this.edges.splice(this.edges.indexOf(edge), 1);
-            const cons = (_a = registry.getValue(edge.to)) === null || _a === void 0 ? void 0 : _a.connections;
+            const cons = (_b = registry.getValue(edge.to)) === null || _b === void 0 ? void 0 : _b.connections;
             if (cons)
                 cons.splice(cons.indexOf(edge), 1);
         });
@@ -291,13 +296,13 @@ class StoryGraph {
         const _edges = [...this.edges, ...newEdges]
             // split'em by type
             .filter(e => {
-            var _a, _b;
+            var _b, _c;
             const [_fromId, _fromPort] = StoryGraph.parseNodeId(e.from);
             const [_toId, _toPort] = StoryGraph.parseNodeId(e.to);
             const _from = registry.getValue(_fromId);
             const _to = registry.getValue(_toId);
-            const _fromType = (_a = _from === null || _from === void 0 ? void 0 : _from.connectors.get(_fromPort)) === null || _a === void 0 ? void 0 : _a.type;
-            const _toType = (_b = _to === null || _to === void 0 ? void 0 : _to.connectors.get(_toPort)) === null || _b === void 0 ? void 0 : _b.type;
+            const _fromType = (_b = _from === null || _from === void 0 ? void 0 : _from.connectors.get(_fromPort)) === null || _b === void 0 ? void 0 : _b.type;
+            const _toType = (_c = _to === null || _to === void 0 ? void 0 : _to.connectors.get(_toPort)) === null || _c === void 0 ? void 0 : _c.type;
             return type === _fromType && type === _toType;
         });
         // get all nodes involved

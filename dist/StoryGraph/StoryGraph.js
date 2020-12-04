@@ -72,6 +72,8 @@ class StoryGraph {
                                     _port: _port
                                 };
                             });
+                            if (nextNodes.length === 0)
+                                return _res;
                             if (depth < maxRecursion) {
                                 nextNodes.forEach(({ _node, _port }) => {
                                     if (_node && _port)

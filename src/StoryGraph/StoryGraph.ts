@@ -275,7 +275,7 @@ export class StoryGraph {
                             _port: _port
                         };
                     });
-
+                    if (nextNodes.length === 0) return _res;
                     if (depth < maxRecursion) {
                         nextNodes.forEach(({_node, _port}) => {
                             if (_node && _port) _res.push(...walk(_node, _port, depth + 1))

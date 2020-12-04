@@ -24,10 +24,10 @@ class StoryGraph {
         ]);
         this.rules = new Map([
             ["many-to-one", (from, fromPort, to, toPort) => {
-                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    const fromOutDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
+                    const toInDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
                     // out degree of the from node maybe larger than one, in degree of the connected node may not
-                    return (fromDegree >= 0 && toDegree <= 1);
+                    return (fromOutDegree >= 0 && toInDegree == 1);
                 }],
             ["many-to-many", (from, fromPort, to, toPort) => {
                     const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
@@ -37,7 +37,7 @@ class StoryGraph {
             ["one-to-many", (from, fromPort, to, toPort) => {
                     const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
                     const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
-                    return (fromDegree <= 1 && toDegree >= 0);
+                    return (fromDegree == 1 && toDegree >= 0);
                 }],
             ["port-type-matches", (form, fromPort, to, toPort) => {
                     return fromPort.type === toPort.type && fromPort.direction !== toPort.direction;
@@ -46,13 +46,13 @@ class StoryGraph {
                     return (from !== undefined && to !== undefined);
                 }],
             ["ports-must-exist", (from, fromPort, to, toPort) => {
-                    return true;
+                    return (fromPort !== undefined && toPort !== undefined);
                 }],
             ["no-loops", (from, fromPort, to, toPort) => {
                     return true;
                 }],
             ["no-self-loops", (from, fromPort, to, toPort) => {
-                    return true;
+                    return from.id !== to.id;
                 }]
         ]);
         this.parent = parent;
@@ -180,9 +180,9 @@ class StoryGraph {
                 return rules === null || rules === void 0 ? void 0 : rules.map(e => ({ name: e, validator: this.rules.get(e) })).reduce((p, e) => {
                     if (!e.validator)
                         throw ("Validator not defined!");
-                    const res = e.validator(from, fromPort, to, toPort) && p;
+                    const res = e.validator(from, fromPort, to, toPort);
                     console.log(e.name, (res) ? "passed" : "failed", "@", edge);
-                    return res;
+                    return res && p;
                 }, true);
             }
             else

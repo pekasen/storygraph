@@ -177,11 +177,11 @@ export class StoryGraph {
 
             if (fromPort && fromPort.type) {
                 const rules = this.ruleSet.get(fromPort.type);
-                return rules?.map(e => ({name: e, validator: this.rules.get(e)})).reduce((p, e) => {
+                return rules?.map(e => ({name: e, validator: this.rules.get(e)})).reduce((p: boolean, e) => {
                     if (!e.validator) throw("Validator not defined!");
-                    const res = e.validator(from, fromPort, to, toPort) && p;
+                    const res = e.validator(from, fromPort, to, toPort);
                     console.log(e.name, (res) ? "passed" : "failed", "@", edge);
-                    return res;
+                    return res  && p;
                 }, true);
             } else return false;
         }));
@@ -213,37 +213,37 @@ export class StoryGraph {
 
     private rules = new Map<string, INetworkValidator>([
         ["many-to-one", (from, fromPort, to, toPort) => {
-            const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-            const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+            const fromOutDegree = from!.connections.filter(edge => edge.from === (`${from!.id}.${fromPort!.name}`)).length;
+            const toInDegree = to!.connections.filter(edge => edge.to === (`${to!.id}.${toPort!.name}`)).length;
             // out degree of the from node maybe larger than one, in degree of the connected node may not
-            return (fromDegree >= 0 && toDegree <= 1);
+            return (fromOutDegree >= 0 && toInDegree == 1);
         }],
         ["many-to-many", (from, fromPort, to, toPort) => {
-            const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-            const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+            const fromDegree = from!.connections.filter(edge => edge.from === (`${from!.id}.${fromPort!.name}`)).length;
+            const toDegree = to!.connections.filter(edge => edge.to === (`${to!.id}.${toPort!.name}`)).length;
 
             return (fromDegree >= 0 && toDegree >= 0);
         }],
         ["one-to-many", (from, fromPort, to, toPort) => {
-            const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-            const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+            const fromDegree = from!.connections.filter(edge => edge.from === (`${from!.id}.${fromPort!.name}`)).length;
+            const toDegree = to!.connections.filter(edge => edge.to === (`${to!.id}.${toPort!.name}`)).length;
 
-            return (fromDegree <= 1 && toDegree >= 0);
+            return (fromDegree == 1 && toDegree >= 0);
         }],
         ["port-type-matches", (form, fromPort, to, toPort) => {
-            return fromPort.type === toPort.type && fromPort.direction !== toPort.direction;
+            return fromPort!.type === toPort!.type && fromPort!.direction !== toPort!.direction;
         }],
         ["nodes-must-exist", (from, fromPort, to, toPort) => {
             return (from !== undefined && to !== undefined);
         }],
         ["ports-must-exist", (from, fromPort, to, toPort) => {
-            return true
+            return (fromPort !== undefined && toPort !== undefined);
         }],
         ["no-loops", (from, fromPort, to, toPort) => {
             return true
         }],
         ["no-self-loops", (from, fromPort, to, toPort) => {
-            return true
+            return from!.id !== to!.id;
         }]
     ])
 

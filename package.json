@@ -1,6 +1,6 @@
 {
   "name": "storygraph",
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "StoryGraph is a TypeScript/ECMAScript",
   "main": "dist/index.js",
   "scripts": {

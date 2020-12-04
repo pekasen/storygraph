@@ -21,3 +21,4 @@ export interface IEdge {
      */
     parent?: StoryGraph;
 }
+//# sourceMappingURL=IEdge.d.ts.map

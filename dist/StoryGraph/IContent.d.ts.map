@@ -1,0 +1,1 @@
+{"version":3,"file":"IContent.d.ts","sourceRoot":"","sources":["../../src/StoryGraph/IContent.ts"],"names":[],"mappings":"AAAA,yCAAyC;AACzC;;GAEG;AACH,MAAM,WAAW,QAAQ;IAErB;;OAEG;IACH,QAAQ,EAAE,MAAM,CAAC;IACjB;;OAEG;IACH,OAAO,EAAE,MAAM,CAAC;IAChB;;OAEG;IACH,WAAW,EAAE,MAAM,CAAC;CACvB"}

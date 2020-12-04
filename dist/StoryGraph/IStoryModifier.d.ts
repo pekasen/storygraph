@@ -14,3 +14,4 @@ export interface IStoryModifier {
      */
     type: ModifierType;
 }
+//# sourceMappingURL=IStoryModifier.d.ts.map

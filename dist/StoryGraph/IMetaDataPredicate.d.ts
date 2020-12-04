@@ -4,3 +4,4 @@
  */
 export interface IMetaDataPredicate {
 }
+//# sourceMappingURL=IMetaDataPredicate.d.ts.map

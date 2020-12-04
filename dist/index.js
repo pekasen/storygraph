@@ -15,3 +15,4 @@ Object.defineProperty(exports, "DataConnectorOutPort", { enumerable: true, get: 
 // import { IStoryModifier } from 'storygraph/dist/StoryGraph/IStoryModifier';
 // import { IStoryObject } from 'storygraph/dist/StoryGraph/IStoryObject';
 // import { IConnectorPort } from 'storygraph/dist/StoryGraph/IConnectorPort';
+//# sourceMappingURL=index.js.map

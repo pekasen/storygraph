@@ -5,3 +5,4 @@ export interface IRegistry {
     getValue(forId: string): IStoryObject | undefined;
     overwrite(value: IStoryObject): boolean;
 }
+//# sourceMappingURL=IRegistry.d.ts.map

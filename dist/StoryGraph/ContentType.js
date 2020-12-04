@@ -15,3 +15,4 @@ var ContentType;
     ContentType[ContentType["action"] = 5] = "action";
     ContentType[ContentType["spacer"] = 6] = "spacer";
 })(ContentType = exports.ContentType || (exports.ContentType = {}));
+//# sourceMappingURL=ContentType.js.map

@@ -4,3 +4,4 @@
  */
 export interface IGraph {
 }
+//# sourceMappingURL=IGraph.d.ts.map

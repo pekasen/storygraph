@@ -68,3 +68,4 @@ export interface IStoryObject {
      */
     modifiers: IStoryModifier[];
 }
+//# sourceMappingURL=IStoryObject.d.ts.map

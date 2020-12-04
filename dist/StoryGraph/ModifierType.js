@@ -11,3 +11,4 @@ var ModifierType;
     ModifierType[ModifierType["autoPlay"] = 1] = "autoPlay";
     ModifierType[ModifierType["timePosition"] = 2] = "timePosition";
 })(ModifierType = exports.ModifierType || (exports.ModifierType = {}));
+//# sourceMappingURL=ModifierType.js.map

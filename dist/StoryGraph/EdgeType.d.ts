@@ -8,3 +8,4 @@ export declare enum EdgeType {
     warp = 2,
     warpAndErase = 3
 }
+//# sourceMappingURL=EdgeType.d.ts.map

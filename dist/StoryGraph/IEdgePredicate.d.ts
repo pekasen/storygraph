@@ -19,3 +19,4 @@ export interface IEdgePredicate {
      */
     condition?: IEdgeConditionPredicate[];
 }
+//# sourceMappingURL=IEdgePredicate.d.ts.map

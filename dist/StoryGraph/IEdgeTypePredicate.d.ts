@@ -4,3 +4,4 @@
  */
 export interface IEdgeTypePredicate {
 }
+//# sourceMappingURL=IEdgeTypePredicate.d.ts.map

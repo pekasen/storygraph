@@ -12,3 +12,4 @@ var ConditionType;
     ConditionType[ConditionType["isInRange"] = 2] = "isInRange";
     ConditionType[ConditionType["isNotInRange"] = 3] = "isNotInRange";
 })(ConditionType = exports.ConditionType || (exports.ConditionType = {}));
+//# sourceMappingURL=ConditionType.js.map

@@ -17,3 +17,4 @@ export interface IEdgeCondition {
      */
     type: ConditionType;
 }
+//# sourceMappingURL=IEdgeCondition.d.ts.map

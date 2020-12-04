@@ -8,3 +8,4 @@ export declare enum ConditionType {
     isInRange = 2,
     isNotInRange = 3
 }
+//# sourceMappingURL=ConditionType.d.ts.map

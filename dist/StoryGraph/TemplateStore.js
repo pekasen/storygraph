@@ -13,3 +13,4 @@ class TemplateStore {
     }
 }
 exports.TemplateStore = TemplateStore;
+//# sourceMappingURL=TemplateStore.js.map

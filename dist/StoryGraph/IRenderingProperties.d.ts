@@ -16,3 +16,4 @@ export interface IRenderingProperties {
      */
     collapsable: boolean;
 }
+//# sourceMappingURL=IRenderingProperties.d.ts.map

@@ -18,3 +18,4 @@ export interface IReducer {
      */
     connect(connections: IEdge[], graph: IGraph): IGraph;
 }
+//# sourceMappingURL=IReducer.d.ts.map

@@ -8,3 +8,4 @@ export declare class TemplateStore {
      */
     constructor();
 }
+//# sourceMappingURL=TemplateStore.d.ts.map

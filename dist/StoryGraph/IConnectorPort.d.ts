@@ -27,3 +27,4 @@ export interface IReactionOutPort<T> extends IConnectorPort {
     direction: "out";
     notify: () => T;
 }
+//# sourceMappingURL=IConnectorPort.d.ts.map

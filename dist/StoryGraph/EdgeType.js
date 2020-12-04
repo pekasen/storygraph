@@ -12,3 +12,4 @@ var EdgeType;
     EdgeType[EdgeType["warp"] = 2] = "warp";
     EdgeType[EdgeType["warpAndErase"] = 3] = "warpAndErase";
 })(EdgeType = exports.EdgeType || (exports.EdgeType = {}));
+//# sourceMappingURL=EdgeType.js.map

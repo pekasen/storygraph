@@ -14,3 +14,4 @@ export interface INodePredicate {
      */
     content?: IContentPredicate;
 }
+//# sourceMappingURL=INodePredicate.d.ts.map

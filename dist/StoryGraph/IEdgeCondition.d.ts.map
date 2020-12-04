@@ -1,0 +1,1 @@
+{"version":3,"file":"IEdgeCondition.d.ts","sourceRoot":"","sources":["../../src/StoryGraph/IEdgeCondition.ts"],"names":[],"mappings":"AAAA,yCAAyC;AACzC,OAAO,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAA;AAC/C;;GAEG;AACH,MAAM,WAAW,cAAc;IAE3B;;OAEG;IACH,GAAG,EAAE,MAAM,CAAC;IACZ;;OAEG;IACH,KAAK,EAAE,MAAM,CAAC;IACd;;OAEG;IACH,IAAI,EAAE,aAAa,CAAC;CACvB"}

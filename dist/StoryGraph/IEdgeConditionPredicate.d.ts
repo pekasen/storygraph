@@ -12,3 +12,4 @@ export interface IEdgeConditionPredicate {
      */
     value?: number;
 }
+//# sourceMappingURL=IEdgeConditionPredicate.d.ts.map

@@ -4,3 +4,4 @@
  */
 export interface IContentPredicate {
 }
+//# sourceMappingURL=IContentPredicate.d.ts.map

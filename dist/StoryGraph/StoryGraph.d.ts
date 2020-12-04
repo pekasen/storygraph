@@ -85,3 +85,4 @@ export declare class StoryGraph {
     private _adjacencyMatrix;
     private get _nodeIDs();
 }
+//# sourceMappingURL=StoryGraph.d.ts.map

@@ -16,3 +16,4 @@ export interface IContent {
      */
     contentType: string;
 }
+//# sourceMappingURL=IContent.d.ts.map

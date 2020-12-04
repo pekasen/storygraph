@@ -7,3 +7,4 @@ export declare enum ModifierType {
     autoPlay = 1,
     timePosition = 2
 }
+//# sourceMappingURL=ModifierType.d.ts.map

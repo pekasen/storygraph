@@ -24,3 +24,4 @@ export declare class DataConnectorOutPort<T> extends ConnectorPort implements ID
     pull(): T;
     get name(): string;
 }
+//# sourceMappingURL=ConnectorPort.d.ts.map

@@ -58,7 +58,7 @@ class StoryGraph {
                      */
                     const walk = (node, port, depth = 0) => {
                         const maxRecursion = 10;
-                        const _res = [node];
+                        const _res = [];
                         if (port.associated) {
                             const aPort = port.associated;
                             const nextNodes = node.connections.
@@ -80,7 +80,7 @@ class StoryGraph {
                                 nextNodes.forEach(({ _node, _port }) => {
                                     if (_node && _port) {
                                         const _a = walk(_node, _port, depth + 1);
-                                        _res.push(..._a);
+                                        _res.push(..._a, _node);
                                     }
                                 });
                                 console.log("leg 1", _res);
@@ -95,7 +95,7 @@ class StoryGraph {
                             return _res;
                         }
                     };
-                    return walk(to, toPort).filter(_node => _node.id == to.id).length === 0;
+                    return walk(to, toPort).filter(_node => _node.id == from.id).length === 0;
                 }],
             ["no-self-loops", (from, fromPort, to, toPort) => {
                     return from.id !== to.id;

@@ -258,7 +258,7 @@ export class StoryGraph {
              */
             const walk = (node: IStoryObject, port: IConnectorPort, depth: number = 0): IStoryObject[] => {
                 const maxRecursion = 10;
-                const _res: IStoryObject[] = [node];
+                const _res: IStoryObject[] = [];
 
                 if (port.associated) {
                     const aPort = port.associated;
@@ -283,7 +283,7 @@ export class StoryGraph {
                         nextNodes.forEach(({_node, _port}) => {
                             if (_node && _port) {
                                 const _a = walk(_node, _port, depth + 1);
-                                _res.push(..._a);
+                                _res.push(..._a, _node);
                             }
                         });
                         console.log("leg 1", _res);
@@ -297,7 +297,7 @@ export class StoryGraph {
                 }
             };
 
-            return walk(to!, toPort!).filter(_node => _node.id == to!.id).length === 0
+            return walk(to!, toPort!).filter(_node => _node.id == from!.id).length === 0
         }],
         ["no-self-loops", (from, fromPort, to, toPort) => {
             return from!.id !== to!.id;

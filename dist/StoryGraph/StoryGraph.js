@@ -72,13 +72,15 @@ class StoryGraph {
                                     _port: _port
                                 };
                             });
-                            if (nextNodes.length === 0)
+                            if (nextNodes.length === 0) {
+                                console.log("leg 3", _res);
                                 return _res;
+                            }
                             if (depth < maxRecursion) {
                                 nextNodes.forEach(({ _node, _port }) => {
                                     if (_node && _port) {
                                         const _a = walk(_node, _port, depth + 1);
-                                        _res.push(..._a);
+                                        _res.push(..._a, ...nextNodes.map(e => e._node));
                                     }
                                 });
                                 console.log("leg 1", _res);

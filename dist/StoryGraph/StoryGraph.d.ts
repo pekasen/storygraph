@@ -11,7 +11,7 @@ export declare class StoryGraph {
     /**
      *
      */
-    constructor(parent: IStoryObject, nodes?: string[], edges?: IEdge[]);
+    constructor(parent: string, nodes?: string[], edges?: IEdge[]);
     /**
      *
      */
@@ -24,7 +24,7 @@ export declare class StoryGraph {
      *
      *
      */
-    parent: IStoryObject;
+    parent: string;
     /**
      * @param node
      * @return
@@ -41,7 +41,7 @@ export declare class StoryGraph {
      * @param edges
      * @return
      */
-    static makeGraph(parent: IStoryObject, nodes: string[], edges: IEdge[]): StoryGraph;
+    static makeGraph(parent: string, nodes: string[], edges: IEdge[]): StoryGraph;
     /**
      * @param connections
      * @return

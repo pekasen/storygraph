@@ -112,7 +112,7 @@ class StoryGraph {
     addNode(registry, node) {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
-            node.parent = this.parent.id;
+            node.parent = this.parent;
             registry.register(node);
         }
         else
@@ -144,7 +144,7 @@ class StoryGraph {
         this.edges.push(...validEdges);
         // update refs on the referenced edges
         validEdges.forEach(edge => {
-            this._updateReference(registry, this.parent.id, edge);
+            this._updateReference(registry, this.parent, edge);
         });
     }
     /**
@@ -198,7 +198,7 @@ class StoryGraph {
             const _res = [node];
             const out = node
                 .connections
-                .filter(e => e.from === this.parent.id)
+                .filter(e => e.from === this.parent)
                 .map(e => registry.getValue(e.to))
                 .filter(e => e !== undefined);
             _res.push(...out

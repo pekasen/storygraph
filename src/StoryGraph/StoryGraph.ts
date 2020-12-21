@@ -14,7 +14,7 @@ export class StoryGraph {
     /**
      * 
      */
-    public constructor(parent: IStoryObject, nodes?: string[], edges?: IEdge[]) {
+    public constructor(parent: string, nodes?: string[], edges?: IEdge[]) {
         this.parent = parent;
         this.nodes = nodes || [];
         this.edges = edges || [];
@@ -34,7 +34,7 @@ export class StoryGraph {
      * 
      * 
      */
-    parent: IStoryObject;
+    parent: string;
 
     /**
      * @param node 
@@ -43,7 +43,7 @@ export class StoryGraph {
      public addNode(registry: IRegistry, node: IStoryObject) :  void {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
-            node.parent = this.parent.id;
+            node.parent = this.parent;
             registry.register(node);
         } else throw("node exists already")
     }
@@ -62,7 +62,7 @@ export class StoryGraph {
      * @param edges 
      * @return
      */
-    public static makeGraph(parent: IStoryObject, nodes: string[], edges: IEdge[]) :  StoryGraph {
+    public static makeGraph(parent: string, nodes: string[], edges: IEdge[]) :  StoryGraph {
         return new StoryGraph(parent, nodes, edges);
     }
 
@@ -79,7 +79,7 @@ export class StoryGraph {
         // update refs on the referenced edges
         validEdges.forEach(edge => {
             this._updateReference(
-                registry, this.parent.id, edge
+                registry, this.parent, edge
             )
         });
     }
@@ -146,7 +146,7 @@ export class StoryGraph {
             
             const out = node
             .connections
-            .filter(e => e.from === this.parent.id)
+            .filter(e => e.from === this.parent)
             .map(e => registry.getValue(e.to))
             .filter(e => e !== undefined) as IStoryObject[];
 

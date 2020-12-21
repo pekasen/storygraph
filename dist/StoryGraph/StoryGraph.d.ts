@@ -11,11 +11,11 @@ export declare class StoryGraph {
     /**
      *
      */
-    constructor(parent: IStoryObject, nodes?: IStoryObject[], edges?: IEdge[]);
+    constructor(parent: IStoryObject, nodes?: string[], edges?: IEdge[]);
     /**
      *
      */
-    nodes: (IStoryObject)[];
+    nodes: string[];
     /**
      *
      */
@@ -41,7 +41,7 @@ export declare class StoryGraph {
      * @param edges
      * @return
      */
-    static makeGraph(parent: IStoryObject, nodes: IStoryObject[], edges: IEdge[]): StoryGraph;
+    static makeGraph(parent: IStoryObject, nodes: string[], edges: IEdge[]): StoryGraph;
     /**
      * @param connections
      * @return
@@ -56,7 +56,7 @@ export declare class StoryGraph {
      * @param node
      * @return
      */
-    removeNode(registry: IRegistry, node: IStoryObject): void;
+    removeNode(registry: IRegistry, id: string): void;
     /**
      * This method is called before deleting and must be used to clean up lost children
      *
@@ -72,7 +72,7 @@ export declare class StoryGraph {
      * @param fromNode
      */
     traverse(registry: IRegistry, fromNode: string): IStoryObject[];
-    filterNodes(callback: (node: IStoryObject, index: number, array: IStoryObject[]) => boolean): IStoryObject[];
+    filterNodes(callback: (id: string, index: number, array: string[]) => boolean): string[];
     filterEdges(callback: (edge: IEdge, index: number, array: IEdge[]) => boolean): IEdge[];
     private _areEdgesValid;
     private ruleSet;

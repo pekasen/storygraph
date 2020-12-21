@@ -111,8 +111,8 @@ class StoryGraph {
      */
     addNode(registry, node) {
         if (!this._nodeExists(node.id)) {
-            this.nodes.push(node);
-            node.parent = this.parent.id;
+            this.nodes.push(node.id);
+            // node.parent = this.parent.id;
             registry.register(node);
         }
         else
@@ -165,15 +165,15 @@ class StoryGraph {
      * @param node
      * @return
      */
-    removeNode(registry, node) {
-        if (this._nodeExists(node.id)) {
-            const edges = this.edges.filter(edge => (edge.to === node.id || edge.from === node.id));
+    removeNode(registry, id) {
+        if (this._nodeExists(id)) {
+            const edges = this.edges.filter(edge => (edge.to === id || edge.from === id));
             if (edges.length >= 1) {
                 this.disconnect(registry, edges);
             }
-            const index = this.nodes.indexOf(node);
+            const index = this.nodes.indexOf(id);
             this.nodes.splice(index, 1);
-            registry.deregister(node.id);
+            registry.deregister(id);
         }
     }
     /**
@@ -336,7 +336,7 @@ class StoryGraph {
         return _adj;
     }
     get _nodeIDs() {
-        return this.nodes.map(node => node.id);
+        return this.nodes; //.map(node => node.id)
     }
 }
 exports.StoryGraph = StoryGraph;

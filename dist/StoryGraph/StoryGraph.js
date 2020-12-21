@@ -112,7 +112,7 @@ class StoryGraph {
     addNode(registry, node) {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
-            // node.parent = this.parent.id;
+            node.parent = this.parent.id;
             registry.register(node);
         }
         else

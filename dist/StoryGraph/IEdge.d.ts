@@ -1,5 +1,3 @@
-/**P. Kessling *Hamburg, September 2020*/
-import { StoryGraph } from "./StoryGraph";
 /**
  *
  */
@@ -16,9 +14,5 @@ export interface IEdge {
      * node id + connector name
      */
     to: string;
-    /**
-     *
-     */
-    parent?: StoryGraph;
 }
 //# sourceMappingURL=IEdge.d.ts.map

@@ -28,5 +28,5 @@ export interface IEdge {
     /**
      * 
      */
-    parent?: StoryGraph;
+    // parent?: StoryGraph;
 }

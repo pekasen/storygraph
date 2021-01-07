@@ -89,14 +89,12 @@ describe('StoryGraph', () => {
         const ids = Array.from(Array(5))
         .map(() => String(Math.ceil(Math.random() * 5000)));
 
-        console.log(ids);
-
-        ids.map(e => makeStoryObject(e, e, true))
-        .forEach(e => reg2.register(e));
-
         const story2: IStoryObject =  makeStoryObject("parent", "Bert", false);
         story2.childNetwork = new StoryGraph(story2.id);
         reg2.register(story2);
+        ids.map(e => makeStoryObject(e, e, true))
+        .forEach(e => story2.childNetwork?.addNode(reg2, e));
+
         it('should connect two nodes in a graph', () => {
             const edges: IEdge[] = ids.map(e => {
                 return {
@@ -109,6 +107,11 @@ describe('StoryGraph', () => {
 
             story2.childNetwork?.connect(reg2, edges);
         });
+
+        it('should let nodes know of their connections', () => {
+            const cons = ids.map(id => reg2.getValue(id)?.connections);
+            console.log(cons);
+        })
     });
 
     describe('.disconnect', () => {

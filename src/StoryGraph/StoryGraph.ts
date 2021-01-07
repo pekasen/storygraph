@@ -99,7 +99,9 @@ export class StoryGraph {
             const removeCon = (obj: string) => {
                 const cons = registry.getValue(obj)?.connections
                 if ( cons && cons.length > 0) {
-                    const index = cons.indexOf(edge);
+                    const index = cons.findIndex((_edge) => (
+                        _edge.id === edge.id
+                    ));
                     if (index !== -1) cons.splice(
                         index, 1
                     );

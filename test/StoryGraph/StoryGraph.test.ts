@@ -8,18 +8,18 @@ describe('StoryGraph', () => {
         id: id,
         name: name,
         role: "none",
-        connectors: [
-            {
+        connectors: new Map([
+            ["flow-in", {
                 name: "flow-in",
                 type: "flow",
                 direction: "in"
-            },
-            {
+            }],
+            ["flow-out", {
                 name: "flow-out",
                 type: "flow",
                 direction: "out"
-            }
-        ],
+            }]
+        ]),
         connections: [],
         isContentNode: (isContentNode) ?  isContentNode : true,
         userDefinedProperties: [],
@@ -29,6 +29,7 @@ describe('StoryGraph', () => {
             createdAt: new Date(Date.now()),
             tags: []
         },
+        icon: "",
         childNetwork: undefined,
         renderingProperties: undefined
     })
@@ -61,9 +62,9 @@ describe('StoryGraph', () => {
     describe('constructor', () => {
        
         it('should instantiate', () => {
-            story.childNetwork = new StoryGraph(story);
+            story.childNetwork = new StoryGraph(story.id);
 
-            assert(story.id === story.childNetwork.parent.id);
+            assert(story.id === story.childNetwork.parent);
         });
         it('should accept a template graph');
     });
@@ -94,7 +95,7 @@ describe('StoryGraph', () => {
         .forEach(e => reg2.register(e));
 
         const story2: IStoryObject =  makeStoryObject("parent", "Bert", false);
-        story2.childNetwork = new StoryGraph(story2);
+        story2.childNetwork = new StoryGraph(story2.id);
         reg2.register(story2);
         it('should connect two nodes in a graph', () => {
             const edges: IEdge[] = ids.map(e => {
@@ -108,5 +109,63 @@ describe('StoryGraph', () => {
 
             story2.childNetwork?.connect(reg2, edges);
         });
+    });
+
+    describe('.disconnect', () => {
+        const reg2 = new Registry()
+        const ids = Array.from(Array(5))
+        .map(() => String(Math.ceil(Math.random() * 5000)));
+
+        console.log(ids);
+
+        ids.map(e => makeStoryObject(e, e, true))
+        .forEach(e => reg2.register(e));
+
+        const story2: IStoryObject =  makeStoryObject("parent", "Bert", false);
+        story2.childNetwork = new StoryGraph(story2.id);
+        reg2.register(story2);
+
+        const edges: IEdge[] = ids.map(e => {
+            return {
+                from: e + ".flow-out",
+                to: ids[Math.floor(Math.random() * ids.length)] + ".flow-in",
+                parent: story2.childNetwork,
+                id: "something"
+            }
+        });
+
+        story2.childNetwork?.connect(reg2, edges);
+        it("should disconnect nodes", () => {
+            assert.doesNotThrow(() => {
+                story2.childNetwork?.disconnect(reg2, edges);
+            })
+        });
+
+        it('should disconnect all nodes in the graph', () => {
+            assert.lengthOf({length: story2.childNetwork?.edges.length}, 0);
+        });
+
+        edges.map((e) => {
+            const [toId, ] = StoryGraph.parseNodeId(e.to);
+            const [fromId, ] = StoryGraph.parseNodeId(e.from);
+            const to = reg2.getValue(toId);
+            const from = reg2.getValue(fromId);
+
+            if (to && from) {
+                it('should remove connections from to-node' + to.id, () => {
+                    assert.lengthOf({length: to.connections.length}, 0);
+                });
+                it('should remove connections from from-node' + from.id, () => {
+                    assert.lengthOf({length: from.connections.length}, 0);
+                });
+            }
+        });
+
+        // it('should remove connections from storyobjects', () => {
+        //     assert.lengthOf({length: story2.childNetwork.edges.length}, 0);
+        // });
+        // it('should disconnect all nodes in the graph', () => {
+        //     assert.lengthOf({length: story2.childNetwork.edges.length}, 0);
+        // });
     });
 });

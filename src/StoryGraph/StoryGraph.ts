@@ -95,9 +95,10 @@ export class StoryGraph {
             this.edges.splice(
                 this.edges.indexOf(edge), 1
             );
+
             const removeCon = (obj: string) => {
                 const cons = registry.getValue(obj)?.connections
-                if ( cons ) {
+                if ( cons && cons.length > 0) {
                     const index = cons.indexOf(edge);
                     if (index === -1) throw("No edge here");
                     cons.splice(
@@ -107,6 +108,7 @@ export class StoryGraph {
             };
             const [_toId, ]= StoryGraph.parseNodeId(edge.to);
             const [_fromId, ]= StoryGraph.parseNodeId(edge.from);
+            
             removeCon(_toId);
             removeCon(_fromId);
         });

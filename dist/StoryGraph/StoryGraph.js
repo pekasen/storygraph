@@ -152,13 +152,17 @@ class StoryGraph {
      * @return
      */
     disconnect(registry, edges) {
-        const validEdges = this._areEdgesValid(registry, edges);
-        validEdges.forEach(edge => {
-            var _b;
+        // const validEdges = this._areEdgesValid(registry, edges);
+        edges.forEach(edge => {
             this.edges.splice(this.edges.indexOf(edge), 1);
-            const cons = (_b = registry.getValue(edge.to)) === null || _b === void 0 ? void 0 : _b.connections;
-            if (cons)
-                cons.splice(cons.indexOf(edge), 1);
+            const removeCon = (obj) => {
+                var _b;
+                const cons = (_b = registry.getValue(obj)) === null || _b === void 0 ? void 0 : _b.connections;
+                if (cons)
+                    cons.splice(cons.indexOf(edge), 1);
+            };
+            removeCon(edge.to);
+            removeCon(edge.from);
         });
     }
     /**

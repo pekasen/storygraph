@@ -89,16 +89,20 @@ export class StoryGraph {
      * @return
      */
     public disconnect(registry: IRegistry, edges: IEdge[]) :  void {
-        const validEdges = this._areEdgesValid(registry, edges);
+        // const validEdges = this._areEdgesValid(registry, edges);
 
-        validEdges.forEach(edge => {
+        edges.forEach(edge => {
             this.edges.splice(
                 this.edges.indexOf(edge), 1
             );
-            const cons = registry.getValue(edge.to)?.connections
-            if ( cons ) cons.splice(
-                cons.indexOf(edge), 1
-            )
+            const removeCon = (obj: string) => {
+                const cons = registry.getValue(obj)?.connections
+                if ( cons ) cons.splice(
+                    cons.indexOf(edge), 1
+                )
+            };
+            removeCon(edge.to);
+            removeCon(edge.from);
         });
     }
 

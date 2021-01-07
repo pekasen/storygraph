@@ -118,9 +118,11 @@ export class StoryGraph {
      */
     public removeNode(registry: IRegistry, id: string) :  void {
         if (this._nodeExists(id)) {
+            const node = registry.getValue(id);
+            if (!node) throw("Cannot delete undefined node!");
+            // const edges = this.edges.filter(edge => (edge.to === id || edge.from === id))
+            const edges = node.connections;
 
-            const edges = this.edges.filter(edge => (edge.to === id || edge.from === id))
-            
             if (edges.length >= 1) {
                 this.disconnect(registry, edges);
             }

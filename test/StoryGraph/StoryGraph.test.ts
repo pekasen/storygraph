@@ -116,14 +116,15 @@ describe('StoryGraph', () => {
         const ids = Array.from(Array(5))
         .map(() => String(Math.ceil(Math.random() * 5000)));
 
-        console.log(ids);
-
-        ids.map(e => makeStoryObject(e, e, true))
-        .forEach(e => reg2.register(e));
-
         const story2: IStoryObject =  makeStoryObject("parent", "Bert", false);
         story2.childNetwork = new StoryGraph(story2.id);
         reg2.register(story2);
+
+        ids.map(e => makeStoryObject(e, e, true))
+        .forEach(e => {
+            // reg2.register(e);
+            story2.childNetwork?.addNode(reg2, e);
+        })
 
         const edges: IEdge[] = ids.map(e => {
             return {
@@ -136,36 +137,26 @@ describe('StoryGraph', () => {
 
         story2.childNetwork?.connect(reg2, edges);
         it("should disconnect nodes", () => {
+            console.log(story2.childNetwork?.nodes);
             assert.doesNotThrow(() => {
                 story2.childNetwork?.disconnect(reg2, edges);
-            })
+            });
+            console.log(story2.childNetwork?.nodes);
         });
 
         it('should disconnect all nodes in the graph', () => {
             assert.lengthOf({length: story2.childNetwork?.edges.length}, 0);
         });
-
-        edges.map((e) => {
-            const [toId, ] = StoryGraph.parseNodeId(e.to);
-            const [fromId, ] = StoryGraph.parseNodeId(e.from);
-            const to = reg2.getValue(toId);
-            const from = reg2.getValue(fromId);
-
-            if (to && from) {
-                it('should remove connections from to-node' + to.id, () => {
-                    assert.lengthOf({length: to.connections.length}, 0);
-                });
-                it('should remove connections from from-node' + from.id, () => {
-                    assert.lengthOf({length: from.connections.length}, 0);
-                });
-            }
+        it('should remove connections from all the nodes', () => {
+            const _res = story2.childNetwork!.nodes.map((n) => {
+                const _n = reg2.getValue(n)!;
+                return _n.connections;
+            });
+            const _res2 = Array.from(Array(_res.length)).map(_ => []);
+            
+            console.log(_res);
+            assert.deepEqual(_res, _res2);
         });
-
-        // it('should remove connections from storyobjects', () => {
-        //     assert.lengthOf({length: story2.childNetwork.edges.length}, 0);
-        // });
-        // it('should disconnect all nodes in the graph', () => {
-        //     assert.lengthOf({length: story2.childNetwork.edges.length}, 0);
-        // });
+        
     });
 });

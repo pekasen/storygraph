@@ -100,8 +100,7 @@ export class StoryGraph {
                 const cons = registry.getValue(obj)?.connections
                 if ( cons && cons.length > 0) {
                     const index = cons.indexOf(edge);
-                    if (index === -1) throw("No edge here");
-                    cons.splice(
+                    if (index !== -1) cons.splice(
                         index, 1
                     );
                 }

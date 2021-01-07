@@ -160,9 +160,8 @@ class StoryGraph {
                 const cons = (_b = registry.getValue(obj)) === null || _b === void 0 ? void 0 : _b.connections;
                 if (cons && cons.length > 0) {
                     const index = cons.indexOf(edge);
-                    if (index === -1)
-                        throw ("No edge here");
-                    cons.splice(index, 1);
+                    if (index !== -1)
+                        cons.splice(index, 1);
                 }
             };
             const [_toId,] = StoryGraph.parseNodeId(edge.to);

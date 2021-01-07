@@ -93,7 +93,9 @@ export class StoryGraph {
 
         edges.forEach(edge => {
             this.edges.splice(
-                this.edges.indexOf(edge), 1
+                this.edges.findIndex((_edge) => (
+                    _edge.id === edge.id
+                )), 1
             );
 
             const removeCon = (obj: string) => {

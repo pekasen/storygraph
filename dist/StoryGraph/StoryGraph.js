@@ -154,7 +154,7 @@ class StoryGraph {
     disconnect(registry, edges) {
         // const validEdges = this._areEdgesValid(registry, edges);
         edges.forEach(edge => {
-            this.edges.splice(this.edges.indexOf(edge), 1);
+            this.edges.splice(this.edges.findIndex((_edge) => (_edge.id === edge.id)), 1);
             const removeCon = (obj) => {
                 var _b;
                 const cons = (_b = registry.getValue(obj)) === null || _b === void 0 ? void 0 : _b.connections;

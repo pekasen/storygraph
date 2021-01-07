@@ -105,8 +105,10 @@ export class StoryGraph {
                     );
                 }
             };
-            removeCon(edge.to);
-            removeCon(edge.from);
+            const [_toId, ]= StoryGraph.parseNodeId(edge.to);
+            const [_fromId, ]= StoryGraph.parseNodeId(edge.from);
+            removeCon(_toId);
+            removeCon(_fromId);
         });
     }
 

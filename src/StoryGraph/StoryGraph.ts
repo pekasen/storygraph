@@ -92,11 +92,15 @@ export class StoryGraph {
         // const validEdges = this._areEdgesValid(registry, edges);
 
         edges.forEach(edge => {
-            this.edges.splice(
-                this.edges.findIndex((_edge) => (
-                    _edge.id === edge.id
-                )), 1
-            );
+            console.log(`Removing ${edge.id}`);
+            const _index = this.edges.findIndex((_edge) => (
+                _edge.id === edge.id
+            ));
+            if (_index !== -1) {
+                if (this.edges.splice(_index , 1)[0].id === edge.id) {
+                    console.log("Removed from Graph")
+                }
+            }
 
             const removeCon = (obj: string) => {
                 const cons = registry.getValue(obj)?.connections
@@ -104,9 +108,11 @@ export class StoryGraph {
                     const index = cons.findIndex((_edge) => (
                         _edge.id === edge.id
                     ));
-                    if (index !== -1) cons.splice(
-                        index, 1
-                    );
+                    if (index !== -1) {
+                        if (cons.splice(index , 1)[0].id === edge.id) {
+                            console.log("Removed from node " + obj)
+                        }
+                    }
                 }
             };
             const [_toId, ]= StoryGraph.parseNodeId(edge.to);

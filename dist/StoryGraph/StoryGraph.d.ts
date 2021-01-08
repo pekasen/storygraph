@@ -51,7 +51,7 @@ export declare class StoryGraph {
      * @param edge
      * @return
      */
-    disconnect(registry: IRegistry, edges: IEdge[]): void;
+    disconnect(registry: IRegistry, edges: IEdge[], id?: string | null): void;
     /**
      * @param node
      * @return

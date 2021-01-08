@@ -10,7 +10,6 @@ import { IConnectorPort } from './IConnectorPort'
  * 
  */
 export interface IStoryObject {
-
     /**
      * 
      */
@@ -68,4 +67,5 @@ export interface IStoryObject {
      * 
      */
     modifiers: IStoryModifier[];
+    removeConnections(edges: IEdge[]): void
 }

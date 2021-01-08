@@ -151,33 +151,41 @@ class StoryGraph {
      * @param edge
      * @return
      */
-    disconnect(registry, edges) {
-        // const validEdges = this._areEdgesValid(registry, edges);
-        edges.forEach(edge => {
-            console.log(`Removing ${edge.id}`);
+    disconnect(registry, edges, id = null) {
+        const remover = (edge, index) => {
+            const removeCon = (id) => {
+                const obj = registry.getValue(id);
+                if (obj) {
+                    obj.removeConnections([edge]);
+                }
+            };
+            const [_toId,] = StoryGraph.parseNodeId(edge.to);
+            const [_fromId,] = StoryGraph.parseNodeId(edge.from);
+            if (id && _fromId === id) {
+                removeCon(_toId);
+            }
+            else if (id && _toId === id) {
+                removeCon(_fromId);
+            }
+            else if (!id) {
+                removeCon(_fromId);
+                removeCon(_toId);
+            }
             const _index = this.edges.findIndex((_edge) => (_edge.id === edge.id));
             if (_index !== -1) {
                 if (this.edges.splice(_index, 1)[0].id === edge.id) {
                     console.log("Removed from Graph");
                 }
+                else
+                    console.warn("Edge found but not deleted");
             }
-            const removeCon = (obj) => {
-                var _b;
-                const cons = (_b = registry.getValue(obj)) === null || _b === void 0 ? void 0 : _b.connections;
-                if (cons && cons.length > 0) {
-                    const index = cons.findIndex((_edge) => (_edge.id === edge.id));
-                    if (index !== -1) {
-                        if (cons.splice(index, 1)[0].id === edge.id) {
-                            console.log("Removed from node " + obj);
-                        }
-                    }
-                }
-            };
-            const [_toId,] = StoryGraph.parseNodeId(edge.to);
-            const [_fromId,] = StoryGraph.parseNodeId(edge.from);
-            removeCon(_toId);
-            removeCon(_fromId);
-        });
+            else
+                console.warn("Edge not found in graph");
+        };
+        for (const i in edges) {
+            const edge = edges[i];
+            remover(edge, Number(i));
+        }
     }
     /**
      * @param node
@@ -191,7 +199,7 @@ class StoryGraph {
             // const edges = this.edges.filter(edge => (edge.to === id || edge.from === id))
             const edges = node.connections;
             if (edges.length >= 1) {
-                this.disconnect(registry, edges);
+                this.disconnect(registry, edges, id);
             }
             const index = this.nodes.indexOf(id);
             this.nodes.splice(index, 1);

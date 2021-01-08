@@ -67,5 +67,6 @@ export interface IStoryObject {
      *
      */
     modifiers: IStoryModifier[];
+    removeConnections(edges: IEdge[]): void;
 }
 //# sourceMappingURL=IStoryObject.d.ts.map

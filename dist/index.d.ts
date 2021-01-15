@@ -6,5 +6,6 @@ import { IMetaData } from './StoryGraph/IMetaData';
 import { IRenderingProperties } from './StoryGraph/IRenderingProperties';
 import { IStoryModifier } from './StoryGraph/IStoryModifier';
 import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
-export { StoryGraph, IStoryObject, IEdge, IStoryModifier, IMetaData, IRenderingProperties, IConnectorPort, ConnectorPort, DataConnectorInPort, DataConnectorOutPort };
+import { ModifierType } from "./StoryGraph/ModifierType";
+export { StoryGraph, IStoryObject, IEdge, IStoryModifier, IMetaData, IRenderingProperties, IConnectorPort, ModifierType, ConnectorPort, DataConnectorInPort, DataConnectorOutPort };
 //# sourceMappingURL=index.d.ts.map

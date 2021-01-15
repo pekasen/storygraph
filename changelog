@@ -1,0 +1,7 @@
+version 1.5.0: 2021/01/15
+--------------------------
+
+- add implementation for modifiers
+--------------------------
+
+- fix a bug where edges were not removed from the StoryObject's connection array

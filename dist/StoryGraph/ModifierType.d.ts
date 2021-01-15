@@ -2,9 +2,5 @@
 /**
  *
  */
-export declare enum ModifierType {
-    fadeIn = 0,
-    autoPlay = 1,
-    timePosition = 2
-}
+export declare type ModifierType = "css-class" | "css-inline" | "css-hybrid";
 //# sourceMappingURL=ModifierType.d.ts.map

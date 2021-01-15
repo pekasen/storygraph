@@ -1,1 +1,1 @@
-{"version":3,"file":"ModifierType.js","sourceRoot":"","sources":["../../src/StoryGraph/ModifierType.ts"],"names":[],"mappings":";AAAA,yCAAyC;;;AAEzC;;GAEG;AACH,IAAY,YAIX;AAJD,WAAY,YAAY;IACpB,mDAAM,CAAA;IACN,uDAAQ,CAAA;IACR,+DAAY,CAAA;AAChB,CAAC,EAJW,YAAY,GAAZ,oBAAY,KAAZ,oBAAY,QAIvB"}
+{"version":3,"file":"ModifierType.js","sourceRoot":"","sources":["../../src/StoryGraph/ModifierType.ts"],"names":[],"mappings":";AAAA,yCAAyC;;AAMzC,qFAAqF"}

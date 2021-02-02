@@ -5,7 +5,7 @@ import { IConnectorPort } from './StoryGraph/IConnectorPort';
 import { IMetaData } from './StoryGraph/IMetaData';
 import { IRenderingProperties } from './StoryGraph/IRenderingProperties';
 import { IStoryModifier } from './StoryGraph/IStoryModifier';
-import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
+import { FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort, ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
 import { ModifierType } from "./StoryGraph/ModifierType";
 
 export { 
@@ -19,5 +19,9 @@ export {
     ModifierType,
     ConnectorPort,
     DataConnectorInPort,
-    DataConnectorOutPort
+    DataConnectorOutPort,
+    FlowConnectorInPort,
+    FlowConnectorOutPort,
+    ReactionConnectorInPort,
+    ReactionConnectorOutPort
 }

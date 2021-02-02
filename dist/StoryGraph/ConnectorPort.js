@@ -1,8 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DataConnectorOutPort = exports.DataConnectorInPort = exports.ConnectorPort = void 0;
+exports.ReactionConnectorOutPort = exports.ReactionConnectorInPort = exports.DataConnectorOutPort = exports.DataConnectorInPort = exports.FlowConnectorOutPort = exports.FlowConnectorInPort = exports.ConnectorPort = void 0;
+const IConnectorPort_1 = require("./IConnectorPort");
 class ConnectorPort {
     constructor(type, direction) {
+        // guards, assemble!
+        if (!IConnectorPort_1.isConnectorType(type))
+            throw (`${type} is not a ConnectorType`);
+        if (!IConnectorPort_1.isConnectorDirection(direction))
+            throw (`${direction} is not a ConnectorDirection`);
         this.type = type;
         this.direction = direction;
     }
@@ -15,6 +21,22 @@ class ConnectorPort {
     }
 }
 exports.ConnectorPort = ConnectorPort;
+class FlowConnectorInPort extends ConnectorPort {
+    constructor() {
+        super(...arguments);
+        this.type = "flow";
+        this.direction = "in";
+    }
+}
+exports.FlowConnectorInPort = FlowConnectorInPort;
+class FlowConnectorOutPort extends ConnectorPort {
+    constructor() {
+        super(...arguments);
+        this.type = "flow";
+        this.direction = "out";
+    }
+}
+exports.FlowConnectorOutPort = FlowConnectorOutPort;
 class DataConnectorInPort extends ConnectorPort {
     constructor(name, callback) {
         super("data", "in");
@@ -47,4 +69,36 @@ class DataConnectorOutPort extends ConnectorPort {
     }
 }
 exports.DataConnectorOutPort = DataConnectorOutPort;
+class ReactionConnectorInPort extends ConnectorPort {
+    constructor(name, handler) {
+        super("reaction", "in");
+        this.type = "reaction";
+        this.direction = "in";
+        this._name = name !== null && name !== void 0 ? name : "reaction-in";
+        this.handleNotification = handler;
+    }
+    get name() {
+        return this._name;
+    }
+    set name(newName) {
+        this._name = newName;
+    }
+}
+exports.ReactionConnectorInPort = ReactionConnectorInPort;
+class ReactionConnectorOutPort extends ConnectorPort {
+    constructor(name, notifier) {
+        super("reaction", "out");
+        this.type = "reaction";
+        this.direction = "out";
+        this._name = name !== null && name !== void 0 ? name : "reaction-out";
+        this.notify = notifier;
+    }
+    get name() {
+        return this._name;
+    }
+    set name(newName) {
+        this._name = newName;
+    }
+}
+exports.ReactionConnectorOutPort = ReactionConnectorOutPort;
 //# sourceMappingURL=ConnectorPort.js.map

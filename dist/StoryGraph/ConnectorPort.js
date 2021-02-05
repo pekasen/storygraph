@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReactionConnectorOutPort = exports.ReactionConnectorInPort = exports.DataConnectorOutPort = exports.DataConnectorInPort = exports.FlowConnectorOutPort = exports.FlowConnectorInPort = exports.ConnectorPort = void 0;
 const IConnectorPort_1 = require("./IConnectorPort");
+const uuid_1 = require("uuid");
 class ConnectorPort {
     constructor(type, direction) {
+        this.id = uuid_1.v4();
         // guards, assemble!
         if (!IConnectorPort_1.isConnectorType(type))
             throw (`${type} is not a ConnectorType`);
@@ -23,7 +25,7 @@ class ConnectorPort {
 exports.ConnectorPort = ConnectorPort;
 class FlowConnectorInPort extends ConnectorPort {
     constructor() {
-        super(...arguments);
+        super("flow", "in");
         this.type = "flow";
         this.direction = "in";
     }
@@ -31,7 +33,7 @@ class FlowConnectorInPort extends ConnectorPort {
 exports.FlowConnectorInPort = FlowConnectorInPort;
 class FlowConnectorOutPort extends ConnectorPort {
     constructor() {
-        super(...arguments);
+        super("flow", "out");
         this.type = "flow";
         this.direction = "out";
     }

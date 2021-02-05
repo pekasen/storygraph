@@ -2,6 +2,7 @@ import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInP
 export declare class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    id: string;
     constructor(type: string, direction: string);
     get name(): string;
     reverse(): ConnectorPort;
@@ -9,10 +10,12 @@ export declare class ConnectorPort implements IConnectorPort {
 export declare class FlowConnectorInPort extends ConnectorPort implements IFlowInPort {
     readonly type: Flow;
     readonly direction: In;
+    constructor();
 }
 export declare class FlowConnectorOutPort extends ConnectorPort implements IFlowOutPort {
     readonly type: Flow;
     readonly direction: Out;
+    constructor();
 }
 export declare class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort<T> {
     readonly type: Data;

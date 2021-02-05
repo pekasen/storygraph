@@ -3,6 +3,7 @@ import { v4 } from "uuid";
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    associated?: ConnectorPort;
     id = v4();
 
     constructor(type: string, direction: string) {

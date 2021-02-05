@@ -2,6 +2,7 @@ import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInP
 export declare class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    associated?: ConnectorPort;
     id: string;
     constructor(type: string, direction: string);
     get name(): string;

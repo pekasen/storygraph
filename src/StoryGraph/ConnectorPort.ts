@@ -1,8 +1,9 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
-
+import { v4 } from "uuid";
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    id = v4();
 
     constructor(type: string, direction: string) {
         // guards, assemble!

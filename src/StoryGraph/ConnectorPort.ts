@@ -26,11 +26,19 @@ export class ConnectorPort implements IConnectorPort {
 export class FlowConnectorInPort extends ConnectorPort implements IFlowInPort {
     public readonly type: Flow = "flow";
     public readonly direction: In = "in";
+
+    constructor() {
+        super("flow", "in");
+    }
 }
 
 export class FlowConnectorOutPort extends ConnectorPort implements IFlowOutPort {
     public readonly type: Flow = "flow";
     public readonly direction: Out = "out";
+
+    constructor() {
+        super("flow", "out");
+    }
 }
 
 export class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort<T> {

@@ -1,3 +1,6 @@
+import { IEdge } from "..";
+import { NotificationCenter } from "./NotificationCenter";
+
 export type Reaction = "reaction";
 export type Flow = "flow";
 export type Data = "data";
@@ -17,10 +20,12 @@ export function isConnectorDirection(arg: any): arg is ConnectorDirection {
 }
 
 export interface IConnectorPort {
-    name: string
-    type: ConnectorType
-    direction: ConnectorDirection
-    associated?: IConnectorPort
+    name: string;
+    type: ConnectorType;
+    direction: ConnectorDirection;
+    connections: IEdge[];
+    associated?: IConnectorPort;
+    notificationCenter?: NotificationCenter;
 }
 
 export interface IReactionPort {

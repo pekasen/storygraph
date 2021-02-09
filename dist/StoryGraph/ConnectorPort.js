@@ -13,6 +13,7 @@ class ConnectorPort {
             throw (`${direction} is not a ConnectorDirection`);
         this.type = type;
         this.direction = direction;
+        this.connections = [];
     }
     get name() {
         return [this.type, this.direction].join("-");
@@ -20,6 +21,28 @@ class ConnectorPort {
     reverse() {
         const _dir = (this.direction === "in") ? "out" : "in";
         return new ConnectorPort(this.type, _dir);
+    }
+    bindTo(notificationCenter) {
+        this.notificationCenter = notificationCenter;
+        this.notificationCenter.subscribe(this.id, (data) => {
+            if (data.remove !== undefined) {
+                this.removeConnections(data.remove);
+            }
+            if (data.add !== undefined) {
+                this.addConnections(data.add);
+            }
+        });
+    }
+    addConnections(edges) {
+        this.connections.push(...edges);
+    }
+    removeConnections(edges) {
+        edges.forEach((edge) => {
+            const index = this.connections.indexOf(edge);
+            if (index !== -1) {
+                this.connections.splice(index, 1);
+            }
+        });
     }
 }
 exports.ConnectorPort = ConnectorPort;

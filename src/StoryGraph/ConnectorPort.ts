@@ -1,9 +1,13 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
 import { v4 } from "uuid";
+import { IEdge } from "..";
+import { NotificationCenter } from "./NotificationCenter";
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    notificationCenter?: NotificationCenter;
     associated?: ConnectorPort;
+    connections: IEdge[];
     id = v4();
 
     constructor(type: string, direction: string) {
@@ -13,6 +17,7 @@ export class ConnectorPort implements IConnectorPort {
 
         this.type = type;
         this.direction = direction;
+        this.connections = [];
     }
 
     get name(): string {
@@ -22,6 +27,36 @@ export class ConnectorPort implements IConnectorPort {
     reverse(): ConnectorPort {
         const _dir = (this.direction === "in") ? "out" : "in";
         return new ConnectorPort(this.type, _dir);
+    }
+    /**
+     * Binds the connector to a notification center.
+     * This method binds callbacks for both addition and deletion of edges.
+     * Overwrite in sub-methods if necessary.
+     * @param notificationCenter 
+     */
+    bindTo(notificationCenter: NotificationCenter) {
+        this.notificationCenter = notificationCenter;
+        this.notificationCenter.subscribe(this.id, (data: any) => {
+            if (data.remove !== undefined) {
+                this.removeConnections(data.remove);
+            }
+            if (data.add !== undefined) {
+                this.addConnections(data.add);
+            }
+        });
+    }
+
+    addConnections(edges: IEdge[]) {
+        this.connections.push(...edges)
+    }
+
+    removeConnections(edges: IEdge[]) {
+        edges.forEach((edge) => {
+            const index = this.connections.indexOf(edge);
+            if (index !== -1) {
+                this.connections.splice(index, 1)
+            }
+        })
     }
 }
 

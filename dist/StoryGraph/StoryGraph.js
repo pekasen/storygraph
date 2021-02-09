@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoryGraph = void 0;
+const NotificationCenter_1 = require("./NotificationCenter");
 /**
  * A graph to connect story content
  *
@@ -104,6 +105,7 @@ class StoryGraph {
         this.parent = parent;
         this.nodes = nodes || [];
         this.edges = edges || [];
+        this.notificationCenter = new NotificationCenter_1.NotificationCenter();
     }
     /**
      * @param node
@@ -113,6 +115,7 @@ class StoryGraph {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
             node.parent = this.parent;
+            node.notificationCenter = this.notificationCenter;
             registry.register(node);
         }
         else

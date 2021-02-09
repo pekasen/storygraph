@@ -2,6 +2,7 @@
 import { IStoryObject } from "./IStoryObject";
 import { IEdge } from "./IEdge";
 import { IRegistry } from "./IRegistry";
+import { NotificationCenter } from "./NotificationCenter";
 /**
  * A graph to connect story content
  *
@@ -22,9 +23,12 @@ export declare class StoryGraph {
     edges: IEdge[];
     /**
      *
-     *
      */
     parent: string;
+    /**
+     *
+     */
+    notificationCenter: NotificationCenter;
     /**
      * @param node
      * @return

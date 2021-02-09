@@ -3,6 +3,7 @@ import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
 import { IRegistry } from "./IRegistry"
 import { IConnectorPort } from './IConnectorPort';
+import { NotificationCenter } from "./NotificationCenter";
 
 /**
  * A graph to connect story content
@@ -18,6 +19,7 @@ export class StoryGraph {
         this.parent = parent;
         this.nodes = nodes || [];
         this.edges = edges || [];
+        this.notificationCenter = new NotificationCenter();
     }
     
     /**
@@ -32,9 +34,13 @@ export class StoryGraph {
 
     /**
      * 
-     * 
      */
     parent: string;
+
+    /**
+     * 
+     */
+    notificationCenter: NotificationCenter;
 
     /**
      * @param node 
@@ -44,6 +50,7 @@ export class StoryGraph {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
             node.parent = this.parent;
+            node.notificationCenter = this.notificationCenter;
             registry.register(node);
         } else throw("node exists already")
     }

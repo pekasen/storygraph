@@ -6,6 +6,7 @@ import { StoryGraph } from "./StoryGraph";
 import { IRenderingProperties } from "./IRenderingProperties";
 import { IStoryModifier } from "./IStoryModifier";
 import { IConnectorPort } from './IConnectorPort';
+import { NotificationCenter } from "./NotificationCenter";
 /**
  *
  */
@@ -67,6 +68,15 @@ export interface IStoryObject {
      *
      */
     modifiers: IStoryModifier[];
+    /**
+     *
+     */
+    notificationCenter: NotificationCenter;
+    /**
+     *
+     * @param edges
+     */
     removeConnections(edges: IEdge[]): void;
+    addConnections(edges: IEdge[]): void;
 }
 //# sourceMappingURL=IStoryObject.d.ts.map

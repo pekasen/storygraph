@@ -1,12 +1,19 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, Out, Reaction } from "./IConnectorPort";
+import { IEdge } from "..";
+import { NotificationCenter } from "./NotificationCenter";
 export declare class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
+    notificationCenter?: NotificationCenter;
     associated?: ConnectorPort;
+    connections: IEdge[];
     id: string;
     constructor(type: string, direction: string);
     get name(): string;
     reverse(): ConnectorPort;
+    bindTo(notificationCenter: NotificationCenter): void;
+    addConnections(edges: IEdge[]): void;
+    removeConnections(edges: IEdge[]): void;
 }
 export declare class FlowConnectorInPort extends ConnectorPort implements IFlowInPort {
     readonly type: Flow;

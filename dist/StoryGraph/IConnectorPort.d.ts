@@ -1,3 +1,5 @@
+import { IEdge } from "..";
+import { NotificationCenter } from "./NotificationCenter";
 export declare type Reaction = "reaction";
 export declare type Flow = "flow";
 export declare type Data = "data";
@@ -11,7 +13,9 @@ export interface IConnectorPort {
     name: string;
     type: ConnectorType;
     direction: ConnectorDirection;
+    connections: IEdge[];
     associated?: IConnectorPort;
+    notificationCenter?: NotificationCenter;
 }
 export interface IReactionPort {
     type: Reaction;

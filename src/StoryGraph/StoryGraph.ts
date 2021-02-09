@@ -3,7 +3,7 @@ import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
 import { IRegistry } from "./IRegistry"
 import { IConnectorPort } from './IConnectorPort';
-import { NotificationCenter } from "./NotificationCenter";
+import { IEdgeEvent, INotificationData, NotificationCenter } from "./NotificationCenter";
 
 /**
  * A graph to connect story content
@@ -23,22 +23,22 @@ export class StoryGraph {
     }
     
     /**
-     * 
+     * Array of node IDs
      */
     nodes: string[];
 
     /**
-     * 
+     * Array of edges
      */
     edges: IEdge[];
 
     /**
-     * 
+     * Parent ID
      */
     parent: string;
 
     /**
-     * 
+     * Provides a communication channel for all node and connectors in the graph's context
      */
     notificationCenter: NotificationCenter;
 
@@ -50,7 +50,7 @@ export class StoryGraph {
         if (!this._nodeExists(node.id)) {
             this.nodes.push(node.id);
             node.parent = this.parent;
-            node.notificationCenter = this.notificationCenter;
+            node.bindTo(this.notificationCenter);
             registry.register(node);
         } else throw("node exists already")
     }
@@ -82,12 +82,23 @@ export class StoryGraph {
         
         // push to our local edges;
         this.edges.push(...validEdges);
-
-        // update refs on the referenced edges
         validEdges.forEach(edge => {
-            this._updateReference(
-                registry, this.parent, edge
-            )
+            const payload: INotificationData<IEdgeEvent> = {
+                data: {
+                    add: [edge]
+                },
+                source: this,
+                type: "edge"
+            };
+
+            [
+                ...StoryGraph.parseNodeId(edge.from),
+                ...StoryGraph.parseNodeId(edge.to),
+            ].forEach(id => {
+                this.notificationCenter.push(
+                    id, payload
+                )
+            });
         });
     }
 
@@ -96,39 +107,24 @@ export class StoryGraph {
      * @return
      */
     public disconnect(registry: IRegistry, edges: IEdge[], id: string | null = null) :  void {
-        const remover = (edge: IEdge, index: number) => {
+       edges.forEach(edge => {
+            const payload: INotificationData<IEdgeEvent> = {
+                data: {
+                    remove: [edge]
+                },
+                source: this,
+                type: "edge"
+            };
             
-            const removeCon = (id: string) => {
-                const obj = registry.getValue(id);
-                if (obj) {
-                    obj.removeConnections([edge]);
-                }
-            }
-
-            const [_toId,] = StoryGraph.parseNodeId(edge.to);
-            const [_fromId,] = StoryGraph.parseNodeId(edge.from);
-
-            if (id && _fromId === id) {
-                removeCon(_toId);
-            } else if (id && _toId === id) {
-                removeCon(_fromId);
-            } else if (!id) {
-                removeCon(_fromId);
-                removeCon(_toId);
-            }
-
-            const _index = this.edges.findIndex((_edge) => (_edge.id === edge.id));
-            if (_index !== -1) {
-                if (this.edges.splice(_index, 1)[0].id === edge.id) {
-                    console.log("Removed from Graph");
-                } else console.warn("Edge found but not deleted");
-            } else console.warn("Edge not found in graph");           
-        }
-
-        for (const i in edges) {
-            const edge = edges[i];
-            remover(edge, Number(i));
-        }
+            [
+                ...StoryGraph.parseNodeId(edge.from),
+                ...StoryGraph.parseNodeId(edge.to),
+            ].forEach(id => {
+                this.notificationCenter.push(
+                    id, payload
+                )
+            });
+        });
     }
 
     /**
@@ -226,18 +222,6 @@ export class StoryGraph {
                 }, true);
             } else return false;
         }));
-
-        // (edge) => {
-        //     // validate wether both ends of the edge exists in this graph and they have the specified port
-        //     return (
-        //         this._nodeExists(edge.from) &&
-        //         this._nodeExists(edge.to) &&
-        //         this._isCompatible(registry, edge.from, edge.to) &&
-        //         this._hasConnectorPort(registry, edge.from) &&
-        //         this._hasConnectorPort(registry, edge.to) &&
-        //         this._isDAG(registry, edges)
-        //     )
-        // }
     }
 
     private ruleSet = new Map<string, Array<string>>([
@@ -274,7 +258,7 @@ export class StoryGraph {
         ["port-type-matches", (form, fromPort, to, toPort) => {
             return fromPort!.type === toPort!.type && fromPort!.direction !== toPort!.direction;
         }],
-        ["nodes-must-exist", (from, fromPort, to, toPort) => {
+        ["nodes-must-exist", (from, fromPort, to) => {
             return (from !== undefined && to !== undefined);
         }],
         ["ports-must-exist", (from, fromPort, to, toPort) => {
@@ -331,50 +315,14 @@ export class StoryGraph {
 
             return walk(to!, toPort!).filter(_node => _node.id == from!.id).length === 0
         }],
-        ["no-self-loops", (from, fromPort, to, toPort) => {
+        ["no-self-loops", (from, fromPort, to) => {
             return from!.id !== to!.id;
         }]
     ])
 
-    private _isCompatible(registry: IRegistry, from: string, to: string) : boolean {
-        const [fromId, fromPort] = StoryGraph.parseNodeId(from);
-        const [toId ,toPort] = StoryGraph.parseNodeId(to);
-        const fromObj = registry.getValue(fromId);
-        const fromCon = fromObj?.connectors.get(fromPort);
-        const toObj = registry.getValue(toId);
-        const toCon = toObj?.connectors.get(toPort);
 
-        return fromCon?.type === toCon?.type
-    }
 
-    private _hasConnectorPort(registry: IRegistry, id: string): boolean {
-        const [_id, _port] = StoryGraph.parseNodeId(id);
-        const item = registry.getValue(_id);
-        if (item) return item?.connectors.has(_port);
-        else return false
-    }
 
-    private _updateReference(registry: IRegistry, parent: string, edge: IEdge): void {
-        const [fromId] = StoryGraph.parseNodeId(edge.from);
-        const [toId] = StoryGraph.parseNodeId(edge.to);
-        
-        const _end1 = registry.getValue(fromId);
-        const _end2 = registry.getValue(toId);
-
-        if (_end1 && _end2) {
-            _end1.parent = parent;
-            _end2.parent = parent;
-    
-            _end1.connections.push(edge);
-            _end2.connections.push(edge);
-        }
-    }
-
-    private _isDAG(registry: IRegistry, newEdges: IEdge[]): boolean {
-        this._adjacencyMatrix(registry, newEdges, "flow");
-
-        return true
-    }
 
     private _nodeExists(id: string): boolean {
         const [_id] = StoryGraph.parseNodeId(id);
@@ -435,167 +383,6 @@ export class StoryGraph {
 
 
 }
-
 interface INetworkValidator {
     (from?: IStoryObject, fromPort?: IConnectorPort, to?: IStoryObject, toPort?: IConnectorPort, registry?: IRegistry): boolean
 }
-interface Column {
-    [index: string]: number[]
-}
-
-class Matrix {
-    
-    columns: Map<string, number[]>
-
-    constructor() {
-        this.columns = new Map();
-    }
-
-    get dim(): number[] {
-        return [
-            this.columns.size,
-            this.columns.values. length
-        ]
-    }
-
-    private _checkDims(): boolean {
-        return Array
-        .from(this.columns.values())
-        .map(e => {
-            e.length
-        })
-        .reduce<boolean>((prevValue, currValue, currIndex, array) => (
-            prevValue && (currIndex >= 1) ? (currValue === array[currIndex - 1]) : true
-           ) , true)
-    }
-}
-
-
-    // /**
-    //  * @param graph 
-    //  * @return
-    //  */
-    // public merge(graph: IGraph) :  StoryGraph {
-    //     // TODO implement here
-    //     return new StoryGraph();
-    // }
-
-    // /**
-    //  * @return
-    //  */
-    // public flatten() :  StoryGraph {
-    //     // TODO implement here
-    //     return new StoryGraph();
-    // }
-
-    // /**
-    //  * Traverses the given graph and its subgraph and returns all nodes which match the query.
-    //  * @param predicate Object with parameters to match the graph's nodes against.
-    //  * @return Array of nodes.
-    //  */
-    // public getNodes(predicate: INodePredicate) :  IStoryObject[] {
-    //     // TODO implement here
-    //     return [];
-    // }
-
-    // /**
-    //  * Traverses the given graph and its subgraphs and returns all matching edges.
-    //  * @param predicate 
-    //  * @return
-    //  */
-    // public getEdges(predicate: IEdgePredicate) :  IEdge[] {
-    //     // TODO implement here
-    //     return [];
-    // }
-
-    // /**
-    //  * 
-    //  */
-    // public getEdgeType() :  void {
-    //     // TODO implement here
-    // }
-
-    // /**
-    //  * 
-    //  */
-    // public getEdgeConditions() :  void {
-    //     // TODO implement here
-    // }
-
-    // /**
-    //  * @param edge 
-    //  * @param parameters 
-    //  * @return
-    //  */
-    // public setEdgeParameters(edge: IEdge, parameters: any) :  IGraph {
-    //     // TODO implement here
-    //     return new StoryGraph();
-    // }
-
-    // /**
-    //  * @param edge 
-    //  * @return
-    //  */
-    // public setEdgeType(edge: IEdge) :  IGraph {
-    //     // TODO implement here
-    //     return new StoryGraph();
-    // }
-
-    // /**
-    //  * @param node 
-    //  * @param parameters 
-    //  * @return
-    //  */
-    // public setNodeParameters(node: IStoryObject, parameters: any) :  IGraph {
-    //     // TODO implement here
-    //     return new StoryGraph();
-    // }
-
-    // /**
-    //  * @return
-    //  */
-    // public toJSON() :  string {
-    //     // TODO implement here
-    //     return "";
-    // }
-
-    // /**
-    //  * @param graph 
-    //  * @return
-    //  */
-    // public fromJSON(graph: IGraph) :  string {
-    //     // TODO implement here
-    //     return "";
-    // }
-
-    // /**
-    //  * @param content? 
-    //  * @param network? 
-    //  * @param metaData? 
-    //  * @return
-    //  */
-    // private static _templateStoryObject(content?: IContent, network?: IGraph, metaData?: IMetaData) : IStoryObject {
-    //     return {
-    //             content: content || undefined,
-    //             userDefinedProperties: {},
-    //             metaData: metaData || {
-    //                 name: "",
-    //                 createdAt: new Date(),
-    //                 tags: []
-    //             },
-    //             outgoing: [],
-    //             incoming: [],
-    //             parent: undefined,
-    //             network: network || {
-    //                 nodes: [],
-    //                 edges: []
-    //             },
-    //             renderingProperties: {
-    //                 width: .33,
-    //                 order: 0,
-    //                 collapsable: true
-    //             },
-    //             isContentNode: (content ? true : false),
-    //             modifiers: []
-    //         }
-    // }

@@ -22,14 +22,22 @@ class ConnectorPort {
         const _dir = (this.direction === "in") ? "out" : "in";
         return new ConnectorPort(this.type, _dir);
     }
+    /**
+     * Binds the connector to a notification center.
+     * This method binds callbacks for both addition and deletion of edges.
+     * Overwrite in sub-methods if necessary.
+     * @param notificationCenter
+     */
     bindTo(notificationCenter) {
         this.notificationCenter = notificationCenter;
-        this.notificationCenter.subscribe(this.id, (data) => {
-            if (data.remove !== undefined) {
-                this.removeConnections(data.remove);
-            }
-            if (data.add !== undefined) {
-                this.addConnections(data.add);
+        this.notificationCenter.subscribe(this.id, (payload) => {
+            if (payload && payload.data) {
+                if (payload.data.remove !== undefined) {
+                    this.removeConnections(payload.data.remove);
+                }
+                if (payload.data.add !== undefined) {
+                    this.addConnections(payload.data.add);
+                }
             }
         });
     }

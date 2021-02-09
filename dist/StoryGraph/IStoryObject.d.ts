@@ -71,12 +71,13 @@ export interface IStoryObject {
     /**
      *
      */
-    notificationCenter: NotificationCenter;
+    notificationCenter?: NotificationCenter;
     /**
      *
      * @param edges
      */
     removeConnections(edges: IEdge[]): void;
     addConnections(edges: IEdge[]): void;
+    bindTo(notificationCenter: NotificationCenter): void;
 }
 //# sourceMappingURL=IStoryObject.d.ts.map

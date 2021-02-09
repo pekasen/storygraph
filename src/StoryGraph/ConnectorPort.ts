@@ -1,7 +1,7 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
 import { v4 } from "uuid";
 import { IEdge } from "..";
-import { NotificationCenter } from "./NotificationCenter";
+import { IEdgeEvent, INotificationData, NotificationCenter } from "./NotificationCenter";
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
@@ -36,13 +36,15 @@ export class ConnectorPort implements IConnectorPort {
      */
     bindTo(notificationCenter: NotificationCenter) {
         this.notificationCenter = notificationCenter;
-        this.notificationCenter.subscribe(this.id, (data: any) => {
-            if (data.remove !== undefined) {
-                this.removeConnections(data.remove);
+        this.notificationCenter.subscribe(this.id, (payload?: INotificationData<IEdgeEvent>) => {
+           if (payload && payload.data) {
+            if (payload.data.remove !== undefined) {
+                this.removeConnections(payload.data.remove);
             }
-            if (data.add !== undefined) {
-                this.addConnections(data.add);
+            if (payload.data.add !== undefined) {
+                this.addConnections(payload.data.add);
             }
+           }
         });
     }
 

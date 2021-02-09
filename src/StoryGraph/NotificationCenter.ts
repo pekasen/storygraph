@@ -1,10 +1,11 @@
+import { IEdge } from "..";
+
 export class NotificationCenter {
     
-    private _callbacks: Map<string, ((data?: unknown) => void)[]> = new Map();
+    private _callbacks: Map<string, ((payload?: INotificationData<any>) => void)[]> = new Map();
 
-    public subscribe(channel: string, callback: ((data?: unknown) => void)): boolean {
+    public subscribe<T>(channel: string, callback: ((payload?: INotificationData<T>) => void)): boolean {
         // type guard callback
-        
         if (typeof callback === "function") {
             // check wether channel exists
             if (this._callbacks.has(channel)) {
@@ -20,7 +21,7 @@ export class NotificationCenter {
         return false;
     }
 
-    public unsubscribe(channel: string, callback: ((data?: unknown) => void)): boolean {
+    public unsubscribe<T>(channel: string, callback: ((payload?: INotificationData<T>) => void)): boolean {
         if (typeof callback === "function") {
             if (this._callbacks.has(channel)) {
                 const stack = this._callbacks.get(channel);
@@ -34,12 +35,12 @@ export class NotificationCenter {
         return false;
     }
 
-    public push(channel: string, data?: unknown): boolean {
+    public push<T>(channel: string, payload?: INotificationData<T>): boolean {
         if (this._callbacks.has(channel)) {
             return this._callbacks.
             get(channel)!.
             map(e => {
-                e(data);
+                e(payload);
                 return true;
             }).
             reduce((p, v) => (p && v), true);
@@ -49,4 +50,15 @@ export class NotificationCenter {
     public get channels(): string[] {
         return Array.from(this._callbacks.keys());
     }
+}
+
+export interface INotificationData<T> {
+    data: T
+    source: any
+    type: string
+}
+
+export interface IEdgeEvent {
+    remove?: IEdge[]
+    add?: IEdge[]
 }

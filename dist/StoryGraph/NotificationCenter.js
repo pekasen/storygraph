@@ -35,12 +35,12 @@ class NotificationCenter {
         }
         return false;
     }
-    push(channel, data) {
+    push(channel, payload) {
         if (this._callbacks.has(channel)) {
             return this._callbacks.
                 get(channel).
                 map(e => {
-                e(data);
+                e(payload);
                 return true;
             }).
                 reduce((p, v) => (p && v), true);

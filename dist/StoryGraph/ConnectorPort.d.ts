@@ -11,6 +11,12 @@ export declare class ConnectorPort implements IConnectorPort {
     constructor(type: string, direction: string);
     get name(): string;
     reverse(): ConnectorPort;
+    /**
+     * Binds the connector to a notification center.
+     * This method binds callbacks for both addition and deletion of edges.
+     * Overwrite in sub-methods if necessary.
+     * @param notificationCenter
+     */
     bindTo(notificationCenter: NotificationCenter): void;
     addConnections(edges: IEdge[]): void;
     removeConnections(edges: IEdge[]): void;

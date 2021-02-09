@@ -14,19 +14,19 @@ export declare class StoryGraph {
      */
     constructor(parent: string, nodes?: string[], edges?: IEdge[]);
     /**
-     *
+     * Array of node IDs
      */
     nodes: string[];
     /**
-     *
+     * Array of edges
      */
     edges: IEdge[];
     /**
-     *
+     * Parent ID
      */
     parent: string;
     /**
-     *
+     * Provides a communication channel for all node and connectors in the graph's context
      */
     notificationCenter: NotificationCenter;
     /**
@@ -81,10 +81,6 @@ export declare class StoryGraph {
     private _areEdgesValid;
     private ruleSet;
     private rules;
-    private _isCompatible;
-    private _hasConnectorPort;
-    private _updateReference;
-    private _isDAG;
     private _nodeExists;
     private _adjacencyMatrix;
     private get _nodeIDs();

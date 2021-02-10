@@ -36,7 +36,7 @@ export class ConnectorPort implements IConnectorPort {
      * @param notificationCenter 
      */
     bindTo(notificationCenter: NotificationCenter) {
-        this.notificationCenter = notificationCenter;
+        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter) this.notificationCenter = notificationCenter;
         this.notificationCenter.subscribe(this.id, (payload?: INotificationData<IEdgeEvent>) => {
            if (payload && payload.data) {
             if (payload.data.remove !== undefined) {

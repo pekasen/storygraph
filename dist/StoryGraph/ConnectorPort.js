@@ -29,7 +29,8 @@ class ConnectorPort {
      * @param notificationCenter
      */
     bindTo(notificationCenter) {
-        this.notificationCenter = notificationCenter;
+        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter)
+            this.notificationCenter = notificationCenter;
         this.notificationCenter.subscribe(this.id, (payload) => {
             if (payload && payload.data) {
                 if (payload.data.remove !== undefined) {

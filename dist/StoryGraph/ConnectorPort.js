@@ -29,18 +29,19 @@ class ConnectorPort {
      * @param notificationCenter
      */
     bindTo(notificationCenter) {
-        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter)
+        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter) {
             this.notificationCenter = notificationCenter;
-        this.notificationCenter.subscribe(this.id, (payload) => {
-            if (payload && payload.data) {
-                if (payload.data.remove !== undefined) {
-                    this.removeConnections(payload.data.remove);
+            this.notificationCenter.subscribe(this.id, (payload) => {
+                if (payload && payload.data) {
+                    if (payload.data.remove !== undefined) {
+                        this.removeConnections(payload.data.remove);
+                    }
+                    if (payload.data.add !== undefined) {
+                        this.addConnections(payload.data.add);
+                    }
                 }
-                if (payload.data.add !== undefined) {
-                    this.addConnections(payload.data.add);
-                }
-            }
-        });
+            });
+        }
     }
     addConnections(edges) {
         this.connections.push(...edges);

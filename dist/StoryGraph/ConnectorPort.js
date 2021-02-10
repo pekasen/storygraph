@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReactionConnectorOutPort = exports.ReactionConnectorInPort = exports.DataConnectorOutPort = exports.DataConnectorInPort = exports.FlowConnectorOutPort = exports.FlowConnectorInPort = exports.ConnectorPort = void 0;
 const IConnectorPort_1 = require("./IConnectorPort");
 const uuid_1 = require("uuid");
+const __1 = require("..");
 class ConnectorPort {
     constructor(type, direction) {
         this.id = uuid_1.v4();
@@ -112,6 +113,13 @@ class ReactionConnectorInPort extends ConnectorPort {
         this._name = name !== null && name !== void 0 ? name : "reaction-in";
         this.handleNotification = handler;
     }
+    bindTo(notificationCenter) {
+        super.bindTo(notificationCenter);
+        notificationCenter.subscribe(this.id, (payload) => {
+            if (payload !== undefined && payload.type === "reaction")
+                this.handleNotification();
+        });
+    }
     get name() {
         return this._name;
     }
@@ -121,12 +129,23 @@ class ReactionConnectorInPort extends ConnectorPort {
 }
 exports.ReactionConnectorInPort = ReactionConnectorInPort;
 class ReactionConnectorOutPort extends ConnectorPort {
-    constructor(name, notifier) {
+    constructor(name) {
         super("reaction", "out");
         this.type = "reaction";
         this.direction = "out";
         this._name = name !== null && name !== void 0 ? name : "reaction-out";
-        this.notify = notifier;
+    }
+    notify() {
+        const payload = {
+            type: "reaction",
+            source: this,
+            data: undefined
+        };
+        this.connections.forEach((edge) => {
+            var _a;
+            const [, portId] = __1.StoryGraph.parseNodeId(edge.to);
+            (_a = this.notificationCenter) === null || _a === void 0 ? void 0 : _a.push(portId, payload);
+        });
     }
     get name() {
         return this._name;

@@ -1,6 +1,6 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
 import { v4 } from "uuid";
-import { IEdge } from "..";
+import { IEdge, StoryGraph } from "..";
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
 import { IEdgeEvent } from "./IEdgeEvent";
 export class ConnectorPort implements IConnectorPort {
@@ -149,6 +149,13 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
         this.handleNotification = handler;
     }
 
+    public bindTo(notificationCenter: NotificationCenter) {
+        super.bindTo(notificationCenter);
+        notificationCenter.subscribe(this.id, (payload?: INotificationData<undefined>) => {
+            if (payload !== undefined && payload.type === "reaction") this.handleNotification();
+        });
+    }
+
     public get name() {
         return this._name;
     }
@@ -161,15 +168,25 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
 export class ReactionConnectorOutPort extends ConnectorPort implements IReactionOutPort {
     public readonly type: Reaction = "reaction";
     public readonly direction: Out = "out";
-    public notify: () => void;
     private _name: string;
-
-    constructor(name: string, notifier: () => void) {
+    
+    constructor(name: string) {
         super("reaction", "out");
         this._name = name ?? "reaction-out"
-        this.notify = notifier;
     }
+    
+    public notify() {
+        const payload: INotificationData<undefined> = {
+            type: "reaction",
+            source: this,
+            data: undefined
+        };
 
+        this.connections.forEach((edge) => {
+            const [, portId] = StoryGraph.parseNodeId(edge.to);
+            this.notificationCenter?.push(portId, payload);
+        })
+    }
 
     public get name() {
         return this._name;

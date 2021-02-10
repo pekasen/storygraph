@@ -55,15 +55,16 @@ export declare class ReactionConnectorInPort extends ConnectorPort implements IR
     readonly handleNotification: () => void;
     private _name;
     constructor(name: string, handler: () => void);
+    bindTo(notificationCenter: NotificationCenter): void;
     get name(): string;
     set name(newName: string);
 }
 export declare class ReactionConnectorOutPort extends ConnectorPort implements IReactionOutPort {
     readonly type: Reaction;
     readonly direction: Out;
-    notify: () => void;
     private _name;
-    constructor(name: string, notifier: () => void);
+    constructor(name: string);
+    notify(): void;
     get name(): string;
     set name(newName: string);
 }

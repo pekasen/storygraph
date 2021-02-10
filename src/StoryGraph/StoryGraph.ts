@@ -109,6 +109,11 @@ export class StoryGraph {
      */
     public disconnect(registry: IRegistry, edges: IEdge[], id: string | null = null) :  void {
        edges.forEach(edge => {
+            // splice local edges    
+            const index = this.edges.indexOf(edge);
+            if (index === -1) return
+            this.edges.splice(index, 1);
+            
             const payload: INotificationData<IEdgeEvent> = {
                 data: {
                     remove: [edge]

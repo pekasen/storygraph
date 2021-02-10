@@ -167,6 +167,11 @@ class StoryGraph {
      */
     disconnect(registry, edges, id = null) {
         edges.forEach(edge => {
+            // splice local edges    
+            const index = this.edges.indexOf(edge);
+            if (index === -1)
+                return;
+            this.edges.splice(index, 1);
             const payload = {
                 data: {
                     remove: [edge]

@@ -10,6 +10,7 @@ export declare type ConnectorDirection = In | Out;
 export declare function isConnectorType(arg: any): arg is ConnectorType;
 export declare function isConnectorDirection(arg: any): arg is ConnectorDirection;
 export interface IConnectorPort {
+    id: string;
     name: string;
     type: ConnectorType;
     direction: ConnectorDirection;

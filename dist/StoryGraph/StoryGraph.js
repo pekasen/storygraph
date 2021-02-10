@@ -25,19 +25,19 @@ class StoryGraph {
         ]);
         this.rules = new Map([
             ["many-to-one", (from, fromPort, to, toPort) => {
-                    const fromOutDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-                    const toInDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    const fromOutDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.id}`)).length;
+                    const toInDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.id}`)).length;
                     // out degree of the from node maybe larger than one, in degree of the connected node may not
                     return (fromOutDegree == 0 && toInDegree >= 0);
                 }],
             ["many-to-many", (from, fromPort, to, toPort) => {
-                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.id}`)).length;
+                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.id}`)).length;
                     return (fromDegree >= 0 && toDegree >= 0);
                 }],
             ["one-to-many", (from, fromPort, to, toPort) => {
-                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.name}`)).length;
-                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.name}`)).length;
+                    const fromDegree = from.connections.filter(edge => edge.from === (`${from.id}.${fromPort.id}`)).length;
+                    const toDegree = to.connections.filter(edge => edge.to === (`${to.id}.${toPort.id}`)).length;
                     return (fromDegree >= 0 && toDegree == 0);
                 }],
             ["port-type-matches", (form, fromPort, to, toPort) => {

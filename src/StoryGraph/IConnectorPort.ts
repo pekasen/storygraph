@@ -20,6 +20,7 @@ export function isConnectorDirection(arg: any): arg is ConnectorDirection {
 }
 
 export interface IConnectorPort {
+    id: string;
     name: string;
     type: ConnectorType;
     direction: ConnectorDirection;

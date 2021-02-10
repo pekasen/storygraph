@@ -1,4 +1,3 @@
-import { IEdge } from "..";
 
 export class NotificationCenter {
     
@@ -56,9 +55,4 @@ export interface INotificationData<T> {
     data: T
     source: any
     type: string
-}
-
-export interface IEdgeEvent {
-    remove?: IEdge[]
-    add?: IEdge[]
 }

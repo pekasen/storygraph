@@ -1,7 +1,8 @@
 import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
 import { v4 } from "uuid";
 import { IEdge } from "..";
-import { IEdgeEvent, INotificationData, NotificationCenter } from "./NotificationCenter";
+import { INotificationData, NotificationCenter } from "./NotificationCenter";
+import { IEdgeEvent } from "./IEdgeEvent";
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;

@@ -3,7 +3,8 @@ import { IStoryObject } from "./IStoryObject"
 import { IEdge } from "./IEdge"
 import { IRegistry } from "./IRegistry"
 import { IConnectorPort } from './IConnectorPort';
-import { IEdgeEvent, INotificationData, NotificationCenter } from "./NotificationCenter";
+import { INotificationData, NotificationCenter } from "./NotificationCenter";
+import { IEdgeEvent } from "./IEdgeEvent";
 
 /**
  * A graph to connect story content

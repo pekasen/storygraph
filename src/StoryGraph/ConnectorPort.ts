@@ -57,7 +57,7 @@ export class ConnectorPort implements IConnectorPort {
 
     removeConnections(edges: IEdge[]) {
         edges.forEach((edge) => {
-            const index = this.connections.indexOf(edge);
+            const index = this.connections.findIndex(_edge => _edge.id === edge.id);
             if (index !== -1) {
                 this.connections.splice(index, 1)
             }

@@ -139,14 +139,14 @@ export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPo
 export class ReactionConnectorInPort extends ConnectorPort implements IReactionInPort {
     public readonly type: Reaction = "reaction";
     public readonly direction: In = "in";
-    public readonly handleNotification: () => void;
+    private _handleNotification: () => void;
     private _name: string
 
     constructor(name: string, handler: () => void) {
         super("reaction", "in");
 
         this._name = name ?? "reaction-in";
-        this.handleNotification = handler;
+        this._handleNotification = handler;
     }
 
     public bindTo(notificationCenter: NotificationCenter) {
@@ -154,6 +154,16 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
         notificationCenter.subscribe(this.id, (payload?: INotificationData<undefined>) => {
             if (payload !== undefined && payload.type === "reaction") this.handleNotification();
         });
+    }
+
+    public get handleNotification(): () => void {
+        return this._handleNotification;
+    }
+
+    public set handleNotification(handler: () => void) {
+        if (typeof handler === "function") {
+            this._handleNotification = handler;
+        }
     }
 
     public get name() {

@@ -52,10 +52,12 @@ export declare class DataConnectorOutPort<T> extends ConnectorPort implements ID
 export declare class ReactionConnectorInPort extends ConnectorPort implements IReactionInPort {
     readonly type: Reaction;
     readonly direction: In;
-    readonly handleNotification: () => void;
+    private _handleNotification;
     private _name;
     constructor(name: string, handler: () => void);
     bindTo(notificationCenter: NotificationCenter): void;
+    get handleNotification(): () => void;
+    set handleNotification(handler: () => void);
     get name(): string;
     set name(newName: string);
 }

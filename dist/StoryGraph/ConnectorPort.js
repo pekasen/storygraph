@@ -111,7 +111,7 @@ class ReactionConnectorInPort extends ConnectorPort {
         this.type = "reaction";
         this.direction = "in";
         this._name = name !== null && name !== void 0 ? name : "reaction-in";
-        this.handleNotification = handler;
+        this._handleNotification = handler;
     }
     bindTo(notificationCenter) {
         super.bindTo(notificationCenter);
@@ -119,6 +119,14 @@ class ReactionConnectorInPort extends ConnectorPort {
             if (payload !== undefined && payload.type === "reaction")
                 this.handleNotification();
         });
+    }
+    get handleNotification() {
+        return this._handleNotification;
+    }
+    set handleNotification(handler) {
+        if (typeof handler === "function") {
+            this._handleNotification = handler;
+        }
     }
     get name() {
         return this._name;

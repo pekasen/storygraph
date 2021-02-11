@@ -18,6 +18,7 @@ export declare class ConnectorPort implements IConnectorPort {
      * @param notificationCenter
      */
     bindTo(notificationCenter: NotificationCenter): void;
+    needsBinding(notificationCenter: NotificationCenter): boolean;
     addConnections(edges: IEdge[]): void;
     removeConnections(edges: IEdge[]): void;
 }

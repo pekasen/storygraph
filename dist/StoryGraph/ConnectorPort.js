@@ -44,6 +44,9 @@ class ConnectorPort {
             });
         }
     }
+    needsBinding(notificationCenter) {
+        return this.notificationCenter === undefined || this.notificationCenter === notificationCenter;
+    }
     addConnections(edges) {
         this.connections.push(...edges);
     }

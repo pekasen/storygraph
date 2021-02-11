@@ -27,6 +27,8 @@ export interface IConnectorPort {
     connections: IEdge[];
     associated?: IConnectorPort;
     notificationCenter?: NotificationCenter;
+    bindTo(notificationCenter: NotificationCenter): void;
+    needsBinding(notificationCenter?: NotificationCenter): boolean
 }
 
 export interface IReactionPort {

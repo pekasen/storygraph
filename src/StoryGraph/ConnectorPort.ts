@@ -51,6 +51,10 @@ export class ConnectorPort implements IConnectorPort {
         }
     }
 
+    needsBinding(notificationCenter: NotificationCenter): boolean {
+        return this.notificationCenter === undefined || this.notificationCenter === notificationCenter;
+    }
+
     addConnections(edges: IEdge[]) {
         this.connections.push(...edges)
     }

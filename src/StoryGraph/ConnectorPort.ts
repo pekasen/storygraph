@@ -7,7 +7,7 @@ export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
     notificationCenter?: NotificationCenter;
-    associated?: ConnectorPort;
+    associated?: string;
     connections: IEdge[];
     id = v4();
 

@@ -52,6 +52,7 @@ export class ConnectorPort implements IConnectorPort {
                     }
                 }
             });
+            this.parent = parentID;
         }
     }
 

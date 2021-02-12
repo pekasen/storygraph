@@ -43,6 +43,7 @@ class ConnectorPort {
                     }
                 }
             });
+            this.parent = parentID;
         }
     }
     needsBinding(notificationCenter) {

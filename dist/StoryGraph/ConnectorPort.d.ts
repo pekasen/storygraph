@@ -6,6 +6,7 @@ export declare class ConnectorPort implements IConnectorPort {
     direction: ConnectorDirection;
     notificationCenter?: NotificationCenter;
     associated?: string;
+    parent?: string;
     connections: IEdge[];
     id: string;
     constructor(type: string, direction: string);
@@ -17,7 +18,7 @@ export declare class ConnectorPort implements IConnectorPort {
      * Overwrite in sub-methods if necessary.
      * @param notificationCenter
      */
-    bindTo(notificationCenter: NotificationCenter): void;
+    bindTo(notificationCenter: NotificationCenter, parentID: string): void;
     needsBinding(notificationCenter: NotificationCenter): boolean;
     addConnections(edges: IEdge[]): void;
     removeConnections(edges: IEdge[]): void;
@@ -56,7 +57,7 @@ export declare class ReactionConnectorInPort extends ConnectorPort implements IR
     private _handleNotification;
     private _name;
     constructor(name: string, handler: () => void);
-    bindTo(notificationCenter: NotificationCenter): void;
+    bindTo(notificationCenter: NotificationCenter, parentID: string): void;
     get handleNotification(): () => void;
     set handleNotification(handler: () => void);
     get name(): string;

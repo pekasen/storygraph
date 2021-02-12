@@ -29,8 +29,9 @@ class ConnectorPort {
      * Overwrite in sub-methods if necessary.
      * @param notificationCenter
      */
-    bindTo(notificationCenter) {
-        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter) {
+    bindTo(notificationCenter, parentID) {
+        if ((this.notificationCenter == undefined || this.notificationCenter !== notificationCenter) &&
+            (this.parent == undefined && this.parent !== parentID)) {
             this.notificationCenter = notificationCenter;
             this.notificationCenter.subscribe(this.id, (payload) => {
                 if (payload && payload.data) {
@@ -116,8 +117,8 @@ class ReactionConnectorInPort extends ConnectorPort {
         this._name = name !== null && name !== void 0 ? name : "reaction-in";
         this._handleNotification = handler;
     }
-    bindTo(notificationCenter) {
-        super.bindTo(notificationCenter);
+    bindTo(notificationCenter, parentID) {
+        super.bindTo(notificationCenter, parentID);
         notificationCenter.subscribe(this.id, (payload) => {
             if (payload !== undefined && payload.type === "reaction")
                 this.handleNotification();

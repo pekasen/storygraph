@@ -8,6 +8,7 @@ export class ConnectorPort implements IConnectorPort {
     direction: ConnectorDirection;
     notificationCenter?: NotificationCenter;
     associated?: string;
+    parent?: string;
     connections: IEdge[];
     id = v4();
 
@@ -35,18 +36,21 @@ export class ConnectorPort implements IConnectorPort {
      * Overwrite in sub-methods if necessary.
      * @param notificationCenter 
      */
-    bindTo(notificationCenter: NotificationCenter) {
-        if (this.notificationCenter === undefined || this.notificationCenter !== notificationCenter) {
+    bindTo(notificationCenter: NotificationCenter, parentID: string) {
+        if (
+            (this.notificationCenter == undefined || this.notificationCenter !== notificationCenter) &&
+            (this.parent == undefined && this.parent !== parentID)
+        ) {
             this.notificationCenter = notificationCenter;
             this.notificationCenter.subscribe(this.id, (payload?: INotificationData<IEdgeEvent>) => {
-            if (payload && payload.data) {
-                if (payload.data.remove !== undefined) {
-                    this.removeConnections(payload.data.remove);
+                if (payload && payload.data) {
+                    if (payload.data.remove !== undefined) {
+                        this.removeConnections(payload.data.remove);
+                    }
+                    if (payload.data.add !== undefined) {
+                        this.addConnections(payload.data.add);
+                    }
                 }
-                if (payload.data.add !== undefined) {
-                    this.addConnections(payload.data.add);
-                }
-            }
             });
         }
     }
@@ -153,8 +157,8 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
         this._handleNotification = handler;
     }
 
-    public bindTo(notificationCenter: NotificationCenter) {
-        super.bindTo(notificationCenter);
+    public bindTo(notificationCenter: NotificationCenter, parentID: string) {
+        super.bindTo(notificationCenter, parentID);
         notificationCenter.subscribe(this.id, (payload?: INotificationData<undefined>) => {
             if (payload !== undefined && payload.type === "reaction") this.handleNotification();
         });

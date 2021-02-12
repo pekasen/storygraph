@@ -308,9 +308,9 @@ export class StoryGraph {
                     const aPort = node.connectors.get(port.associated);
                     if (aPort === undefined) return [node]
                     
-                    const nextNodes = node.connections.
-                    filter(e => (e.from === `${node.id}.${aPort.name}`)).
-                    map(e => {
+                    const nextNodes = node.connections
+                    .filter(e => (e.from === `${node.id}.${aPort.name}`))
+                    .map(e => {
                         const [_id, _portId] = StoryGraph.parseNodeId(e.to);
                         const _node = registry?.getValue(_id);
                         const _port = _node?.connectors.get(_portId);
@@ -320,10 +320,12 @@ export class StoryGraph {
                             _port: _port
                         };
                     });
+
                     if (nextNodes.length === 0) {
                         // console.log("leg 3", _res);
                         return _res;
                     }
+                    
                     if (depth < maxRecursion) {
                         nextNodes.forEach(({_node, _port}) => {
                             if (_node && _port) {

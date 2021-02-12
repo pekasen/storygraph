@@ -64,9 +64,9 @@ class StoryGraph {
                             const aPort = node.connectors.get(port.associated);
                             if (aPort === undefined)
                                 return [node];
-                            const nextNodes = node.connections.
-                                filter(e => (e.from === `${node.id}.${aPort.name}`)).
-                                map(e => {
+                            const nextNodes = node.connections
+                                .filter(e => (e.from === `${node.id}.${aPort.name}`))
+                                .map(e => {
                                 const [_id, _portId] = StoryGraph.parseNodeId(e.to);
                                 const _node = registry === null || registry === void 0 ? void 0 : registry.getValue(_id);
                                 const _port = _node === null || _node === void 0 ? void 0 : _node.connectors.get(_portId);

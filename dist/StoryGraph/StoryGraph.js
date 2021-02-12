@@ -61,7 +61,9 @@ class StoryGraph {
                         const maxRecursion = 10;
                         const _res = [];
                         if (port.associated) {
-                            const aPort = port.associated;
+                            const aPort = node.connectors.get(port.associated);
+                            if (aPort === undefined)
+                                return [node];
                             const nextNodes = node.connections.
                                 filter(e => (e.from === `${node.id}.${aPort.name}`)).
                                 map(e => {

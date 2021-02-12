@@ -166,37 +166,59 @@ export class StoryGraph {
 
     /**
      * Traverses the StoryGraph
-     * TODO: this method does not adhere to port connectivity; this needs to be fixed!
+     * 
      * 
      * @deprecated
      * @param registry 
      * @param fromNode 
      */
-    // TODO: fix this method! YO!
-    public traverse(registry: IRegistry, fromNode: string): IStoryObject[] {
-        const recurse = (node: IStoryObject): IStoryObject[] => {
+    // TODO: this method does not adhere to port connectivity; this needs to be fixed!
+    public traverse(registry: IRegistry, fromNode: string, port: string): IStoryObject[] {
+        const recurse = (node: IStoryObject, port: IConnectorPort): IStoryObject[] => {
             const _res = [node];
             
-            const out = node
+            const out = port
             .connections
-            .filter(e => e.from === this.parent)
-            .map(e => registry.getValue(e.to))
+            .map((edge) => {
+                const [nodeID, portID] = StoryGraph.parseNodeId(edge.to);
+                return {obj: registry.getValue(nodeID), port: portID};
+            })
+            .reduce((acc: (IStoryObject | undefined)[], run: {obj: IStoryObject | undefined, port: string}) => {
+                // get assoc port
+               if (run.obj !== undefined) {
+                    const port = run.obj.connectors.get(run.port);
+                    if (port !== undefined && port.associated !== undefined) {
+                        const assocPort = run.obj.connectors.get(port.associated);
+                        if (assocPort !== undefined) {
+                            return [
+                                ...acc,
+                                ...recurse(run.obj, assocPort)
+                            ];
+                        }
+                    }
+               }
+               return [...acc, run.obj];
+            }, Array<IStoryObject | undefined>(0))
             .filter(e => e !== undefined) as IStoryObject[];
 
-            _res.push(
-                ...out
-                .map(n => recurse(n))
-                .reduce((n, m) => {
-                    n.push(...m);
-                    return n
-                })
-            );
+            // _res.push(
+            //     ...out
+            //     .map(n => {
+                    
+            //         recurse(n)
+            //     })
+            //     .reduce((n, m) => {
+            //         n.push(...m);
+            //         return n
+            //     })
+            // );
 
-            return _res
+            return [..._res, ...out];
         }
         const _node = registry.getValue(fromNode);
-        if (_node) return recurse(_node)
-        else return []
+        const _port = _node?.connectors.get(port);
+        if (_node !== undefined && _port !== undefined) return recurse(_node, _port);
+        else return [];
     }
 
     public filterNodes(callback: (id: string, index: number, array: string[]) => boolean): string[] {
@@ -283,7 +305,8 @@ export class StoryGraph {
                 const _res: IStoryObject[] = [];
 
                 if (port.associated) {
-                    const aPort = port.associated;
+                    const aPort = node.connectors.get(port.associated);
+                    if (aPort === undefined) return [node]
                     
                     const nextNodes = node.connections.
                     filter(e => (e.from === `${node.id}.${aPort.name}`)).

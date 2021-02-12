@@ -216,32 +216,55 @@ class StoryGraph {
     }
     /**
      * Traverses the StoryGraph
-     * TODO: this method does not adhere to port connectivity; this needs to be fixed!
+     *
      *
      * @deprecated
      * @param registry
      * @param fromNode
      */
-    // TODO: fix this method! YO!
-    traverse(registry, fromNode) {
-        const recurse = (node) => {
+    // TODO: this method does not adhere to port connectivity; this needs to be fixed!
+    traverse(registry, fromNode, port) {
+        const recurse = (node, port) => {
             const _res = [node];
-            const out = node
+            const out = port
                 .connections
-                .filter(e => e.from === this.parent)
-                .map(e => registry.getValue(e.to))
+                .map((edge) => {
+                const [nodeID, portID] = StoryGraph.parseNodeId(edge.to);
+                return { obj: registry.getValue(nodeID), port: portID };
+            })
+                .reduce((acc, run) => {
+                // get assoc port
+                if (run.obj !== undefined) {
+                    const port = run.obj.connectors.get(run.port);
+                    if (port !== undefined && port.associated !== undefined) {
+                        const assocPort = run.obj.connectors.get(port.associated);
+                        if (assocPort !== undefined) {
+                            return [
+                                ...acc,
+                                ...recurse(run.obj, assocPort)
+                            ];
+                        }
+                    }
+                }
+                return [...acc, run.obj];
+            }, Array(0))
                 .filter(e => e !== undefined);
-            _res.push(...out
-                .map(n => recurse(n))
-                .reduce((n, m) => {
-                n.push(...m);
-                return n;
-            }));
-            return _res;
+            // _res.push(
+            //     ...out
+            //     .map(n => {
+            //         recurse(n)
+            //     })
+            //     .reduce((n, m) => {
+            //         n.push(...m);
+            //         return n
+            //     })
+            // );
+            return [..._res, ...out];
         };
         const _node = registry.getValue(fromNode);
-        if (_node)
-            return recurse(_node);
+        const _port = _node === null || _node === void 0 ? void 0 : _node.connectors.get(port);
+        if (_node !== undefined && _port !== undefined)
+            return recurse(_node, _port);
         else
             return [];
     }

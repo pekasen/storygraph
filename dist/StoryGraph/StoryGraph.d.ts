@@ -69,13 +69,13 @@ export declare class StoryGraph {
     willDeregister(registry: IRegistry): void;
     /**
      * Traverses the StoryGraph
-     * TODO: this method does not adhere to port connectivity; this needs to be fixed!
+     *
      *
      * @deprecated
      * @param registry
      * @param fromNode
      */
-    traverse(registry: IRegistry, fromNode: string): IStoryObject[];
+    traverse(registry: IRegistry, fromNode: string, port: string): IStoryObject[];
     filterNodes(callback: (id: string, index: number, array: string[]) => boolean): string[];
     filterEdges(callback: (edge: IEdge, index: number, array: IEdge[]) => boolean): IEdge[];
     private _areEdgesValid;

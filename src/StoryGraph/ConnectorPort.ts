@@ -11,6 +11,7 @@ export class ConnectorPort implements IConnectorPort {
     parent?: string;
     connections: IEdge[];
     id = v4();
+    protected _name: string | undefined;
 
     constructor(type: string, direction: string) {
         // guards, assemble!
@@ -23,7 +24,12 @@ export class ConnectorPort implements IConnectorPort {
     }
 
     get name(): string {
-        return [this.type, this.direction].join("-")
+        if (this._name === undefined) return [this.type, this.direction].join("-")
+        else return this._name;
+    }
+
+    set name(name: string) {
+        this._name = name;
     }
 
     reverse(): ConnectorPort {
@@ -98,7 +104,7 @@ export class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort
     public readonly direction: In = "in";
     callback: (data: T) => void;
 
-    private _name: string;
+
     
     constructor(name: string, callback: (data: T) => void) {
         super(
@@ -112,10 +118,6 @@ export class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort
     handlePull (data: T): void {
         this.callback(data);
     }
-
-    get name() {
-        return this._name;
-    }
 }
 
 export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPort<T> {
@@ -124,8 +126,6 @@ export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPo
     public readonly direction: Out = "out"
 
     callback: () => T
-
-    private _name: string
     
     constructor(name: string, callback: () => T) {
         super(
@@ -139,17 +139,12 @@ export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPo
     pull(): T {
         return this.callback();
     }
-
-    get name() {
-        return this._name;
-    }
 }
 
 export class ReactionConnectorInPort extends ConnectorPort implements IReactionInPort {
     public readonly type: Reaction = "reaction";
     public readonly direction: In = "in";
     private _handleNotification: () => void;
-    private _name: string
 
     constructor(name: string, handler: () => void) {
         super("reaction", "in");
@@ -174,21 +169,11 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
             this._handleNotification = handler;
         }
     }
-
-    public get name() {
-        return this._name;
-    }
-
-    public set name(newName: string) {
-        this._name = newName;
-    }
 }
 
 export class ReactionConnectorOutPort extends ConnectorPort implements IReactionOutPort {
     public readonly type: Reaction = "reaction";
     public readonly direction: Out = "out";
-    private _name: string;
-    
     constructor(name: string) {
         super("reaction", "out");
         this._name = name ?? "reaction-out"
@@ -205,13 +190,5 @@ export class ReactionConnectorOutPort extends ConnectorPort implements IReaction
             const [, portId] = StoryGraph.parseNodeId(edge.to);
             this.notificationCenter?.push(portId, payload);
         })
-    }
-
-    public get name() {
-        return this._name;
-    }
-
-    public set name(newName: string) {
-        this._name = newName;
     }
 }

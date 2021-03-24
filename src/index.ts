@@ -7,10 +7,12 @@ import { IRenderingProperties } from './StoryGraph/IRenderingProperties';
 import { IStoryModifier } from './StoryGraph/IStoryModifier';
 import { FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort, ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
 import { ModifierType } from "./StoryGraph/ModifierType";
+import { StoryObject } from "./StoryGraph/StoryObject";
 
 export { 
     StoryGraph,
     IStoryObject,
+    StoryObject,
     IEdge,
     IStoryModifier,
     IMetaData,

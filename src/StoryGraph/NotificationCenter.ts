@@ -35,6 +35,7 @@ export class NotificationCenter {
     }
 
     public push<T>(channel: string, payload?: INotificationData<T>): boolean {
+        console.log("push notification", channel, payload);
         if (this._callbacks.has(channel)) {
             return this._callbacks.
             get(channel)!.

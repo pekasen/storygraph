@@ -3,6 +3,11 @@ import { v4 } from "uuid";
 import { IEdge, StoryGraph } from "..";
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
 import { IEdgeEvent } from "./IEdgeEvent";
+
+export const DATAREQUEST = "data-request";
+export  const DATANOTIFICATION = "data-notification";
+export  const DATADENIAL = "data-denial";
+
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;
     direction: ConnectorDirection;
@@ -103,9 +108,7 @@ export class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort
     public readonly type: Data = "data";
     public readonly direction: In = "in";
     callback: (data: T) => void;
-
-
-    
+ 
     constructor(name: string, callback: (data: T) => void) {
         super(
             "data", "in"
@@ -118,9 +121,44 @@ export class DataConnectorInPort<T> extends ConnectorPort implements IDataInPort
     handlePull (data: T): void {
         this.callback(data);
     }
+
+    bindTo(notificationCenter: NotificationCenter, parentID: string) {
+        super.bindTo(notificationCenter, parentID);
+
+        notificationCenter.subscribe(this.id, (payload?: INotificationData<T | undefined>) => {
+            if (payload !== undefined ) {
+                switch (payload.type) {
+                    case DATANOTIFICATION: {
+                        if (payload.data === undefined) {
+                            if (payload.source.id !== undefined) {
+                                notificationCenter.push(payload.source.id, {
+                                    source: this,
+                                    type: DATAREQUEST,
+                                    data: undefined
+                                })
+                            }
+                        } else if (payload.data !== undefined){
+                            this.handlePull(payload.data);
+                        }
+                        break;
+                    }
+                    case DATADENIAL: {
+                        // do nothing for now
+                        break;
+                    }
+                }
+            }
+            
+        });
+    }
 }
 
-export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPort<T> {
+export interface IDataConnectionPayload<Value = {}> {
+    cache: Value | undefined | null
+    cached: boolean
+}
+
+export class DataConnectorOutPort<T extends IDataConnectionPayload> extends ConnectorPort implements IDataOutPort<T> {
     
     public readonly type: Data = "data"
     public readonly direction: Out = "out"
@@ -138,6 +176,27 @@ export class DataConnectorOutPort<T> extends ConnectorPort implements IDataOutPo
 
     pull(): T {
         return this.callback();
+    }
+
+    public bindTo(notificationCenter: NotificationCenter, parentID: string) {
+        super.bindTo(notificationCenter, parentID);
+        notificationCenter.subscribe(this.id, (payload?: INotificationData<undefined>) => {
+            if (payload !== undefined && payload.type === DATAREQUEST) {
+                const data = this.pull();
+                if (data === undefined || data.cached === false) {
+                    // do nothing as well
+                    // setTimeout(() => {
+
+                    // });
+                } else {
+                    notificationCenter.push(payload.source.id, {
+                        type: DATANOTIFICATION,
+                        source: this,
+                        data: data.cache
+                    });
+                }
+            }
+        });
     }
 }
 
@@ -174,9 +233,9 @@ export class ReactionConnectorInPort extends ConnectorPort implements IReactionI
 export class ReactionConnectorOutPort extends ConnectorPort implements IReactionOutPort {
     public readonly type: Reaction = "reaction";
     public readonly direction: Out = "out";
-    constructor(name: string) {
+    constructor(name?: string) {
         super("reaction", "out");
-        this._name = name ?? "reaction-out"
+        this._name = name
     }
     
     public notify() {

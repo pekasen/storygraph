@@ -17,3 +17,12 @@ export interface IContent {
      */
     contentType: string;
 }
+
+export type ContentType = "reference" | "instant-load" | "lazy-load";
+
+export interface ICacheable<Value> {
+    loaded: boolean
+    lazy: boolean
+    cache: Value
+    get(): Value | Promise<Value> | undefined
+}

@@ -1,0 +1,27 @@
+{
+  "name": "storymesh-plugin-support",
+  "version": "1.0.0",
+  "description": "Storymesh's PlugIn-support library",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pekasen/storymesh-plugin-support.git"
+  },
+  "keywords": [
+    "storymesh",
+    "storytelling",
+    "interactive"
+  ],
+  "author": "Philipp Kessling",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pekasen/storymesh-plugin-support/issues"
+  },
+  "homepage": "https://github.com/pekasen/storymesh-plugin-support#readme",
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
+}

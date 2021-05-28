@@ -27,7 +27,7 @@ interface TransistionEdge {
     hook?: () => void
 }
 
-interface Subscription {
+export interface Subscription {
     id: string
     hook: (payload?: INotificationData<unknown>) => void
 }

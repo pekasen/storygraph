@@ -168,7 +168,6 @@ export class StoryGraph {
      * Traverses the StoryGraph
      * 
      * 
-     * @deprecated
      * @param registry 
      * @param fromNode 
      */

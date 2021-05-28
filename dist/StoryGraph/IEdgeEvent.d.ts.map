@@ -1,1 +1,0 @@
-{"version":3,"file":"IEdgeEvent.d.ts","sourceRoot":"","sources":["../../src/StoryGraph/IEdgeEvent.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,KAAK,EAAE,MAAM,IAAI,CAAC;AAG3B,MAAM,WAAW,UAAU;IACvB,MAAM,CAAC,EAAE,KAAK,EAAE,CAAC;IACjB,GAAG,CAAC,EAAE,KAAK,EAAE,CAAC;CACjB"}

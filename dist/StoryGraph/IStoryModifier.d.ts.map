@@ -1,1 +1,0 @@
-{"version":3,"file":"IStoryModifier.d.ts","sourceRoot":"","sources":["../../src/StoryGraph/IStoryModifier.ts"],"names":[],"mappings":"AAAA,yCAAyC;AACzC,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAA;AAC7C,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAA;AAC7C;;GAEG;AACH,MAAM,WAAW,cAAc;IAE3B;;OAEG;IACH,MAAM,EAAE,YAAY,CAAC;IACrB;;OAEG;IACH,IAAI,EAAE,YAAY,CAAC;CACtB"}

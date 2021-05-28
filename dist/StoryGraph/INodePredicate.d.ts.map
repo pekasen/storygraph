@@ -1,1 +1,0 @@
-{"version":3,"file":"INodePredicate.d.ts","sourceRoot":"","sources":["../../src/StoryGraph/INodePredicate.ts"],"names":[],"mappings":"AAAA,yCAAyC;AACzC,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAA;AACzD,OAAO,EAAE,iBAAiB,EAAE,MAAM,qBAAqB,CAAA;AACvD;;GAEG;AACH,MAAM,WAAW,cAAc;IAE3B;;OAEG;IACH,QAAQ,CAAC,EAAE,kBAAkB,CAAC;IAC9B;;OAEG;IACH,OAAO,CAAC,EAAE,iBAAiB,CAAC;CAC/B"}

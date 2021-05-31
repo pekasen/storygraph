@@ -1,10 +1,10 @@
-import { action, makeObservable, observable } from "mobx";
+// import { action, makeObservable, observable } from "mobx";
 import { h } from "preact";
 import { createModelSchema } from "serializr";
 import { v4 } from "uuid";
-import { IConnectorPort, IStoryModifier, ModifierType } from "storygraph";
 import { VReg } from "storymesh-plugin-support";
 import { ButtonGroup, Display, MenuTemplate } from "preact-sidebar";
+import { IStoryModifier, ModifierType, IConnectorPort } from "..";
 
 function isStoryModifierType(type: string): boolean {
     const modifierTypes = ["css-class", "css-inline", "css-hybrid"];
@@ -147,12 +147,12 @@ export class ObservableStoryModifier<T> extends AbstractStoryModifier {
         this.name = "";
         this.type = "css-inline";
 
-        makeObservable(this, {
-            name: observable,
-            type: observable,
-            updateName: action,
-            updateType: action
-        });
+        // makeObservable(this, {
+        //     name: observable,
+        //     type: observable,
+        //     updateName: action,
+        //     updateType: action
+        // });
     }
 }
 

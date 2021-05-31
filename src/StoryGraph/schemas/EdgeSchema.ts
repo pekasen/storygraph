@@ -1,5 +1,5 @@
-import { IEdge } from 'storygraph';
 import { ModelSchema, identifier, createSimpleSchema } from 'serializr';
+import { IEdge } from '../IEdge';
 
 export const EdgeSchema: ModelSchema<IEdge> = createSimpleSchema({
     from: true,

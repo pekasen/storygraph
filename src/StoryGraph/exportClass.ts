@@ -1,5 +1,5 @@
-import { makeObservable } from "mobx";
-import { StoryObject } from "storygraph";
+// import { makeObservable } from "mobx";
+// import { StoryObject } from "./AbstractStoryObject";
 // import { IPlugInRegistryEntry } from '../../renderer/utils/PlugInClassRegistry';
 import { Class, PlugIn } from 'storymesh-plugin-support';
 
@@ -20,24 +20,24 @@ export function exportClass<Type>(
     icon: string,
     isPublic?: boolean
 ): PlugIn {
-    return makeObservable({
+    return ({ // makeObservable
         name: name,
         id: id,
         icon: icon,
         public: isPublic ?? true,
-        package: {
-            name: "MSDFKM",
-            version: "1.0.0",
-            baseURL: "",
-            publisher: {
-                name: "NGWebS-Core",
-                id: "a",
-                mail: "av-lab@haw-hamburg"
-            },
-            __index: [
-                ""
-            ]
-        },
+        // package: {
+        //     name: "MSDFKM",
+        //     version: "1.0.0",
+        //     baseURL: "",
+        //     publisher: {
+        //         name: "NGWebS-Core",
+        //         id: "a",
+        //         mail: "av-lab@haw-hamburg"
+        //     },
+        //     __index: [
+        //         ""
+        //     ]
+        // },
         constructor: target
     });
 }

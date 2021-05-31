@@ -1,7 +1,7 @@
 import { MenuTemplate } from "preact-sidebar";
-import { IRegistry } from 'storygraph/dist/StoryGraph/IRegistry';
-import { AbstractStoryObject } from './AbstractStoryObject';
-import { ConnectorDirection, ConnectorPort, ConnectorType } from 'storygraph';
+import { AbstractStoryObject } from './StoryObject';
+import { ConnectorType, ConnectorDirection, ConnectorPort } from "..";
+import { IRegistry } from "./IRegistry";
 
 interface IDefaultFieldsMethods {
     addConnection: (registry: IRegistry, ids: string,  myport: string, theirport: string, direction: "in" | "out") => void

@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "preact": "^10.5.13",
+    "preact-sidebar": "file:../preact-sidebar",
     "serializr": "^2.0.5",
     "storymesh-plugin-support": "file:../storymesh-plugin-support",
     "uuid": "^8.3.2"

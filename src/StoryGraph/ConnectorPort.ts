@@ -1,8 +1,8 @@
-import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./IConnectorPort";
+import { ConnectorDirection, ConnectorType, Data, Flow, IConnectorPort, IDataInPort, IDataOutPort, IFlowInPort, IFlowOutPort, In, IReactionInPort, IReactionOutPort, isConnectorDirection, isConnectorType, Out, Reaction } from "./interfaces/IConnectorPort";
 import { v4 } from "uuid";
 import { IEdge, StoryGraph } from "..";
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
-import { IEdgeEvent } from "./IEdgeEvent";
+import { IEdgeEvent } from "./interfaces/IEdgeEvent";
 
 export const DATAREQUEST = "data-request";
 export  const DATANOTIFICATION = "data-notification";

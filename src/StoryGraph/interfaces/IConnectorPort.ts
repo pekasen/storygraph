@@ -1,5 +1,5 @@
-import { IEdge } from "..";
-import { NotificationCenter } from "./NotificationCenter";
+import { IEdge } from "../..";
+import { NotificationCenter } from "../NotificationCenter";
 
 export type Reaction = "reaction";
 export type Flow = "flow";

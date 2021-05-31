@@ -4,7 +4,7 @@ import { IEdge } from "./IEdge";
 import { StoryGraph } from "./StoryGraph";
 import { IRenderingProperties } from "./IRenderingProperties";
 import { IStoryModifier } from "./IStoryModifier";
-import { IConnectorPort } from './IConnectorPort';
+import { IConnectorPort } from './interfaces/IConnectorPort';
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
 import { IStoryObject } from "./IStoryObject";
 import { ConnectorPort } from "..";
@@ -32,7 +32,7 @@ export interface Subscription {
     hook: (payload?: INotificationData<unknown>) => void
 }
 
-export abstract class StoryObject implements IStoryObject {
+export abstract class AbstractStoryObject implements IStoryObject {
     public id = v4();
 
     public abstract icon: string;

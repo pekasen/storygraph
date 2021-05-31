@@ -1,13 +1,14 @@
 import { StoryGraph } from "./StoryGraph/StoryGraph";
 import { IStoryObject } from "./StoryGraph/IStoryObject";
 import { IEdge } from './StoryGraph/IEdge';
-import { ConnectorDirection, ConnectorType, IConnectorPort } from './StoryGraph/IConnectorPort';
+import { ConnectorDirection, ConnectorType, IConnectorPort } from './StoryGraph/interfaces/IConnectorPort';
 import { IMetaData } from './StoryGraph/IMetaData';
 import { IRenderingProperties } from './StoryGraph/IRenderingProperties';
 import { IStoryModifier } from './StoryGraph/IStoryModifier';
 import { FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort, ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
 import { ModifierType } from "./StoryGraph/ModifierType";
-import { StoryObject, Subscription } from "./StoryGraph/StoryObject";
+import { AbstractStoryObject, Subscription } from "./StoryGraph/StoryObject";
+import { StoryObject } from "./StoryGraph/AbstractStoryObject";
 
 export {
     Subscription,

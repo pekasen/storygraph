@@ -1,4 +1,4 @@
-import { IMetaData } from 'storygraph';
+import { IMetaData } from '../IMetaData';
 import { date, list, ModelSchema, primitive } from 'serializr';
 
 

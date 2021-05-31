@@ -1,6 +1,6 @@
-import { IRenderingProperties, IStoryModifier, StoryGraph } from "storygraph";
-import { IContent } from "storygraph/dist/StoryGraph/IContent";
 import { VReg } from "storymesh-plugin-support";
+import { IRenderingProperties, IStoryModifier, StoryGraph } from "..";
+import { IContent } from "./IContent";
 
 export interface INGWebSProps {
     id: string

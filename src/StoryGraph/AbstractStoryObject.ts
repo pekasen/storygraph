@@ -1,23 +1,20 @@
 import { FunctionComponent } from "preact";
 import { v4 } from "uuid";
-import { action, makeObservable, observable } from 'mobx';
+// import { action, makeObservable, observable } from 'mobx';
 import { Card, MenuTemplate } from "preact-sidebar";
-import { StoryObject as StoryObject0, StoryGraph, IStoryObject, IConnectorPort, IEdge, IMetaData, IRenderingProperties, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort, ConnectorPort } from 'storygraph';
-import { IRegistry } from 'storygraph/dist/StoryGraph/IRegistry';
-
 import { createModelSchema, custom, deserialize, getDefaultModelSchema, identifier, list, map, object, optional, primitive, serialize } from 'serializr';
-import { PReg } from "storymesh-plugin-support";
-
+import { PReg, VReg } from "storymesh-plugin-support";
 import { AbstractStoryModifier } from "./AbstractModifier";
-
-import { EdgeSchema } from "../../renderer/store/schemas/EdgeSchema";
-import { ConnectorSchema } from "../../renderer/store/schemas/ConnectorSchema";
-import { UserDefinedPropertiesSchema } from '../../renderer/store/schemas/UserDefinedPropertiesSchema';
-import { MetaDataSchema } from '../../renderer/store/schemas/MetaDataSchema';
-import { ContentSchema } from '../../renderer/store/schemas/ContentSchema';
-
+import { EdgeSchema } from "./schemas/EdgeSchema";
+import { ConnectorSchema } from "./schemas/ConnectorSchema";
+import { UserDefinedPropertiesSchema } from './schemas/UserDefinedPropertiesSchema';
+import { MetaDataSchema } from './schemas/MetaDataSchema';
+import { ContentSchema } from './schemas/ContentSchema';
 import { INGWebSProps } from "./INGWebSProps";
-import { PReg } from "storymesh-plugin-support";
+import { NotificationCenter } from "./NotificationCenter";
+import { IMetaData, IRenderingProperties, IEdge, StoryGraph, IConnectorPort, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort } from "..";
+import { IRegistry } from "./IRegistry";
+import { AbstractStoryObject } from "./StoryObject";
 
 /**
  * Our second little dummy PlugIn
@@ -25,7 +22,7 @@ import { PReg } from "storymesh-plugin-support";
  * 
  */
 // @
-export class StoryObject extends StoryObject0 implements IPlugIn {
+export class StoryObject extends AbstractStoryObject {
     
     public id: string = v4();
     public metaData: IMetaData = {
@@ -63,21 +60,21 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
     protected _connectors = new Map<string, IConnectorPort>();
     protected _rerender?: (() => void);
 
-    constructor() {
-        super();
+    // constructor() {
+    //     super();
         
-        makeObservable(this, {
-            id: false,
-            metaData:               observable,
-            connections:            observable,
-            modifiers:              observable.deep,
-            // cannot make connectors as computed as it will fuck up everything and the world.
-            // connectors:             computed,
-            addConnection:          action,
-            addModifier:            action,
-            removeModifier:         action
-        });
-    }
+    //     makeObservable(this, {
+    //         id: false,
+    //         metaData:               observable,
+    //         connections:            observable,
+    //         modifiers:              observable.deep,
+    //         // cannot make connectors as computed as it will fuck up everything and the world.
+    //         // connectors:             computed,
+    //         addConnection:          action,
+    //         addModifier:            action,
+    //         removeModifier:         action
+    //     });
+    // }
     
     public addConnections(edges: IEdge[]): void {
         // store locally
@@ -203,7 +200,7 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
 export const StoryObjectSchema = createModelSchema(StoryObject, {
     id: identifier(
         (id: string, obj) => {
-            const reg = rootStore._loadingCache;
+            VReg.instance().set(id, obj);
         }
     ),
     name: primitive(),

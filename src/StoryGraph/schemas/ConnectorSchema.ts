@@ -1,5 +1,5 @@
 import { createModelSchema, list, object, optional } from 'serializr';
-import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort, FlowConnectorInPort, FlowConnectorOutPort, IConnectorPort, ReactionConnectorInPort, ReactionConnectorOutPort } from 'storygraph';
+import { ConnectorPort, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort, DataConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort } from '../ConnectorPort';
 import { EdgeSchema } from './EdgeSchema';
 
 export const ConnectorSchema = createModelSchema(ConnectorPort, {

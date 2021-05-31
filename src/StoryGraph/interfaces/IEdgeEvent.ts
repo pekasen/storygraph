@@ -1,4 +1,4 @@
-import { IEdge } from "..";
+import { IEdge } from "../interfaces/IEdge";
 
 
 export interface IEdgeEvent {

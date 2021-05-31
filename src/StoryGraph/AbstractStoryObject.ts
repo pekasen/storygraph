@@ -3,18 +3,17 @@ import { v4 } from "uuid";
 // import { action, makeObservable, observable } from 'mobx';
 import { Card, MenuTemplate } from "preact-sidebar";
 import { createModelSchema, custom, deserialize, getDefaultModelSchema, identifier, list, map, object, optional, primitive, serialize } from 'serializr';
-import { PReg, VReg } from "storymesh-plugin-support";
 import { AbstractStoryModifier } from "./AbstractModifier";
 import { EdgeSchema } from "./schemas/EdgeSchema";
 import { ConnectorSchema } from "./schemas/ConnectorSchema";
 import { UserDefinedPropertiesSchema } from './schemas/UserDefinedPropertiesSchema';
 import { MetaDataSchema } from './schemas/MetaDataSchema';
 import { ContentSchema } from './schemas/ContentSchema';
-import { INGWebSProps } from "./INGWebSProps";
 import { NotificationCenter } from "./NotificationCenter";
-import { IMetaData, IRenderingProperties, IEdge, StoryGraph, IConnectorPort, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort } from "..";
-import { IRegistry } from "./IRegistry";
+import { IMetaData, IRenderingProperties, IEdge, StoryGraph, IConnectorPort, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort, PReg, VReg } from "..";
 import { AbstractStoryObject } from "./StoryObject";
+import { INGWebSProps } from "./interfaces/INGWebSProps";
+import { IRegistry } from "./interfaces/IRegistry";
 
 /**
  * Our second little dummy PlugIn

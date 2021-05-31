@@ -1,4 +1,4 @@
-import { IMetaData } from '../IMetaData';
+import { IMetaData } from '../interfaces/IMetaData';
 import { date, list, ModelSchema, primitive } from 'serializr';
 
 

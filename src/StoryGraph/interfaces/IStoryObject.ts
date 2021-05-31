@@ -2,11 +2,12 @@
 import { IContent } from "./IContent"
 import { IMetaData } from "./IMetaData"
 import { IEdge } from "./IEdge"
-import { StoryGraph } from "./StoryGraph"
 import { IRenderingProperties } from "./IRenderingProperties"
 import { IStoryModifier } from "./IStoryModifier"
 import { IConnectorPort } from './IConnectorPort'
-import { NotificationCenter } from "./NotificationCenter"
+import { NotificationCenter } from "../NotificationCenter"
+import { StoryGraph } from "../StoryGraph"
+
 /**
  * 
  */

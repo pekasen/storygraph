@@ -1,7 +1,4 @@
-// import { makeObservable } from "mobx";
-// import { StoryObject } from "./AbstractStoryObject";
-// import { IPlugInRegistryEntry } from '../../renderer/utils/PlugInClassRegistry';
-import { Class, PlugIn } from 'storymesh-plugin-support';
+import { Class, PlugIn } from "..";
 
 /**
  * Pass the class and metadata to this function and assigned it to exported const plugInExprort in order to pump to the registry

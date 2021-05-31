@@ -1,5 +1,5 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { ModifierType } from "./ModifierType"
+import { ModifierType } from "../ModifierType"
 /**
  * 
  */

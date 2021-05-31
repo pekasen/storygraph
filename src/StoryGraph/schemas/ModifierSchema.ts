@@ -1,5 +1,5 @@
 import { createSimpleSchema, ModelSchema } from 'serializr';
-import { IStoryModifier } from '../IStoryModifier';
+import { IStoryModifier } from '../interfaces/IStoryModifier';
 
 // export const StoryModifierSchema: ModelSchema<IStoryModifier> = {
 //     props: {

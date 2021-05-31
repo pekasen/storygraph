@@ -1,4 +1,3 @@
-
 export class NotificationCenter {
     
     private _callbacks: Map<string, ((payload?: INotificationData<any>) => void)[]> = new Map();

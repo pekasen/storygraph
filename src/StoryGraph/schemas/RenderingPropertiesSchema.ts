@@ -1,5 +1,5 @@
-import { IRenderingProperties } from 'storygraph';
 import { createSimpleSchema, ModelSchema } from 'serializr';
+import { IRenderingProperties } from '../interfaces/IRenderingProperties';
 
 
 export const RenderingPropertiesSchema: ModelSchema<IRenderingProperties> = createSimpleSchema({

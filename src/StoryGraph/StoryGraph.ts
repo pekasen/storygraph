@@ -1,10 +1,10 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { IStoryObject } from "./IStoryObject"
-import { IEdge } from "./IEdge"
-import { IRegistry } from "./IRegistry"
-import { IConnectorPort } from './IConnectorPort';
+import { IStoryObject } from "./interfaces/IStoryObject"
+import { IEdge } from "./interfaces/IEdge"
+import { IRegistry } from "./interfaces/IRegistry"
+import { IEdgeEvent } from "./interfaces/IEdgeEvent";
+import { IConnectorPort } from './interfaces/IConnectorPort';
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
-import { IEdgeEvent } from "./IEdgeEvent";
 
 /**
  * A graph to connect story content

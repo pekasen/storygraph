@@ -2,9 +2,10 @@
 import { h } from "preact";
 import { createModelSchema } from "serializr";
 import { v4 } from "uuid";
-import { VReg } from "storymesh-plugin-support";
 import { ButtonGroup, Display, MenuTemplate } from "preact-sidebar";
-import { IStoryModifier, ModifierType, IConnectorPort } from "..";
+import { IConnectorPort, VReg } from "..";
+import { IStoryModifier } from "./interfaces/IStoryModifier";
+import { ModifierType } from "./ModifierType";
 
 function isStoryModifierType(type: string): boolean {
     const modifierTypes = ["css-class", "css-inline", "css-hybrid"];

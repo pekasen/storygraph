@@ -17,7 +17,10 @@ export const ConnectorSchema = createModelSchema(ConnectorPort, {
             else return new FlowConnectorOutPort();
         case "data": if (json.direction === "in")
             return new DataConnectorInPort("data-in", () => "");
-            else return new DataConnectorOutPort("data-out", () => undefined);
+            else return new DataConnectorOutPort("data-out", () => ({
+                cache: undefined,
+                cached: false
+            }));
         case "reaction": if (json.direction === "in")
             return new ReactionConnectorInPort("name", () => undefined);
             else return new ReactionConnectorOutPort("reaction-out");

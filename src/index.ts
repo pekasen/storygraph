@@ -4,9 +4,7 @@ import { IEdge } from './StoryGraph/interfaces/IEdge';
 import { ConnectorDirection, ConnectorType, IConnectorPort } from './StoryGraph/interfaces/IConnectorPort';
 import { IMetaData } from './StoryGraph/interfaces/IMetaData';
 import { IRenderingProperties } from './StoryGraph/interfaces/IRenderingProperties';
-import { IStoryModifier } from './StoryGraph/interfaces/IStoryModifier';
 import { FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort, ConnectorPort, DataConnectorInPort, DataConnectorOutPort } from './StoryGraph/ConnectorPort';
-import { ModifierType } from "./StoryGraph/ModifierType";
 import { Subscription } from "./StoryGraph/StoryObject";
 import { StoryObject } from "./StoryGraph/AbstractStoryObject";
 import { PlugIn } from "./StoryGraph/registry/PlugIn";
@@ -23,13 +21,11 @@ export {
     IStoryObject,
     StoryObject,
     IEdge,
-    IStoryModifier,
     IMetaData,
     IRenderingProperties,
     IConnectorPort,
     ConnectorType,
     ConnectorDirection,
-    ModifierType,
     ConnectorPort,
     DataConnectorInPort,
     DataConnectorOutPort,

@@ -1,5 +1,4 @@
 /**P. Kessling *Hamburg, September 2020*/
-import { StoryGraph } from "./StoryGraph"
 /**
  * 
  */

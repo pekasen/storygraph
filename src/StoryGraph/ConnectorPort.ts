@@ -5,8 +5,8 @@ import { INotificationData, NotificationCenter } from "./NotificationCenter";
 import { IEdgeEvent } from "./interfaces/IEdgeEvent";
 
 export const DATAREQUEST = "data-request";
-export  const DATANOTIFICATION = "data-notification";
-export  const DATADENIAL = "data-denial";
+export const DATANOTIFICATION = "data-notification";
+export const DATADENIAL = "data-denial";
 
 export class ConnectorPort implements IConnectorPort {
     type: ConnectorType;

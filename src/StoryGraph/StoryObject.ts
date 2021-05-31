@@ -1,15 +1,14 @@
-import { IContent } from "./IContent";
-import { IMetaData } from "./IMetaData";
-import { IEdge } from "./IEdge";
+import { IContent } from "./interfaces/IContent";
+import { IMetaData } from "./interfaces/IMetaData";
+import { IEdge } from "./interfaces/IEdge";
 import { StoryGraph } from "./StoryGraph";
-import { IRenderingProperties } from "./IRenderingProperties";
-import { IStoryModifier } from "./IStoryModifier";
+import { IRenderingProperties } from "./interfaces/IRenderingProperties";
 import { IConnectorPort } from './interfaces/IConnectorPort';
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
-import { IStoryObject } from "./IStoryObject";
+import { IStoryObject } from "./interfaces/IStoryObject";
 import { ConnectorPort } from "..";
-import { IEdgeEvent } from "./IEdgeEvent";
 import { v4 } from "uuid";
+import { IStoryModifier } from "./interfaces/IStoryModifier";
 
 const NEW = "NEW";
 const BINDING = "BINDING";

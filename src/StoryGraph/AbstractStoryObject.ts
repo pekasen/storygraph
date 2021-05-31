@@ -2,14 +2,10 @@ import { FunctionComponent } from "preact";
 import { v4 } from "uuid";
 import { action, makeObservable, observable } from 'mobx';
 import { MenuTemplate } from "preact-sidebar";
-import { StoryGraph, IStoryObject, IConnectorPort, IEdge, IMetaData, IRenderingProperties, FlowConnectorInPort, FlowConnectorOutPort, DataConnectorInPort, ConnectorPort } from 'storygraph';
-import { IRegistry } from 'storygraph/dist/StoryGraph/IRegistry';
-
 import { createModelSchema, custom, deserialize, getDefaultModelSchema, identifier, list, map, object, optional, primitive, serialize } from 'serializr';
-import { AbstractStoryModifier } from "./AbstractModifier";
+import { PReg } from "storymesh-plugin-support";
 
-import { IEdgeEvent } from "storygraph/dist/StoryGraph/IEdgeEvent";
-import { NotificationCenter, INotificationData } from "storygraph/dist/StoryGraph/NotificationCenter";
+import { AbstractStoryModifier } from "./AbstractModifier";
 
 import { EdgeSchema } from "../../renderer/store/schemas/EdgeSchema";
 import { ConnectorSchema } from "../../renderer/store/schemas/ConnectorSchema";
@@ -18,7 +14,6 @@ import { MetaDataSchema } from '../../renderer/store/schemas/MetaDataSchema';
 import { ContentSchema } from '../../renderer/store/schemas/ContentSchema';
 
 import { INGWebSProps } from "./INGWebSProps";
-import { PReg } from "storymesh-plugin-support";
 
 /**
  * Our second little dummy PlugIn

@@ -60,6 +60,10 @@ export abstract class StoryObject implements IStoryObject {
     // public abstract isMounting(): void
     public abstract isMounted(): void
     public abstract subscriptions: Subscription[];
+    
+    public abstract addModifier(modifier: IStoryModifier) : void
+    public abstract removeModifier(modifier: IStoryModifier) : void
+
 
     private __state: StoryObjectState = "NEW"
     private __allowedTransistions: TransistionEdge[] = [

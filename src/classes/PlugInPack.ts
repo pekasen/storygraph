@@ -1,3 +1,4 @@
+import { PlugIn } from "./PlugIn";
 import { Publisher } from "./Publisher";
 
 export interface PlugInPack {
@@ -11,5 +12,5 @@ export interface PlugInPack {
     version: string;
     name:    string;
     publisher: Publisher;
-    __index: string[];
+    __index: PlugIn[];
 }

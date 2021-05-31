@@ -1,8 +1,8 @@
-import { PlugIn } from "./PlugIn";
+import { StoryObject } from "storygraph";
 import { PlugInManifest } from "./PlugInManifest";
 
 export class VReg {
-    private __registry: Map<string, PlugIn>;
+    private __registry: Map<string, StoryObject>;
     private static __instance: VReg | undefined;
 
     private constructor() {
@@ -16,12 +16,16 @@ export class VReg {
         return VReg.__instance!;
     }
     
-    public set(id: string, value: PlugIn) : void {
+    public set<T>(id: string, value: StoryObject) : void {
         this.__registry.set(id, value);
     }
 
     public has(id: string) : boolean {
         return this.__registry.has(id);
+    }
+
+    public get(id: string) : StoryObject | undefined {
+        return this.__registry.get(id);
     }
 
     public getManifest() : PlugInManifest[] {
@@ -36,12 +40,12 @@ export class VReg {
                 p.push(c);
                 return p;
             }
-        }, [] as PlugIn[]).
+        }, [] as StoryObject[]).
         map(plugIn => ({
             name: plugIn.name,
             id: plugIn.id,
-            version: plugIn.package.version,
-            url: plugIn.package.baseURL + "/" + plugIn.package.version + "/" + plugIn.name
+            version: "plugIn.package.version",
+            url: 'plugIn.package.baseURL + "/" + plugIn.package.version + "/" + plugIn.name'
         }))
     }
 }

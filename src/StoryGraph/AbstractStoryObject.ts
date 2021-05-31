@@ -18,7 +18,6 @@ import { ContentSchema } from '../../renderer/store/schemas/ContentSchema';
 
 import { INGWebSProps } from "./INGWebSProps";
 import { PReg } from "storymesh-plugin-support";
-import { Logger } from "js-logger";
 
 /**
  * Our second little dummy PlugIn
@@ -50,7 +49,6 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
     public connections: IEdge[] = [];
     public modifiers: AbstractStoryModifier[] = [];
     public deletable: boolean = true;
-    public logger: ILogger = Logger.get(this.id);
 
     public name!: string;
     public role!: string;
@@ -106,7 +104,7 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
                     to: ((isIncoming) ? `${this.id}.${myport}` : `${id}.${theirport}`),
                     // parent: parentNetwork
                 };
-                Logger.info("new Edge", newEdge);
+
                 parentNetwork.connect(registry, [newEdge]);
             }
         }
@@ -116,7 +114,6 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
             const _index = this.connections.findIndex((_edge) => (_edge.id === edge.id));
             if (_index !== -1) {
                 if (this.connections.splice(_index, 1)[0].id === edge.id) {
-                    Logger.info(`edge removed from node ${this.id}`);
                 } else console.warn(`edge not removed in node ${this.id}`);
             } else console.warn(`edge not found in node ${this.id}`);  
         });
@@ -168,7 +165,6 @@ export class StoryObject extends StoryObject0 implements IPlugIn {
 
     public isBound(): void {
         // throw new Error("Method not implemented.");
-        this.logger.log("READY TO ROLL");
     }
 
     public mountTo(): void {
@@ -208,7 +204,6 @@ export const StoryObjectSchema = createModelSchema(StoryObject, {
     id: identifier(
         (id: string, obj) => {
             const reg = rootStore._loadingCache;
-            Logger.info("registering @valuecache", obj,reg.set(id, obj))
         }
     ),
     name: primitive(),

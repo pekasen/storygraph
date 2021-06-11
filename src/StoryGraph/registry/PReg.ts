@@ -48,4 +48,12 @@ export class PReg {
     public has(id: string) : boolean {
         return this.__registry.has(id);
     }
+
+    public forEach(callback: (element: PlugIn, key?: string, map?: Map<string, PlugIn>) => void) : void {
+        this.__registry.forEach(callback);
+    }
+
+    public toArray(): PlugIn[] {
+        return Array.from(this.__registry).map(([_, val]) => val);
+    }
 }

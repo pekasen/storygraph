@@ -92,7 +92,7 @@ export class StoryObject extends AbstractStoryObject {
         if (this.parent) {
             const isIncoming = direction === "in";
 
-            const parentNetwork = registry.getValue(this.parent)?.childNetwork;
+            const parentNetwork = (registry.get(this.parent) as StoryObject)?.childNetwork;
             if (parentNetwork) {
                 const newEdge: IEdge = {
                     id: "edge." + v4(), // (isIncoming) ? `edge.${id}.${this.id}` : `edge.${this.id}.${id}`,

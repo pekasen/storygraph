@@ -1,30 +1,13 @@
-// import { makeObservable, observable, action } from 'mobx';
 import { createModelSchema, list, object, primitive } from 'serializr';
-import { StoryGraph, IEdge } from '..';
-import { EdgeSchema } from './schemas/EdgeSchema';
+import { StoryGraph } from '../StoryGraph';
+import { EdgeSchema } from './EdgeSchema';
 
-export class ObservableStoryGraph extends StoryGraph {
-    constructor(parent: string, nodes?: string[], edges?: IEdge[]) {
-        super(parent, nodes, edges);
-
-        // makeObservable(this, {
-        //     nodes: observable,
-        //     edges: observable,
-        //     addNode: action,
-        //     connect: action,
-        //     disconnect: action,
-        //     removeNode: action
-        // });
-    }
-}
-
-export const ObservableStoryGraphSchema = createModelSchema(ObservableStoryGraph,{
+export const StoryGraphSchema = createModelSchema(StoryGraph, {
     parent: primitive(),
     nodes: list(primitive()),
     edges: list(object(EdgeSchema), {
         // afterDeserialize: (cb, err, newValue) => {
         //     // if (newValue instanceof AbstractStoryObject)
-
         //     // const graph = context.target as ObservableStoryGraph;
         //     // // graph.edges = [];
         //     // setTimeout(() => {
@@ -36,7 +19,6 @@ export const ObservableStoryGraphSchema = createModelSchema(ObservableStoryGraph
         //     //             source: this,
         //     //             type: "edge"
         //     //         };
-        
         //     //         [
         //     //             ...StoryGraph.parseNodeId(edge.from),
         //     //             ...StoryGraph.parseNodeId(edge.to),

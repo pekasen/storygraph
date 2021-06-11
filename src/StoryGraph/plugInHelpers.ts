@@ -1,9 +1,10 @@
 import { IRegistry } from './interfaces/IRegistry';
 import { StoryObject } from './AbstractStoryObject';
-import { ConnectorDirection, ConnectorPort, ConnectorType, IConnectorPort, StoryGraph } from 'storygraph';
-import { Button, CheckBox, DropDown, MenuTemplate, Table, Text } from 'preact-sidebar';
+import { Button, DropDown, MenuTemplate, Table, Text } from 'preact-sidebar';
 import { useContext } from 'preact/hooks';
-import { Store } from '../../renderer';
+import { ConnectorType, ConnectorDirection, ConnectorPort, IConnectorPort, StoryGraph } from '..';
+import { VReg } from './registry/VReg';
+import { AbstractStoryModifier } from './AbstractModifier';
 
 interface IDefaultFieldsMethods {
     addConnection: (registry: IRegistry, ids: string,  myport: string, theirport: string, direction: "in" | "out") => void
@@ -22,6 +23,8 @@ interface IConnectorMethods {
     removeConnector: (port: ConnectorPort) => void
 }
 
+type Target = StoryObject | AbstractStoryModifier;
+
 export function connectionField(target: StoryObject & IDefaultFieldsMethods): MenuTemplate[] {
     interface IConnectionTableEntry {
         thisPort: string
@@ -30,7 +33,7 @@ export function connectionField(target: StoryObject & IDefaultFieldsMethods): Me
     }
 
     const mapper = (arr: IConnectorPort[]): IConnectionTableEntry[] => {
-        const { storyContentObjectRegistry } = useContext(Store);
+        const reg = VReg.instance();
         
         return arr.
         map(connector => {
@@ -38,8 +41,8 @@ export function connectionField(target: StoryObject & IDefaultFieldsMethods): Me
                 const [toId, toConnectorId] = StoryGraph.parseNodeId(connection.to);
                 const [fromId, fromConnectorId] = StoryGraph.parseNodeId(connection.from);
 
-                const toObj = storyContentObjectRegistry.getValue(toId);
-                const fromObj = storyContentObjectRegistry.getValue(fromId);
+                const toObj = reg.get(toId);
+                const fromObj = reg.get(fromId);
                 const toPort = toObj?.connectors.get(toConnectorId);
                 const fromPort = fromObj?.connectors.get(fromConnectorId);
 
@@ -107,7 +110,7 @@ export function connectionField(target: StoryObject & IDefaultFieldsMethods): Me
     ]
 }
 
-export function addConnectionPortField(target: StoryObject & IConnectorMethods): MenuTemplate[] {
+export function addConnectionPortField(target: Target & IConnectorMethods): MenuTemplate[] {
     return [
         new Button("Add Port", () => target.addConnector("flow", "in"))
         // {
@@ -123,7 +126,7 @@ export function addConnectionPortField(target: StoryObject & IConnectorMethods):
     ]
 }
 
-export function nameField(target: StoryObject & INameFieldMethods): MenuTemplate[] {
+export function nameField(target: Target & INameFieldMethods): MenuTemplate[] {
     return [
         new Text(
             "Name",
@@ -143,7 +146,7 @@ export function nameField(target: StoryObject & INameFieldMethods): MenuTemplate
 }
 
 export function dropDownField(
-    target: StoryObject,
+    target: Target,
     options: () => string[], //  = ["h1", "h2", "h3", "p", "b"]
     value: () => string,
     handler: (selection: string) => void

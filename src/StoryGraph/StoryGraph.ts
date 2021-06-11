@@ -5,6 +5,7 @@ import { IRegistry } from "./interfaces/IRegistry"
 import { IEdgeEvent } from "./interfaces/IEdgeEvent";
 import { IConnectorPort } from './interfaces/IConnectorPort';
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
+import { StoryObject } from "..";
 
 /**
  * A graph to connect story content
@@ -52,7 +53,7 @@ export class StoryGraph {
             this.nodes.push(node.id);
             node.parent = this.parent;
             node.bindTo(this.notificationCenter);
-            registry.register(node);
+            registry.set(node.id, node);
         } else throw("node exists already")
     }
 
@@ -139,7 +140,7 @@ export class StoryGraph {
      */
     public removeNode(registry: IRegistry, id: string) :  void {
         if (this._nodeExists(id)) {
-            const node = registry.getValue(id);
+            const node = registry.get(id) as StoryObject;
             if (!node) throw("Cannot delete undefined node!");
             // const edges = this.edges.filter(edge => (edge.to === id || edge.from === id))
             const edges = node.connections;
@@ -151,7 +152,7 @@ export class StoryGraph {
             const index = this.nodes.indexOf(id);
             this.nodes.splice(index, 1)
 
-            registry.deregister(id);
+            registry.rm(id);
         }
     }
 
@@ -161,7 +162,7 @@ export class StoryGraph {
      * @param {IRegistry} registry object to deregister from
      */
     public willDeregister(registry: IRegistry) {
-        this._nodeIDs.forEach(id => registry.deregister(id));
+        this._nodeIDs.forEach(id => registry.rm(id));
     }
 
     /**
@@ -180,7 +181,7 @@ export class StoryGraph {
             .connections
             .map((edge) => {
                 const [nodeID, portID] = StoryGraph.parseNodeId(edge.to);
-                return {obj: registry.getValue(nodeID), port: portID};
+                return {obj: registry.get(nodeID) as StoryObject, port: portID};
             })
             .reduce((acc: (IStoryObject | undefined)[], run: {obj: IStoryObject | undefined, port: string}) => {
                 // get assoc port
@@ -214,7 +215,7 @@ export class StoryGraph {
 
             return [..._res, ...out];
         }
-        const _node = registry.getValue(fromNode);
+        const _node = registry.get(fromNode) as StoryObject;
         const _port = _node?.connectors.get(port);
         if (_node !== undefined && _port !== undefined) return recurse(_node, _port);
         else return [];
@@ -233,8 +234,8 @@ export class StoryGraph {
         return edges.filter((edge => {
             const [fromId, fromPortId] = StoryGraph.parseNodeId(edge.from);
             const [toId, toPortId] = StoryGraph.parseNodeId(edge.to);
-            const from = registry.getValue(fromId);
-            const to = registry.getValue(toId);
+            const from = registry.get(fromId) as StoryObject;
+            const to = registry.get(toId) as StoryObject;
             const fromPort = from?.connectors.get(fromPortId);
             const toPort = to?.connectors.get(toPortId);
             // const initial: boolean = true;
@@ -311,7 +312,7 @@ export class StoryGraph {
                     .filter(e => (e.from === `${node.id}.${aPort.name}`))
                     .map(e => {
                         const [_id, _portId] = StoryGraph.parseNodeId(e.to);
-                        const _node = registry?.getValue(_id);
+                        const _node = registry?.get(_id) as StoryObject;
                         const _port = _node?.connectors.get(_portId);
 
                         return {
@@ -367,8 +368,8 @@ export class StoryGraph {
         .filter(e => {
             const [_fromId, _fromPort ] = StoryGraph.parseNodeId(e.from);
             const [_toId, _toPort ] = StoryGraph.parseNodeId(e.to);
-            const _from = registry.getValue(_fromId);
-            const _to   = registry.getValue(_toId);
+            const _from = registry.get(_fromId) as StoryObject;
+            const _to   = registry.get(_toId) as StoryObject;
 
             const _fromType = _from?.connectors.get(_fromPort)?.type
             const _toType = _to?.connectors.get(_toPort)?.type

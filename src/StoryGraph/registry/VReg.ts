@@ -1,7 +1,7 @@
-import { StoryObject } from "../..";
+import { IRegistry, StoryObject } from "../..";
 import { PlugInManifest } from "./PlugInManifest";
 
-export class VReg {
+export class VReg implements IRegistry {
     private __registry: Map<string, StoryObject>;
     private static __instance: VReg | undefined;
 
@@ -26,6 +26,10 @@ export class VReg {
 
     public get(id: string) : StoryObject | undefined {
         return this.__registry.get(id);
+    }
+
+    public rm(id: string) : boolean {
+        return this.__registry.delete(id);
     }
 
     public getManifest() : PlugInManifest[] {

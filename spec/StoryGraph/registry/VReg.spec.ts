@@ -1,10 +1,8 @@
 import { assert } from "chai";
 import { IConnectorPort, IEdge, IMetaData, IRenderingProperties, IStoryModifier, StoryGraph, StoryObject, Subscription } from "storygraph";
-import { IContent } from "storygraph/dist/StoryGraph/IContent";
-import { NotificationCenter } from "storygraph/dist/StoryGraph/NotificationCenter";
-import { PlugIn } from "../../src/classes/PlugIn";
-import { PlugInPack } from "../../src/classes/PlugInPack";
-import { VReg } from "../../src/classes/VReg"
+import { VReg, PlugIn, PlugInPack } from "../../../src";
+import { IContent } from "../../../src/StoryGraph/interfaces/IContent";
+import { NotificationCenter } from "../../../src/StoryGraph/NotificationCenter";
 
 class Dummy extends StoryObject {
     icon: string;

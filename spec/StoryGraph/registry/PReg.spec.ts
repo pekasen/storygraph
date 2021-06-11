@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { PReg } from "../../src";
+import { PReg } from "../../../src";
 
 /**
   * Specification und unit tests for the PlugInRegistry class _PReg_

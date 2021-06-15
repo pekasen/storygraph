@@ -63,7 +63,20 @@ export abstract class AbstractStoryObject implements IStoryObject {
     public abstract addModifier(modifier: IStoryModifier) : void
     public abstract removeModifier(modifier: IStoryModifier) : void
 
-
+    public bindTo(notificationCenter: NotificationCenter): void {
+        this.notificationCenter = notificationCenter;
+        // bind connectors
+        this.connectors.forEach((connector) => {
+            // Logger.info("binding", connector, notificationCenter);
+            (connector as ConnectorPort).bindTo(notificationCenter, this.id);
+        });
+        // subscribe all hooks
+        this.subscriptions.forEach(sub => {
+            this.notificationCenter?.subscribe(sub.id, sub.hook);
+        });
+        this.__advanceState(BINDING);
+    }
+    
     private __state: StoryObjectState = "NEW"
     private __allowedTransistions: TransistionEdge[] = [
         {
@@ -120,20 +133,4 @@ export abstract class AbstractStoryObject implements IStoryObject {
         // do check ups here!
         this.__advanceState(MOUNTED);
     }
-
-    public bindTo(notificationCenter: NotificationCenter): void {
-        this.notificationCenter = notificationCenter;
-        // bind connectors
-        this.connectors.forEach((connector) => {
-            // Logger.info("binding", connector, notificationCenter);
-            (connector as ConnectorPort).bindTo(notificationCenter, this.id);
-        });
-        // subscribe all hooks
-        this.subscriptions.forEach(sub => {
-            this.notificationCenter?.subscribe(sub.id, sub.hook);
-        });
-        this.__advanceState(BINDING);
-    }
-
-
 }

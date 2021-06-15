@@ -19,7 +19,8 @@ export class PReg {
      * @static
      */
     public static instance() : PReg {
-        return PReg.__instance ?? new PReg();
+        if (PReg.__instance === undefined) PReg.__instance = new PReg()
+        return PReg.__instance;
     }
 
     /**
@@ -55,5 +56,9 @@ export class PReg {
 
     public toArray(): PlugIn[] {
         return Array.from(this.__registry).map(([_, val]) => val);
+    }
+    
+    get size() {
+        return this.__registry.size;
     }
 }

@@ -1,3 +1,4 @@
+import { PlugInPack, PReg } from "../..";
 import { PlugIn } from "./PlugIn";
 
 export class PPReg {
@@ -14,11 +15,16 @@ export class PPReg {
         return PPReg.__instance ?? new PPReg();
     }
 
-    public get(id: string): PlugIn | undefined {
+    public get(id: string): PlugInPack | undefined {
         if (this.__registry.has(id)) return this.__registry.get(id);
     }
 
-    public set(id: string, value: PlugIn) {
+    public set(id: string, value: PlugInPack) {
         this.__registry.set(id, value);
+        // automagically fill the PReg
+        value.__index.forEach(plugin => {
+            PReg.instance().set(plugin.id, plugin);
+            console.log("Setting", plugin.id);
+        });
     }
 }

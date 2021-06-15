@@ -5,7 +5,7 @@ import { IRegistry } from "./interfaces/IRegistry"
 import { IEdgeEvent } from "./interfaces/IEdgeEvent";
 import { IConnectorPort } from './interfaces/IConnectorPort';
 import { INotificationData, NotificationCenter } from "./NotificationCenter";
-import { StoryObject } from "..";
+import { StoryObject, VReg } from "..";
 
 /**
  * A graph to connect story content
@@ -53,7 +53,7 @@ export class StoryGraph {
             this.nodes.push(node.id);
             node.parent = this.parent;
             node.bindTo(this.notificationCenter);
-            registry.set(node.id, node);
+            VReg.instance().set(node.id, node);
         } else throw("node exists already")
     }
 
@@ -356,9 +356,9 @@ export class StoryGraph {
 
 
     private _nodeExists(id: string): boolean {
-        const [_id] = StoryGraph.parseNodeId(id);
+        // const [_id] = StoryGraph.parseNodeId(id);
         const ids = this._nodeIDs;
-        return ids.indexOf(_id) !== -1
+        return ids.indexOf(id) !== -1
     }
 
     private _adjacencyMatrix(registry: IRegistry, newEdges: IEdge[], type: "flow" | "reaction" | "data"): number[][] {

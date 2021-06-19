@@ -1,5 +1,5 @@
 import { AbstractStoryModifier } from "./StoryGraph/AbstractModifier";
-import { StoryObject } from "./StoryGraph/AbstractStoryObject";
+import { StoryObject } from "./StoryGraph/StoryObject";
 import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort, FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort } from './StoryGraph/ConnectorPort';
 import { CSSModifier, CSSModifierData, CSSStatement } from "./StoryGraph/CSSModifier";
 import { exportClass } from "./StoryGraph/exportClass";
@@ -27,7 +27,7 @@ import { ContentSchema } from "./StoryGraph/schemas/ContentSchema";
 import { StoryGraphSchema } from "./StoryGraph/schemas/StoryGraphSchema";
 import { start } from "./StoryGraph/start";
 import { StoryGraph } from "./StoryGraph/StoryGraph";
-import { Subscription } from "./StoryGraph/StoryObject";
+import { Subscription } from "./StoryGraph/AbstractStoryObject";
 
 export {
     start,

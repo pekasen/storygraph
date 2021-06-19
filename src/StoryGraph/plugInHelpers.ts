@@ -1,5 +1,5 @@
 import { IRegistry } from './interfaces/IRegistry';
-import { StoryObject } from './AbstractStoryObject';
+import { StoryObject } from './StoryObject';
 import { Button, DropDown, MenuTemplate, Table, Text } from 'preact-sidebar';
 import { useContext } from 'preact/hooks';
 import { ConnectorType, ConnectorDirection, ConnectorPort, IConnectorPort, StoryGraph } from '..';

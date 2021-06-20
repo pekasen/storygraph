@@ -52,4 +52,8 @@ export class VReg implements IRegistry {
             url: 'plugIn.package.baseURL + "/" + plugIn.package.version + "/" + plugIn.name'
         }))
     }
+
+    public get entries(): StoryObject[] {
+        return Array.from(this.__registry).map(e => e[1]);
+    }
 }

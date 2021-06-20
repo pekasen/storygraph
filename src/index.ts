@@ -1,5 +1,5 @@
 import { AbstractStoryModifier } from "./StoryGraph/AbstractModifier";
-import { StoryObject } from "./StoryGraph/StoryObject";
+import { Subscription, AbstractStoryObject } from "./StoryGraph/AbstractStoryObject";
 import { ConnectorPort, DataConnectorInPort, DataConnectorOutPort, FlowConnectorInPort, FlowConnectorOutPort, ReactionConnectorInPort, ReactionConnectorOutPort } from './StoryGraph/ConnectorPort';
 import { CSSModifier, CSSModifierData, CSSStatement } from "./StoryGraph/CSSModifier";
 import { exportClass } from "./StoryGraph/exportClass";
@@ -14,9 +14,10 @@ import { IRenderingProperties } from './StoryGraph/interfaces/IRenderingProperti
 import { IStoryModifier } from "./StoryGraph/interfaces/IStoryModifier";
 import { IStoryObject } from "./StoryGraph/interfaces/IStoryObject";
 import { ModifierType } from "./StoryGraph/ModifierType";
+import { NotificationCenter } from "./StoryGraph/NotificationCenter";
 import { connectionField, dropDownField, nameField } from "./StoryGraph/plugInHelpers";
 import { Class } from "./StoryGraph/registry/Class";
-import { ModifierPlugIn, PlugIn } from "./StoryGraph/registry/PlugIn";
+import { ModifierPlugIn, PlugIn, StoryPlugIn } from "./StoryGraph/registry/PlugIn";
 import { PlugInPack } from "./StoryGraph/registry/PlugInPack";
 import { PPReg } from "./StoryGraph/registry/PPReg";
 import { PReg } from "./StoryGraph/registry/PReg";
@@ -27,12 +28,13 @@ import { ContentSchema } from "./StoryGraph/schemas/ContentSchema";
 import { StoryGraphSchema } from "./StoryGraph/schemas/StoryGraphSchema";
 import { start } from "./StoryGraph/start";
 import { StoryGraph } from "./StoryGraph/StoryGraph";
-import { Subscription } from "./StoryGraph/AbstractStoryObject";
+import { StoryObject } from "./StoryGraph/StoryObject";
 
 export {
     start,
     StoryGraphSchema,
     AbstractStoryModifier,
+    AbstractStoryObject,
     ConnectorSchema,
     nameField,
     dropDownField,
@@ -42,6 +44,7 @@ export {
     ContentSchema,
     ModifierPlugIn,
     ModifierType,
+    NotificationCenter,
     CSSModifierData,
     CSSStatement,
     exportClass,
@@ -51,6 +54,7 @@ export {
     StoryGraph,
     IStoryObject,
     StoryObject,
+    StoryPlugIn,
     IEdge,
     IMetaData,
     IRenderingProperties,

@@ -28,7 +28,7 @@ import { ContentSchema } from "./StoryGraph/schemas/ContentSchema";
 import { StoryGraphSchema } from "./StoryGraph/schemas/StoryGraphSchema";
 import { start } from "./StoryGraph/start";
 import { StoryGraph } from "./StoryGraph/StoryGraph";
-import { StoryObject } from "./StoryGraph/StoryObject";
+import { StoryObject, StoryObjectSchema } from "./StoryGraph/StoryObject";
 
 export {
     start,
@@ -55,6 +55,7 @@ export {
     IStoryObject,
     StoryObject,
     StoryPlugIn,
+    StoryObjectSchema,
     IEdge,
     IMetaData,
     IRenderingProperties,

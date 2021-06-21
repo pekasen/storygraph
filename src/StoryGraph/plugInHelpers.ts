@@ -1,8 +1,6 @@
 import { IRegistry } from './interfaces/IRegistry';
-import { StoryObject } from './StoryObject';
 import { Button, DropDown, MenuTemplate, Table, Text } from 'preact-sidebar';
-import { useContext } from 'preact/hooks';
-import { ConnectorType, ConnectorDirection, ConnectorPort, IConnectorPort, StoryGraph } from '..';
+import { ConnectorType, ConnectorDirection, ConnectorPort, IConnectorPort, StoryGraph, IStoryObject, AbstractStoryObject } from '..';
 import { VReg } from './registry/VReg';
 import { AbstractStoryModifier } from './AbstractModifier';
 
@@ -23,9 +21,9 @@ interface IConnectorMethods {
     removeConnector: (port: ConnectorPort) => void
 }
 
-type Target = StoryObject | AbstractStoryModifier;
+type Target = AbstractStoryObject | AbstractStoryModifier;
 
-export function connectionField(target: StoryObject & IDefaultFieldsMethods): MenuTemplate[] {
+export function connectionField(target: IStoryObject & IDefaultFieldsMethods): MenuTemplate[] {
     interface IConnectionTableEntry {
         thisPort: string
         otherPort?: string

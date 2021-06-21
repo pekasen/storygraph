@@ -1,4 +1,4 @@
-import { StoryObject } from "../..";
+import { AbstractStoryObject } from "../..";
 import { IStoryModifier } from "../interfaces/IStoryModifier";
 import { Class } from "./Class";
 
@@ -11,7 +11,7 @@ export interface PlugIn {
 }
 
 export interface StoryPlugIn extends PlugIn {
-    constructor: Class<StoryObject>
+    constructor: Class<AbstractStoryObject>
 }
 
 export interface ModifierPlugIn extends PlugIn {

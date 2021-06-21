@@ -12,10 +12,15 @@ export function start(manifest?: PlugInManifest[], file?: any) {
     if (manifest !== undefined) {
         Promise.all(manifest.
             map(e => {
-                return fetch(e.url)
+                return import(e.url)
             })
         ).then((values) => {
-
+            values.forEach((value) => {
+                const { PlugInExports } = value;
+                console.dir("Thing", PlugInExports);
+                ppreg.set(PlugInExports.name, PlugInExports);
+                // TODO: send message to App that loading is finished and we can build the UI
+            });
         });
     }
     // fill PReg with PI from PPReg

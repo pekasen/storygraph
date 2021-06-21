@@ -7,7 +7,7 @@ export interface IContent {
     /**
      * 
      */
-    resource: string;
+    resource: string | any;
     /**
      * 
      */

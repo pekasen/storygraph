@@ -53,7 +53,7 @@ export class StoryGraph {
             this.nodes.push(node.id);
             node.parent = this.parent;
             node.bindTo(this.notificationCenter);
-            VReg.instance().set(node.id, node);
+            VReg.instance().set(node.id, node as StoryObject);
         } else throw("node exists already")
     }
 

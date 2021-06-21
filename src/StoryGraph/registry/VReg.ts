@@ -2,7 +2,7 @@ import { IRegistry, StoryObject } from "../..";
 import { PlugInManifest } from "./PlugInManifest";
 
 export class VReg implements IRegistry {
-    private __registry: Map<string, StoryObject>;
+    public __registry: Map<string, StoryObject>;
     private static __instance: VReg | undefined;
 
     private constructor() {

@@ -56,6 +56,30 @@ export class VReg implements IRegistry {
     public get entries(): StoryObject[] {
         return Array.from(this.__registry).map(e => e[1]);
     }
+
+    static load(json: any) {
+
+        deserialize(VReg, [json], (err, res) => {
+            if (err) {
+                console.error(err)
+            }
+            if (Array.isArray(res)) {
+                VReg.__instance = res[0]
+            } else {
+                VReg.__instance = res
+            }
+            VReg.instance().entries.forEach(obj => {
+                if (obj.isContentNode && obj.parent !== undefined) {
+                    const parentGraph = VReg.instance().get(obj.parent)?.childNetwork;
+                    if (parentGraph?.notificationCenter) obj.bindTo(parentGraph?.notificationCenter);
+                    else {
+                        throw(`Premature intialization of network in node: ${obj.id}`)
+                    }
+                }
+            })
+        });
+    
+    }
 }
 
 createModelSchema(VReg, {

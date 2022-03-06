@@ -7,8 +7,16 @@ export class PPReg {
     
     private static __instance: PPReg | undefined;
 
-    private constructor() {
+    constructor() {
         this.__registry = new Map<string, PlugIn>();
+        
+        if (PPReg.__instance === undefined) {
+            PPReg.__instance = this
+
+            return this
+        } else {
+            return PPReg.__instance
+        }
     }
     
     public static instance() {

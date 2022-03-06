@@ -9,8 +9,15 @@ export class PReg {
     
     private static __instance: PReg | undefined;
 
-    private constructor() {
+    constructor() {
         this.__registry = new Map<string, PlugIn>();
+        if (PReg.__instance === undefined) {
+            PReg.__instance = this
+
+            return this
+        } else {
+            return PReg.__instance
+        }
     }
     
     /**

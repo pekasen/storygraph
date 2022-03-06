@@ -228,4 +228,18 @@ export const StoryObjectSchema = createModelSchema(StoryObject, {
             return deserialize(_schema, jsonValue, callback);
         }
     ))
+}, (context) => {
+    console.log(context)
+
+    if (context.json.role) {
+        const proto = PReg.instance().get(context.json.role)?.constructor
+        console.log('Found constructor:', proto)
+        if (proto) {
+            const obj = new proto(false) as StoryObject
+
+            return obj
+        }
+    } else {
+        throw(`constructor class ${context.json.role} was not found.`)
+    }
 });

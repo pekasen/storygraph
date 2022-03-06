@@ -1,8 +1,17 @@
+import { object, createModelSchema, deserialize, map, primitive, custom, getDefaultModelSchema, serialize } from "serializr";
 import { IRegistry, StoryObject } from "../..";
+import { StoryObjectSchema } from "../StoryObject";
 import { PlugInManifest } from "./PlugInManifest";
 
+export interface IValue<T extends IValue<T>> {
+    id: string
+    willDeregister?(registry: VReg): void
+}
 export class VReg implements IRegistry {
+
     public __registry: Map<string, StoryObject>;
+    public entrypoint: string | undefined;
+    
     private static __instance: VReg | undefined;
 
     constructor() {

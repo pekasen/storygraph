@@ -57,3 +57,17 @@ export class VReg implements IRegistry {
         return Array.from(this.__registry).map(e => e[1]);
     }
 }
+
+createModelSchema(VReg, {
+    __registry: map(custom(
+        (v, k, o) => {
+            const _schema = getDefaultModelSchema(v.constructor);
+            if (!_schema) throw("no schema available for " + v.contructor.name);
+            return serialize(_schema, v);
+        },
+        (j, c, cb) => {
+            return deserialize(StoryObjectSchema, j, cb)
+        }
+    )),
+    entrypoint: primitive()
+});

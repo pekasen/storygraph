@@ -5,8 +5,15 @@ export class VReg implements IRegistry {
     public __registry: Map<string, StoryObject>;
     private static __instance: VReg | undefined;
 
-    private constructor() {
+    constructor() {
         this.__registry = new Map();
+        if (VReg.__instance === undefined) {
+            VReg.__instance = this
+
+            return this
+        } else {
+            return VReg.__instance
+        }
     }
 
     public static instance() : VReg {

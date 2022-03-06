@@ -1,14 +1,22 @@
 import { PPReg, PReg, VReg } from "..";
 import { PlugInManifest } from "./registry/PlugInManifest";
-
 /**
  * 
  */
-export function start(manifest?: PlugInManifest[], file?: any) {
+export function start(story?: any, manifest?: PlugInManifest[]) {
     const ppreg = PPReg.instance();
     const preg  = PReg.instance();
     const vreg  = VReg.instance();
+
+    // fill PReg with PI from PPReg
+    // if file is present, load VReg from file
+    // else load new Story
+
+
     // load installed PPs and initliaze PPReg
+    // if (manifest === undefined) {
+    //     manifest = VReg.instance().getManifest()
+    // }
     if (manifest !== undefined) {
         Promise.all(manifest.
             map(e => {
@@ -23,9 +31,7 @@ export function start(manifest?: PlugInManifest[], file?: any) {
             });
         });
     }
-    // fill PReg with PI from PPReg
-    // if file is present, load VReg from file
-    // else load new Story
+    
 
     return { ppreg, preg, vreg }
 }
